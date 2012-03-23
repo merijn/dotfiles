@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+for link in *; do
+    ln -s $link ~/.${link##*/}
+done
