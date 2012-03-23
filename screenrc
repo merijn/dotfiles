@@ -1,0 +1,26 @@
+startup_message off     # Disable Screen's splash window
+defscrollback   5000    # Keep 2000 lines of scrollback buffer for each terminal
+altscreen       on      # Stop vim (etc.) from clobbering scrollback
+shell           bash    # Use bash as the default shell
+
+# Display this message when a hidden terminal displays a bell
+bell_msg "Bell in %t (terminal %n)"
+# Display on activity when listening for activity in a window
+activity "Activity in %t (terminal %n)"
+
+# Set the bottom line caption and hardstatus bars
+caption always "%{= wk}[%n %t][%f][ %L=%h%90L>%-02= ]"
+backtick 1 0 0 echo "$ESCAPE"
+hardstatus alwayslastline "%{=b kk}[%{.w}%0c%{-}][%{.b}%H%{-}][%{= .m}%1`%{-}][ %L=%-w%40L>%{= .w}%n %t%{-}%+w%-018= ][%{= .y}%l%{-}]"
+
+# Remove some stupid/dangerous key bindings
+bind ^k
+bind ^\
+
+# Add custom keybindings
+bind ' ' windowlist -b
+bind D detach
+
+# Add Vi navigation bindings for splitscreen
+bind j focus down
+bind k focus up

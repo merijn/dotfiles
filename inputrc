@@ -1,0 +1,17 @@
+DEL: delete-char
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+$if Bash
+    # append a '/' to show a dir is a dir
+    set mark-directories on
+    set mark-symlinked-directories on
+    # use ls -F style highlights for completion
+    set visible-stats on
+    # go right to showing multiple options
+    set show-all-if-ambiguous on
+    # ctrl-p cycles through options
+    "\C-p": menu-complete
+    "\C-x\C-x": exchange-point-and-mark
+    "\ew": copy-region-as-kill
+$endif

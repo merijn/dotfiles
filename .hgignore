@@ -1,0 +1,3 @@
+syntax: glob
+vim/ruby/command-t/*
+vim/.VimballRecord

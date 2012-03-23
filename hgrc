@@ -1,0 +1,35 @@
+[ui]
+username = Merijn Verstraaten <merijn@inconsistent.nl>
+# Use ssh with compression
+ssh = ssh -C
+# Ignore file with list of file wildcard expressions to ignore
+ignore = ~/.hgignore
+# Use MacVim as merge tool
+merge = vimdiff
+
+[merge-tools]
+vimdiff.args = -f $local $other
+
+[extensions]
+# Enable fetch extension which acts as "hg pull -u && hg merge && hg commit"
+fetch =
+# Enable purge extension which nukes any non-tracked file.
+purge =
+# Enable hg-git extension which allows interaction with git
+hgext.bookmarks =
+hggit =
+# Enable colorized diffs
+color =
+#Enable paging
+pager =
+# Commandline revision graph log
+graphlog =
+#Commandline progressbar for push/pull
+progress =
+
+[pager]
+pager = LESS='FSRX' less
+attend = status, diff, cat, help, log, glog, incoming, outgoing, grep, blame
+
+[progress]
+delay = 1.5

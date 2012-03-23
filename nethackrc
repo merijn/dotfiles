@@ -1,0 +1,3 @@
+OPTIONS=pickup_types:$!?/,autodig,autoquiver,boulder:0,color,DECgraphics
+OPTIONS=extmenu,fullscreen,hilite_pet,lit_corridor,showexp,showrace,time
+OPTIONS=disclose:+i+a-v+g+c
