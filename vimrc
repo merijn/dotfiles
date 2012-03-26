@@ -38,8 +38,8 @@ set wildmenu                    "Show all auto-completion options
 " Tab specific option
 set tabstop=8                   "A tab is 8 spaces
 set expandtab                   "Always uses spaces instead of tabs
-set softtabstop=2               "Insert 4 spaces when tab is pressed
-set shiftwidth=2                "An indent is 4 spaces
+set softtabstop=4               "Insert 4 spaces when tab is pressed
+set shiftwidth=4                "An indent is 4 spaces
 set smarttab                    "Indent instead of tab at start of line
 set shiftround                  "Round spaces to nearest shiftwidth multiple
 set nojoinspaces                "Don't convert spaces to tabs
@@ -83,6 +83,10 @@ if version >= 600
     set foldclose=all
 endif
 
+if has("autocmd")
+    autocmd BufNewFile,BufRead */work/advance/* setlocal sts=2 sw=2
+endif
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Miscellaneous options                                                       "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -94,7 +98,10 @@ endif
 if version >= 700
     set spl=en spell
     set nospell
-    autocmd BufNewFile,BufRead *.txt,*.tex,*.latex setlocal spell
+    if has("autocmd")
+        autocmd BufNewFile,BufRead *.txt,*.tex,*.latex setlocal spell
+        autocmd BufNewFile,BufRead *.txt,*.tex,*.latex setlocal nonumber
+    endif
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

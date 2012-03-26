@@ -3,7 +3,8 @@ PAGER=more
 LESSHISTFILE=-
 GREP_COLOR=auto
 PATH=~/.bin:$PATH
-export EDITOR PAGER LESSHISTFILE GREP_COLOR PATH
+PROMPT_COMMAND="history -n; history -a"
+export EDITOR PAGER LESSHISTFILE GREP_COLOR PATH PROMPTCOMMAND
 
 # Read local overrides, if any. (i.e. for PATH, MANPATH, SNET_*, etc.)
 [ -f ~/.profile_local ] && . ~/.profile_local
