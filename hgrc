@@ -20,12 +20,14 @@ hgext.bookmarks =
 hggit =
 # Enable colorized diffs
 color =
-#Enable paging
+# Enable paging
 pager =
 # Commandline revision graph log
 graphlog =
-#Commandline progressbar for push/pull
+# Commandline progressbar for push/pull
 progress =
+# Mercurial Queues
+hgext.mq =
 
 [pager]
 pager = LESS='FSRX' less
