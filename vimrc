@@ -22,11 +22,9 @@ endif
 set confirm                     "Prompt save confirmation instead of returning
                                 "error for command
 
-let mapleader=","               "Map leader key
+let mapleader = ","             "Map leader key
 "Y behaves as D and C rather than yy
 noremap Y y$
-"Bind Ctrl-T to Command-T extension
-nnoremap <c-t> :CommandT<return>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Edit options                                                                "
@@ -63,7 +61,7 @@ nnoremap <return> :noh<return>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Ignore various binary file types when completing file names
 set wildignore+=*.o,*.lo,*.la,*.a,*.so,.*.d,*.pyc,.DS_Store,*.aux,*.bbl,*.blg
-set wildignore+=*.lof,*.log,*.lot,*.toc,*.pdf
+set wildignore+=*.lof,*.log,*.lot,*.toc,*.pdf,*.hi
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Programming options                                                         "
@@ -109,4 +107,31 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has("gui_running")
     set guifont=Courier_New:h11:cDEFAULT
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Command-T options                                                           "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Bind Ctrl-T to Command-T extension
+nnoremap <C-t> :CommandT<return>
+
+if &term =~ "xterm"
+  let g:CommandTCancelMap     = ['<ESC>']
+  let g:CommandTBackspaceMap  = ['<BS>', '<C-h>']
+  let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
+  let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
+endif
+
+if &term =~ "xterm-256color"
+  let g:CommandTCancelMap     = ['<ESC>']
+  let g:CommandTBackspaceMap  = ['<BS>', '<C-h>']
+  let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
+  let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
+endif
+
+if &term =~ "screen"
+  let g:CommandTCancelMap     = ['<ESC>']
+  let g:CommandTBackspaceMap  = ['<BS>', '<C-h>']
+  let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
+  let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
 endif
