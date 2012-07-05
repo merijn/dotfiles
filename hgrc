@@ -10,13 +10,16 @@ merge = vimdiff
 [merge-tools]
 vimdiff.args = -f $local $other
 
+[alias]
+qstatus = status --rev -2:.
+
 [extensions]
 # Enable fetch extension which acts as "hg pull -u && hg merge && hg commit"
 fetch =
 # Enable purge extension which nukes any non-tracked file.
 purge =
 # Enable hg-git extension which allows interaction with git
-hgext.bookmarks =
+bookmarks =
 hggit =
 # Enable colorized diffs
 color =
@@ -27,7 +30,14 @@ graphlog =
 # Commandline progressbar for push/pull
 progress =
 # Mercurial Queues
-hgext.mq =
+mq =
+# Relink extension for recreating hardlinks in cloned local repositories
+relink =
+# Interactive change recording for commits and patches
+record =
+
+[mq]
+secret = True
 
 [pager]
 pager = LESS='FSRX' less
