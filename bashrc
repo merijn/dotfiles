@@ -69,6 +69,7 @@ alias ls='ls -FG'       # ls always shows colour and type (dir, link, etc)
 alias la='ls -aFG'      # Like above but shows dotfiles/-directories
 alias ll='ls -lhoAFG'   # Show file flags in long mode with human readable size
 alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
+alias ulimit='ulimit -S'
 
 st () {
     if [ $TMUX ]; then
