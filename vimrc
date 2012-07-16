@@ -110,7 +110,14 @@ if has("gui_running")
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Command-T options                                                           "
+" Plugin Options                                                              "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Load Pathogen to deal with plugins
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+
+call pathogen#infect()
+
+" Command-T options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Bind Ctrl-T to Command-T extension
 nnoremap <C-t> :CommandT<return>
