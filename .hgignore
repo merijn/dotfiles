@@ -1,4 +1,3 @@
 syntax: glob
-vim/ruby/command-t/*
-vim/.VimballRecord
+vim/.netrwhist
 bin/mvim
