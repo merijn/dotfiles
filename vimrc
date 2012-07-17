@@ -22,7 +22,7 @@ endif
 set confirm                     "Prompt save confirmation instead of returning
                                 "error for command
 
-let mapleader = ","             "Map leader key
+let mapleader = "\<C-g>"             "Map leader key
 "Y behaves as D and C rather than yy
 noremap Y y$
 
@@ -121,23 +121,24 @@ call pathogen#infect()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Bind Ctrl-T to Command-T extension
 nnoremap <C-t> :CommandT<return>
+nnoremap <Leader>t :CommandT<return>
 
 if &term =~ "xterm"
-  let g:CommandTCancelMap     = ['<ESC>']
+  let g:CommandTCancelMap     = ['<ESC>', '<C-g>']
   let g:CommandTBackspaceMap  = ['<BS>', '<C-h>']
   let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
   let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
 endif
 
 if &term =~ "xterm-256color"
-  let g:CommandTCancelMap     = ['<ESC>']
+  let g:CommandTCancelMap     = ['<ESC>', '<C-g>']
   let g:CommandTBackspaceMap  = ['<BS>', '<C-h>']
   let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
   let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
 endif
 
 if &term =~ "screen"
-  let g:CommandTCancelMap     = ['<ESC>']
+  let g:CommandTCancelMap     = ['<ESC>', '<C-g>']
   let g:CommandTBackspaceMap  = ['<BS>', '<C-h>']
   let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
   let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
