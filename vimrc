@@ -143,3 +143,9 @@ if &term =~ "screen"
   let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
   let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
 endif
+
+" Gundo options
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap <F1> :GundoToggle<CR>
+let g:gundo_preview_bottom = 1
+let g:gundo_right = 1
