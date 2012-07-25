@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-for link in ~/Dropbox/config/*; do
-    ln -s $link ~/.${link##*/}
+for link in *; do
+    ln -s `pwd`/$link ~/.${link##*/}
 done
 
 rm ~/.make-links
