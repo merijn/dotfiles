@@ -1,3 +1,13 @@
+# Settings for all shells
+# Set various aliases and functions
+alias grep='grep -I'
+alias hig='history | grep -i'
+alias ls='ls -FG'       # ls always shows colour and type (dir, link, etc)
+alias la='ls -aFG'      # Like above but shows dotfiles/-directories
+alias ll='ls -lhoAFG'   # Show file flags in long mode with human readable size
+alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
+alias ulimit='ulimit -S'
+
 if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
     TITLEBAR="\[\e]0;\u@\h:\w\007\]" # Sets titlebar of xterm/PuTTy to \u@\h:\w
     CAPTION="\[\e]0;\w\007\]"        # Sets screen status bar to CWD
@@ -58,18 +68,13 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
         if [ -f /usr/local/share/mercurial/contrib/bash_completion ]; then
             . /usr/local/share/mercurial/contrib/bash_completion
         fi
+    elif [ "$(uname)" = "Linux" ]; then
+        alias ls='ls -F --color=auto'
+        alias la='ls -aF --color=auto'
+        alias ll='ls -lhoAF --color=auto'
+        alias lg='ls -lhoAF --color=auto | grep -i'
     fi
 fi
-
-# Settings for all shells
-# Set various aliases and functions
-alias grep='grep -I'
-alias hig='history | grep -i'
-alias ls='ls -FG'       # ls always shows colour and type (dir, link, etc)
-alias la='ls -aFG'      # Like above but shows dotfiles/-directories
-alias ll='ls -lhoAFG'   # Show file flags in long mode with human readable size
-alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
-alias ulimit='ulimit -S'
 
 st () {
     if [ $TMUX ]; then
