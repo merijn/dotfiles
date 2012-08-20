@@ -2,10 +2,12 @@ syntax: glob
 *.o
 *.a
 *.so
+*.lo
+*.la
 .*.d
 *.pyc
 *.swp
-*.in-progress
+*.orig
 .DS_Store
 *.aux
 *.bbl
