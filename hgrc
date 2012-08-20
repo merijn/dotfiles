@@ -41,8 +41,8 @@ secret = True
 
 [pager]
 pager = LESS='FSRX' less
-attend = status, diff, cat, help, log, glog, incoming, outgoing, grep, blame,
-         qdiff
+attend = status, diff, cat, help, log, glog, incoming, outgoing, grep, qdiff,
+         annotate
 
 [progress]
 delay = 1.5
