@@ -97,8 +97,8 @@ if version >= 700
     set spl=en spell
     set nospell
     if has("autocmd")
-        autocmd BufNewFile,BufRead *.txt,*.tex,*.latex setlocal spell
-        autocmd BufNewFile,BufRead *.txt,*.tex,*.latex setlocal nonumber
+        autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex setlocal spell
+        autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex setlocal nonumber
     endif
 endif
 
