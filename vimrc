@@ -106,7 +106,13 @@ endif
 " GUI options                                                                 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has("gui_running")
-    set guifont=Courier_New:h11:cDEFAULT
+  if has("unix")
+    let s:uname = system("uname")
+    " Use Monaco font on OS X
+    if s:uname =~ "Darwin"
+        set guifont=Monaco:h14
+    endif
+  endif
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
