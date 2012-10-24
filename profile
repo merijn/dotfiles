@@ -11,14 +11,11 @@ export EDITOR PAGER LESSHISTFILE GREP_COLOR PATH PROMPTCOMMAND
 
 if [ "$(uname)" = "Darwin" ]; then
     PATH=/opt/local/bin:/opt/local/sbin:$PATH
-    MANPATH=$MANPATH:/opt/local/share/man
-    C_INCLUDE_PATH=/opt/local/include:$C_INCLUDE_PATH
-    LIBRARY_PATH=/opt/local/lib:$LIBRARY_PATH
-    DYLD_LIBRARY_PATH=/opt/local/lib:$DYLD_LIBRARY_PATH
+    MANPATH=/opt/local/share/man:$MANPATH
     LC_ALL=en_US.UTF-8
     LANG=en_US.UTF-8
 
-    export MANPATH C_INCLUDE_PATH LIBRARY_PATH DYLD_LIBRARY_PATH LC_ALL LANG
+    export MANPATH LC_ALL LANG
 fi
 
 . ~/.bashrc
