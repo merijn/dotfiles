@@ -1,3 +1,4 @@
 syntax: glob
 vim/.netrwhist
 bin/mvim
+irssi/default.theme
