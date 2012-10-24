@@ -1,0 +1,177 @@
+servers = (
+  {
+    address = "irc.freenode.net";
+    chatnet = "freenode";
+    port = "7000";
+    use_ssl = "yes";
+    ssl_verify = "yes";
+    autoconnect = "yes";
+  }
+);
+
+chatnets = { freenode = { type = "IRC"; }; };
+
+channels = (
+  { name = "#haskell";      chatnet = "freenode"; autojoin = "yes"; },
+  { name = "#haskell-blah"; chatnet = "freenode"; autojoin = "yes"; },
+  { name = "#python";       chatnet = "freenode"; autojoin = "yes"; },
+  { name = "##freebsd";     chatnet = "freenode"; autojoin = "yes"; },
+  { name = "#startups";     chatnet = "freenode"; autojoin = "yes"; },
+  { name = "#adv";          chatnet = "freenode"; autojoin = "yes"; }
+);
+
+aliases = {
+  J = "join";
+  DATE = "time";
+  HOST = "userhost";
+  LAST = "lastlog";
+  KB = "kickban";
+  SB = "scrollback";
+  UMODE = "mode $N";
+  WC = "window close";
+  WN = "window new hide";
+  GOTO = "sb goto";
+  SBAR = "STATUSBAR";
+  Q = "QUERY";
+};
+
+settings = {
+  core = {
+    real_name = "Merijn Verstraaten";
+    user_name = "merijn";
+    nick = "merijn";
+  };
+  "irc/core" = {
+    skip_motd = "yes";
+    alternate_nick = "merijn_";
+    usermode = "+Qwi";
+    ctcp_userinfo_reply = "";
+    ctcp_version_reply = "";
+  };
+  "fe-text" = {
+    actlist_sort = "refnum";
+    scrollback_lines = "10000";
+    scrollback_burst_remove = "100";
+    paste_verify_line_count = "2";
+  };
+  "fe-common/core" = {
+    activity_hide_level = "JOINS PARTS QUITS";
+    activity_hide_targets = "#python ##freebsd #startups";
+    autocreate_windows = "yes";
+    autoclose_windows = "yes";
+    emphasis_multiword = "yes";
+    expand_escapes = "no";
+    reuse_unused_windows = "yes";
+    show_names_on_join = "no";
+    window_history = "yes";
+  };
+  "perl/core/scripts" = { hilightwin_showprivmsg = "yes"; };
+};
+
+ignores = ({ level = "JOINS PARTS QUITS"; });
+
+windows = {
+  1 = {
+    immortal = "yes";
+    name = "hilight";
+    level = "NOTICES SNOTES WALLOPS CLIENTNOTICE CLIENTCRAP CLIENTERROR CRAP";
+  };
+  2 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#haskell";});};
+  3 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-blah";});};
+  4 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#python";});};
+  5 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#freebsd";});};
+  6 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#startups";});};
+  7 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#adv";});};
+};
+
+mainwindows = { 1 = { first_line = "1"; lines = "44"; }; };
+
+statusbar = {
+  # formats:
+  # when using {templates}, the template is shown only if it's argument isn't
+  # empty unless no argument is given. for example {sb} is printed always,
+  # but {sb $T} is printed only if $T isn't empty.
+
+  items = {
+    # start/end text in statusbars
+    barstart = "{sbstart}";
+    barend = "{sbend}";
+
+    topicbarstart = "{topicsbstart}";
+    topicbarend = "{topicsbend}";
+
+    # treated "normally", you could change the time/user name to whatever
+    user = "{sb {sbnickmode $cumode}$N{sbmode $usermode}{sbaway $A}}";
+
+    # treated specially .. window is printed with non-empty windows,
+    # window_empty is printed with empty windows
+    window = "{sb $winref:$itemname}";
+    window_empty = "{sb $winref:$tag}";
+    prompt = "{prompt $[.15]itemname}";
+    prompt_empty = "{prompt $winname}";
+    topic = " $topic";
+
+    # all of these treated specially, they're only displayed when needed
+    lag = "{sb Lag: $0-}";
+    act = "{sb Act: $0-}";
+    more = "-- more --";
+  };
+
+  default = {
+    # the "default statusbar" to be displayed at the bottom of the window.
+    # contains all the normal items.
+    window = {
+      disabled = "no";
+
+      # window, root
+      type = "window";
+      # top, bottom
+      placement = "bottom";
+      # number
+      position = "1";
+      # active, inactive, always
+      visible = "active";
+
+      # list of items in statusbar in the display order
+      items = {
+        barstart = { priority = "100"; };
+        user = { };
+        lag = { priority = "-1"; };
+        act = { priority = "10"; };
+        window = { };
+        window_empty = { };
+        more = { priority = "-1"; alignment = "right"; };
+        barend = { priority = "100"; alignment = "right"; };
+      };
+    };
+
+    # we treat input line as yet another statusbar :) It's possible to
+    # add other items before or after the input line item.
+    prompt = {
+      type = "root";
+      placement = "bottom";
+      # we want to be at the bottom always
+      position = "100";
+      visible = "always";
+      items = {
+        prompt = { priority = "-1"; };
+        prompt_empty = { priority = "-1"; };
+        # treated specially, this is the real input line.
+        input = { priority = "10"; };
+      };
+    };
+
+    # topicbar
+    topic = {
+      type = "root";
+      placement = "top";
+      position = "1";
+      visible = "always";
+      items = {
+        topicbarstart = { priority = "100"; };
+        topic = { };
+        topicbarend = { priority = "100"; alignment = "right"; };
+      };
+    };
+  };
+};
