@@ -166,3 +166,34 @@ endif
 nnoremap <F1> :GundoToggle<CR>
 let g:gundo_preview_bottom = 1
 let g:gundo_right = 1
+
+" Rainbow Parentheses options
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['white',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ]
+
+let rainbow = ['haskell', 'racket', 'lisp']
+
+if has("autocmd")
+    autocmd BufCreate,BufEnter * if index(rainbow, &ft) >= 0 | NoMatchParen
+    autocmd BufCreate,BufEnter * if index(rainbow, &ft) >= 0 | RainbowParenthesesToggle
+    autocmd BufDelete,BufLeave * if index(rainbow, &ft) >= 0 | DoMatchParen
+    autocmd BufDelete,BufLeave * if index(rainbow, &ft) >= 0 | RainbowParenthesesToggle
+endif
