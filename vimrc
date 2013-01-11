@@ -197,3 +197,8 @@ if has("autocmd")
     autocmd BufDelete,BufLeave * if index(rainbow, &ft) >= 0 | DoMatchParen
     autocmd BufDelete,BufLeave * if index(rainbow, &ft) >= 0 | RainbowParenthesesToggle
 endif
+
+" Vim-slime options
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:slime_target = "tmux"
+let g:slime_paste_file = tempname()
