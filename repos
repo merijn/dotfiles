@@ -1,0 +1,5 @@
+http://bitbucket.org/sjl/gundo.vim
+git://github.com/wincent/Command-T.git
+git://github.com/tpope/vim-pathogen.git
+git://github.com/jpalardy/vim-slime
+git://github.com/kien/rainbow_parentheses.vim.git
