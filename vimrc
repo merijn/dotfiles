@@ -70,7 +70,6 @@ set number                      "Enable line numbers
 
 if &t_Co > 2 || has("gui_running")
     syntax on                   "Turn on syntax highlighting
-    let python_highlight_all= 1 "Enable highlighting all python syntax
 endif
 
 " Folding options
@@ -100,6 +99,18 @@ if version >= 700
         autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex setlocal spell
         autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex setlocal nonumber
     endif
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Language options                                                            "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if &t_Co > 2 || has("gui_running")
+    let python_highlight_all = 1 "Enable highlighting all python syntax
+endif
+
+if has("autocmd")
+    au BufReadPost *.rkt,*.rktl set filetype=racket
+    au filetype racket set lisp
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
