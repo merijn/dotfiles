@@ -14,9 +14,8 @@ chatnets = { freenode = { type = "IRC"; }; };
 channels = (
   { name = "#haskell";      chatnet = "freenode"; autojoin = "yes"; },
   { name = "#haskell-blah"; chatnet = "freenode"; autojoin = "yes"; },
-  { name = "#python";       chatnet = "freenode"; autojoin = "yes"; },
-  { name = "##freebsd";     chatnet = "freenode"; autojoin = "yes"; },
-  { name = "#startups";     chatnet = "freenode"; autojoin = "yes"; },
+  { name = "#csa_uva";      chatnet = "freenode"; autojoin = "yes"; },
+  { name = "#racket";       chatnet = "freenode"; autojoin = "yes"; },
   { name = "#adv";          chatnet = "freenode"; autojoin = "yes"; }
 );
 
@@ -56,7 +55,7 @@ settings = {
   };
   "fe-common/core" = {
     activity_hide_level = "JOINS PARTS QUITS";
-    activity_hide_targets = "#python ##freebsd #startups";
+    activity_hide_targets = "#python ##freebsd #racket #startups";
     autocreate_windows = "yes";
     autoclose_windows = "yes";
     emphasis_multiword = "yes";
@@ -78,10 +77,9 @@ windows = {
   };
   2 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#haskell";});};
   3 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-blah";});};
-  4 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#python";});};
-  5 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#freebsd";});};
-  6 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#startups";});};
-  7 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#adv";});};
+  4 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#csa_uva";});};
+  5 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#racket";});};
+  6 = {items = ({type = "CHANNEL"; chat_type = "IRC"; name = "#adv";});};
 };
 
 mainwindows = { 1 = { first_line = "1"; lines = "44"; }; };
