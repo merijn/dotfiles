@@ -177,6 +177,7 @@ let g:tagbar_sort = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_echo_current_error = 0
+let g:syntastic_haskell_hdevtools_args = "-g-fno-warn-wrong-do-bind"
 
 " Rainbow Parentheses options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
