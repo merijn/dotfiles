@@ -167,12 +167,11 @@ nnoremap <F1> :GundoToggle<CR>
 let g:gundo_preview_bottom = 1
 let g:gundo_right = 1
 
-" TagList options
+" TagBar options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <F2> :TlistToggle<CR>
-let g:Tlist_GainFocus_On_ToggleOpen = 1
-let g:Tlist_Close_On_Select = 1
-let g:Tlist_Inc_Winwidth = 1
+nnoremap <F2> :TagbarToggle<CR>
+let g:tagbar_autoclose = 1
+let g:tagbar_sort = 0
 
 " Syntastic options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
