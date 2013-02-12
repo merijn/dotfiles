@@ -7,3 +7,4 @@ git://github.com/tpope/vim-surround.git
 git://github.com/majutsushi/tagbar.git
 git://github.com/bitc/vim-hdevtools.git
 git://github.com/scrooloose/syntastic.git
+git://github.com/Twinside/vim-haskellFold.git
