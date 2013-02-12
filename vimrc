@@ -174,6 +174,11 @@ let g:Tlist_GainFocus_On_ToggleOpen = 1
 let g:Tlist_Close_On_Select = 1
 let g:Tlist_Inc_Winwidth = 1
 
+" Syntastic options
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:syntastic_enable_highlighting = 1
+let g:syntastic_echo_current_error = 0
+
 " Rainbow Parentheses options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rbpt_colorpairs = [
