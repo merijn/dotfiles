@@ -54,7 +54,7 @@ endif                           "possible (:noh to toggle off)
 
 set gdefault                    "Substitution affect all matches on a line
 "Remap return key to toggle highlight off when pressing enter in command mode.
-nnoremap <return> :noh<return>
+nnoremap <silent> <return> :noh<return>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " File browsing options                                                       "
@@ -137,8 +137,8 @@ call pathogen#infect()
 " Command-T options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Bind Ctrl-T to Command-T extension
-nnoremap <C-t> :CommandT<return>
-nnoremap <Leader>t :CommandT<return>
+nnoremap <silent> <C-t> :CommandT<return>
+nnoremap <silent> <Leader>t :CommandT<return>
 
 if &term =~ "xterm"
   let g:CommandTCancelMap     = ['<ESC>', '<C-g>']
@@ -163,13 +163,13 @@ endif
 
 " Gundo options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <F1> :GundoToggle<CR>
+nnoremap <silent> <F1> :GundoToggle<CR>
 let g:gundo_preview_bottom = 1
 let g:gundo_right = 1
 
 " TagBar options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <F2> :TagbarToggle<CR>
+nnoremap <silent> <F2> :TagbarToggle<CR>
 let g:tagbar_autoclose = 1
 let g:tagbar_sort = 0
 
