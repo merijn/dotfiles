@@ -187,7 +187,39 @@ nnoremap <silent> <return> :noh<return>:call ToggleType()<return>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_echo_current_error = 0
-let g:syntastic_haskell_hdevtools_args = "-g-fno-warn-wrong-do-bind"
+let g:syntastic_haskell_hdevtools_args = "-g-fno-warn-wrong-do-bind -g-ishared"
+let g:syntastic_error_list_is_open = 0
+
+function! GetNextSyntasticError(next)
+    " If there's only one error, jump to it.
+    if len(getloclist(0)) == 1
+        ll
+    " Else, if we're going forward, jump to the next error.
+    elseif a:next
+        lnext
+    " Else, jump to the previous error.
+    else
+        lprev
+    endif
+endfunction
+
+function! ToggleSyntasticErrorList()
+    if g:syntastic_error_list_is_open
+        " This should use lclose, as Synastic uses the location list. However,
+        " for some reason lclose doesn't close it, but cclose does. Go with
+        " what works.
+        cclose
+        let g:syntastic_error_list_is_open = 0
+    else
+        " Open the Syntastic error window.
+        Errors
+        let g:error_list_is_open = 1
+    endif
+endfunction
+
+nnoremap <silent> <C-j> :call GetNextSyntasticError(1)<CR>
+nnoremap <silent> <C-k> :call GetNextSyntasticError(0)<CR>
+nnoremap <silent> \ :call ToggleSyntasticErrorList()<return>
 
 " Rainbow Parentheses options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
