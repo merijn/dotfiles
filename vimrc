@@ -212,14 +212,12 @@ let g:rbpt_colorpairs = [
     \ ['gray',        'RoyalBlue3'],
     \ ]
 
-let rainbow = ['haskell', 'racket', 'lisp']
-
-if has("autocmd")
-    autocmd BufCreate,BufEnter * if index(rainbow, &ft) >= 0 | NoMatchParen
-    autocmd BufCreate,BufEnter * if index(rainbow, &ft) >= 0 | RainbowParenthesesToggle
-    autocmd BufDelete,BufLeave * if index(rainbow, &ft) >= 0 | DoMatchParen
-    autocmd BufDelete,BufLeave * if index(rainbow, &ft) >= 0 | RainbowParenthesesToggle
-endif
+augroup RainbowParentheses
+    au VimEnter * RainbowParenthesesToggle
+    au Syntax * RainbowParenthesesLoadRound
+    au Syntax * RainbowParenthesesLoadSquare
+    au Syntax * RainbowParenthesesLoadBraces
+augroup END
 
 " Vim-slime options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
