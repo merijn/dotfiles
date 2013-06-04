@@ -10,7 +10,7 @@ export EDITOR PAGER LESSHISTFILE GREP_COLOR PATH PROMPTCOMMAND
 [ -f ~/.profile_local ] && . ~/.profile_local
 
 if [ "$(uname)" = "Darwin" ]; then
-    PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    PATH=~/opt/bin:/opt/local/bin:/opt/local/sbin:$PATH
     MANPATH=/opt/local/share/man:$MANPATH
     LC_ALL=en_US.UTF-8
     LANG=en_US.UTF-8
