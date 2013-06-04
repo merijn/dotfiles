@@ -213,7 +213,7 @@ function! ToggleSyntasticErrorList()
     else
         " Open the Syntastic error window.
         Errors
-        let g:error_list_is_open = 1
+        let g:syntastic_error_list_is_open = 1
     endif
 endfunction
 
