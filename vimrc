@@ -136,8 +136,6 @@ call pathogen#infect()
 
 " Command-T options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Bind Ctrl-T to Command-T extension
-nnoremap <silent> <C-t> :CommandT<return>
 nnoremap <silent> <Leader>t :CommandT<return>
 
 if &term =~ "xterm"
@@ -176,6 +174,7 @@ let g:tagbar_sort = 0
 " HdevTools options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <silent> <Tab> :HdevtoolsType<return>
+
 function! ToggleType()
     if exists(":HdevtoolsClear")
         :HdevtoolsClear
