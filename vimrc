@@ -61,7 +61,7 @@ nnoremap <silent> <return> :noh<return>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Ignore various binary file types when completing file names
 set wildignore+=*.o,*.lo,*.la,*.a,*.so,.*.d,*.pyc,.DS_Store,*.aux,*.bbl,*.blg
-set wildignore+=*.lof,*.log,*.lot,*.toc,*.pdf,*.hi
+set wildignore+=*.lof,*.log,*.lot,*.toc,*.pdf,*.hi,*.p_o,*.p_hi
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Programming options                                                         "
