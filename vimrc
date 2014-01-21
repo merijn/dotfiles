@@ -189,6 +189,9 @@ let g:syntastic_enable_highlighting = 1
 let g:syntastic_echo_current_error = 0
 let g:syntastic_haskell_hdevtools_args = "-g-fno-warn-wrong-do-bind -g-ishared"
 let g:syntastic_error_list_is_open = 0
+let g:syntastic_mode_map = { 'mode': 'active',
+                           \ 'active_filetypes': [],
+                           \ 'passive_filetypes': ['tex'] }
 
 function! GetNextSyntasticError(next)
     " If there's only one error, jump to it.
