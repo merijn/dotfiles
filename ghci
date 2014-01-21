@@ -1,1 +1,34 @@
 :set prompt "λ "
+:set -w
+:set -optP-include -optPdist/build/autogen/cabal_macros.h
+
+:set -XConstraintKinds
+:set -XDeriveDataTypeable
+:set -XDeriveFoldable
+:set -XDeriveFunctor
+:set -XDeriveGeneric
+:set -XDeriveTraversable
+:set -XDataKinds
+:set -XImplicitParams
+:set -XKindSignatures
+:set -XMonadComprehensions
+:set -XNoMonomorphismRestriction
+:set -XOverloadedStrings
+:set -XRankNTypes
+:set -XScopedTypeVariables
+:set -XTupleSections
+:set -XTypeFamilies
+:set -XTypeOperators
+
+import Control.Applicative
+import Control.Arrow
+import Control.Concurrent
+import Control.Exception
+import Control.Monad
+import Data.Functor
+import Data.Function
+import Data.Monoid
+import Data.Tuple
+
+import qualified Data.Foldable    as F
+import qualified Data.Traversable as T
