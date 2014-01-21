@@ -19,7 +19,7 @@ fetch =
 # Enable purge extension which nukes any non-tracked file.
 purge =
 # Enable hg-git extension which allows interaction with git
-bookmarks =
+hgext.bookmarks =
 hggit =
 # Enable colorized diffs
 color =
@@ -35,6 +35,9 @@ mq =
 relink =
 # Interactive change recording for commits and patches
 record =
+# Mutable changesets
+rebase = 
+evolve = /Users/merijn/src/mutable-history/hgext/evolve.py
 
 [mq]
 secret = True
