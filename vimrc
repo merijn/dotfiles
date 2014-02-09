@@ -77,11 +77,6 @@ if version >= 600
     set foldenable              "Enable folding if available
     set foldmethod=syntax       "Fold on syntax
     set foldopen=block,hor,insert,jump,mark,percent,undo
-    set foldclose=all
-endif
-
-if has("autocmd")
-    autocmd BufNewFile,BufRead */work/advance/* setlocal sts=2 sw=2
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
