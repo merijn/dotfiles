@@ -171,18 +171,6 @@ nnoremap <silent> <F2> :TagbarToggle<CR>
 let g:tagbar_autoclose = 1
 let g:tagbar_sort = 0
 
-" HdevTools options
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <silent> <Tab> :HdevtoolsType<return>
-
-function! ToggleType()
-    if exists(":HdevtoolsClear")
-        :HdevtoolsClear
-    endif
-endfunction
-
-nnoremap <silent> <return> :noh<return>:call ToggleType()<return>
-
 " Syntastic options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_enable_highlighting = 1
