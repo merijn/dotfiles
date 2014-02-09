@@ -134,30 +134,9 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 
 call pathogen#infect()
 
-" Command-T options
+" Ctrl-P options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <silent> <Leader>t :CommandT<return>
-
-if &term =~ "xterm"
-  let g:CommandTCancelMap     = ['<ESC>', '<C-g>']
-  let g:CommandTBackspaceMap  = ['<BS>', '<C-h>']
-  let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
-  let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
-endif
-
-if &term =~ "xterm-256color"
-  let g:CommandTCancelMap     = ['<ESC>', '<C-g>']
-  let g:CommandTBackspaceMap  = ['<BS>', '<C-h>']
-  let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
-  let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
-endif
-
-if &term =~ "screen"
-  let g:CommandTCancelMap     = ['<ESC>', '<C-g>']
-  let g:CommandTBackspaceMap  = ['<BS>', '<C-h>']
-  let g:CommandTSelectNextMap = ['<C-n>', '<C-j>', '<ESC>OB']
-  let g:CommandTSelectPrevMap = ['<C-p>', '<C-k>', '<ESC>OA']
-endif
+nnoremap <silent> <Leader>t :CtrlPMixed<return>
 
 " Gundo options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -240,8 +219,3 @@ augroup RainbowParentheses
     au Syntax * RainbowParenthesesLoadSquare
     au Syntax * RainbowParenthesesLoadBraces
 augroup END
-
-" Vim-slime options
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:slime_target = "tmux"
-let g:slime_paste_file = tempname()
