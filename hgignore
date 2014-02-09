@@ -18,4 +18,4 @@ syntax: glob
 *.toc
 *.hi
 tags
-cabal-dev/**
+dist/**
