@@ -10,3 +10,4 @@ function! ToggleType()
 endfunction
 
 nnoremap <silent> <return> :noh<return>:call ToggleType()<return>
+nnoremap <silent> <C-]> :HdevtoolsInfo<return>
