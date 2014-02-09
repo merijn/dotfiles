@@ -154,7 +154,7 @@ let g:tagbar_sort = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_echo_current_error = 0
-let g:syntastic_haskell_hdevtools_args = "-g-fno-warn-wrong-do-bind -g-ishared"
+let g:syntastic_haskell_hdevtools_args = "-g-Wall -g-XConstraintKinds -g-XCPP -g-XFlexibleContexts -g-fno-warn-unused-do-bind -g-ishared -g-isrc -g-idist/build/autogen -g-optP-include -g-optPdist/build/autogen/cabal_macros.h"
 let g:syntastic_error_list_is_open = 0
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': [],
@@ -162,6 +162,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
 
 function! GetNextSyntasticError(next)
     " If there's only one error, jump to it.
+    if len(getloclist(0)) == 0
     if len(getloclist(0)) == 1
         ll
     " Else, if we're going forward, jump to the next error.
