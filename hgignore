@@ -19,3 +19,5 @@ syntax: glob
 *.hi
 tags
 dist/**
+.cabal-sandbox/**
+cabal.sandbox.config
