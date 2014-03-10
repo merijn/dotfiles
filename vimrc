@@ -158,7 +158,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
 function! GetNextSyntasticError(next)
     " If there's only one error, jump to it.
     if len(getloclist(0)) == 0
-    if len(getloclist(0)) == 1
+    elseif len(getloclist(0)) == 1
         ll
     " Else, if we're going forward, jump to the next error.
     elseif a:next
