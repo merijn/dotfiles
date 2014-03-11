@@ -37,7 +37,7 @@ relink =
 record =
 # Mutable changesets
 rebase = 
-evolve = /Users/merijn/src/mutable-history/hgext/evolve.py
+evolve = $HOME/src/mutable-history/hgext/evolve.py
 
 [mq]
 secret = True
