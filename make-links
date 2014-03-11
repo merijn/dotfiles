@@ -7,7 +7,7 @@ done
 mkdir -p vim/bundle
 cd vim/bundle
 
-for repo in `cat repos`; do
+for repo in `cat ../../repos`; do
     hg clone $repo
 done
 
