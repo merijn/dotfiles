@@ -1,15 +1,17 @@
 EDITOR=vim
-PAGER=more
+PAGER=less
 LESSHISTFILE=-
 GREP_OPTIONS="--colour=auto"
 PATH=$HOME/opt/bin:$HOME/.bin:$PATH
 PROMPT_COMMAND="history -n; history -a"
-export EDITOR PAGER LESSHISTFILE GREP_COLOR PATH PROMPTCOMMAND
+TMUX_COMMAND="bash"
+export EDITOR PAGER LESSHISTFILE GREP_COLOR PATH PROMPTCOMMAND TMUX_COMMAND
 
 # Read local overrides, if any. (i.e. for PATH, MANPATH, SNET_*, etc.)
 [ -f ~/.profile_local ] && . ~/.profile_local
 
 if [ "$(uname)" = "Darwin" ]; then
+    TMUX_COMMAND="reattach-to-user-namespace bash"
     PATH=/opt/local/bin:/opt/local/sbin:$PATH
     MANPATH=/opt/local/share/man:$MANPATH
     LC_ALL=en_US.UTF-8
@@ -38,7 +40,7 @@ case $TERM in
             fi
         fi
 
-        export ESCAPE=^Dd
+        ESCAPE=^Dd
         ;;
 
     screen*)
@@ -50,10 +52,16 @@ case $TERM in
 
             read ESCAPE
 
+            if [ -z "$ESCAPE" ]; then
+                ESCAPE=^Dd
+                break
+            fi
+
             case $ESCAPE in
                 ^[A-Z][a-z])
-                    export ESCAPE
-                    break
+                    if [ "${ESCAPE:1:1}" = $(echo "${ESCAPE:2:1}" | tr '[a-z]' '[A-Z]') ]; then
+                        break
+                    fi
                     ;;
                 [Nn][Oo][Nn][Ee])
                     return 0
@@ -63,17 +71,15 @@ case $TERM in
         ;;
 
     xterm*)
-        export ESCAPE=^Dd
+        ESCAPE=^Dd
         ;;
 esac
 
+export ESCAPE
+
 if [ $(which tmux | wc -l) -eq 1 ]; then
     ESCAPE=`expr $ESCAPE : "\(..\)"`
-    if tmux list-s >/dev/null; then
-        tmux attach && exit
-    else
-        tmux && exit
-    fi
+    tmux attach && exit || tmux new bash && exit
 elif [ $(which screen | wc -l) -eq 1 ]; then
     if [ $(screen -ls | grep "\(No Sockets found in\)" | wc -l) -eq 1 ]; then
         screen -e $ESCAPE && exit
