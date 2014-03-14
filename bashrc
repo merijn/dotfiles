@@ -7,6 +7,7 @@ alias la='ls -aFG'      # Like above but shows dotfiles/-directories
 alias ll='ls -lhoAFG'   # Show file flags in long mode with human readable size
 alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
 alias ulimit='ulimit -S'
+alias more='less'
 
 if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
     TITLEBAR="\[\e]0;\u@\h:\w\007\]" # Sets titlebar of xterm/PuTTy to \u@\h:\w
