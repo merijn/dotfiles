@@ -9,6 +9,13 @@ alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
 alias ulimit='ulimit -S'
 alias more='less'
 
+# If this is a non-login shell .bashrc is sourced without .profile, source
+# .profile anyway to make sure PATH is set up properly. Recursive source is
+# prevented by checking the existence of the st function defined below.
+if shopt -q login_shell; then
+    . ~/.profile
+fi
+
 if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
     TITLEBAR="\[\e]0;\u@\h:\w\007\]" # Sets titlebar of xterm/PuTTy to \u@\h:\w
     CAPTION="\[\e]0;\w\007\]"        # Sets screen status bar to CWD
