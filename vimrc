@@ -175,6 +175,9 @@ function! ToggleSyntasticErrorList()
         " for some reason lclose doesn't close it, but cclose does. Go with
         " what works.
         cclose
+        " Added lclose too, as for some bizarre reason cclose does not work on
+        " the DAS-4 linux boxes.
+        lclose
         let g:syntastic_error_list_is_open = 0
     else
         " Open the Syntastic error window.
