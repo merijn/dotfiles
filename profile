@@ -20,10 +20,10 @@ if [ "$(uname)" = "Darwin" ]; then
     export MANPATH LC_ALL LANG
 fi
 
-# If the 'st' function (declared in .bashrc) is not defined, source .bashrc.
+# If the XYZZY variable (declared in .bashrc) is not defined, source .bashrc.
 # This prevents recursion when .profile is sourced from .bashrc to set paths in
 # non-interactive, non-login shells.
-if ! type st; then
+if [ "$XYZZY" != "xyzzy" ]; then
     . ~/.bashrc
 fi
 

@@ -11,8 +11,9 @@ alias more='less'
 
 # If this is a non-login shell .bashrc is sourced without .profile, source
 # .profile anyway to make sure PATH is set up properly. Recursive source is
-# prevented by checking the existence of the st function defined below.
-if shopt -q login_shell; then
+# prevented by checking the existence of the XYZZY variable defined below.
+if ! shopt -q login_shell && [ -z "$PS1" ]; then
+    XYZZY="xyzzy"
     . ~/.profile
 fi
 
