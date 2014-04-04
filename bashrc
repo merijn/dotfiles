@@ -92,3 +92,12 @@ st () {
         echo -ne "\033k$*\033\\"
     fi
 }
+
+mq () {
+    local queue=$(hg qqueue --active)
+    if [ "$queue" = "patches" ]; then
+        hg -R $(hg root)/.hg/patches
+    else
+        hg -R $(hg root)/.hg/patches-$queue
+    fi
+}
