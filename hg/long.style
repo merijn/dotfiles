@@ -1,0 +1,8 @@
+{label('changeset.{phase}', 'changeset: {rev}:{phase}')} {label('changeset.node', '{node}')}
+{ifeq(branch, 'default', '', 'branch:    {colour_branch}\n')}\
+{parents % 'parent:    {rev}:{node}\n'}\
+{bookmarks % 'bookmark:  {colour_bookmark}\n'}\
+{tags % 'tag:       {tag}\n'}\
+user:      {author}
+date:      {label('changeset.time', '{date|rfc822date}')} {label('changeset.short_time', '({date|age})')}
+summary:   {fill(desc|firstline, '68', '', '           ')}

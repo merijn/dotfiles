@@ -6,12 +6,7 @@ ssh = ssh -C
 ignore = ~/.hgignore
 # Use MacVim as merge tool
 merge = vimdiff
-
-[merge-tools]
-vimdiff.args = -f $local $other
-
-[alias]
-qstatus = status --rev -2:.
+style = $HOME/.hg/log.style
 
 [extensions]
 # Enable fetch extension which acts as "hg pull -u && hg merge && hg commit"
@@ -19,7 +14,7 @@ fetch =
 # Enable purge extension which nukes any non-tracked file.
 purge =
 # Enable hg-git extension which allows interaction with git
-hgext.bookmarks =
+bookmarks =
 hggit =
 # Enable colorized diffs
 color =
@@ -36,16 +31,43 @@ relink =
 # Interactive change recording for commits and patches
 record =
 # Mutable changesets
-rebase = 
+rebase =
 evolve = $HOME/src/mutable-history/hgext/evolve.py
 
 [mq]
 secret = True
-
-[pager]
-pager = LESS='FSRX' less
-attend = status, diff, cat, help, log, glog, incoming, outgoing, grep, qdiff,
-         annotate
+keepchanges = True
 
 [progress]
 delay = 1.5
+
+[merge-tools]
+vimdiff.args = -f $local $other
+
+[alias]
+qstatus = status --rev -2:.
+vlog = log --style $HOME/.hg/vlog.style
+vglog = glog --style $HOME/.hg/vlog.style
+show = log --style $HOME/.hg/vlog.style -r
+ppush = push --mq
+
+[pager]
+pager = LESS='FSRX' less
+attend = annotate, cat, diff, glog, grep, help, incoming, log, outgoing, qdiff,
+         show, status, vglog, vlog
+
+[color]
+changeset.secret = red
+changeset.draft = yellow
+changeset.public = green
+changeset.node = bold black
+changeset.branch = green
+changeset.bookmark = magenta
+changeset.tag = cyan
+changeset.name = bold blue
+changeset.time = white
+changeset.short_time = bold black
+changeset.file_mod = bold blue
+changeset.file_copy = blue
+changeset.file_add = bold green
+changeset.file_del = bold red

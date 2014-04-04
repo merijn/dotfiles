@@ -1,0 +1,13 @@
+changeset = '{revision}{branches}{bookmarks} {authorname} {time}\n{desc|firstline|fill76}\n{tags}\n'
+
+revision = '{label('changeset.{phase}', '{rev}:{phase}')}'
+
+start_branches = ' '
+branch = '{label('changeset.branch', 'on {branch}')}'
+
+authorname = '{label('changeset.name', '{author|person}')}'
+bookmark = ' {label('changeset.bookmark', '{bookmark}')}'
+time = '{label('changeset.short_time', '({date|age})')}'
+
+tag = '{label('changeset.tag', '{tag}')} '
+last_tag = '{label('changeset.tag', '{tag}')}\n'
