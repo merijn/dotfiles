@@ -96,8 +96,8 @@ st () {
 mq () {
     local queue=$(hg qqueue --active)
     if [ "$queue" = "patches" ]; then
-        hg -R $(hg root)/.hg/patches
+        hg -R $(hg root)/.hg/patches $*
     else
-        hg -R $(hg root)/.hg/patches-$queue
+        hg -R $(hg root)/.hg/patches-$queue $*
     fi
 }
