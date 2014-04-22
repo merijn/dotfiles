@@ -6,7 +6,7 @@ ssh = ssh -C
 ignore = ~/.hgignore
 # Use MacVim as merge tool
 merge = vimdiff
-style = $HOME/.hg/log.style
+style = $HOME/.hg-styles/log.style
 
 [extensions]
 # Enable fetch extension which acts as "hg pull -u && hg merge && hg commit"
