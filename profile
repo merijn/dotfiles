@@ -84,7 +84,7 @@ export ESCAPE
 
 if [ $(which tmux | wc -l) -eq 1 ]; then
     ESCAPE=`expr $ESCAPE : "\(..\)"`
-    tmux attach && exit || tmux new bash && exit
+    tmux attach && exit || tmux new "$TMUX_COMMAND" && exit
 elif [ $(which screen | wc -l) -eq 1 ]; then
     if [ $(screen -ls | grep "\(No Sockets found in\)" | wc -l) -eq 1 ]; then
         screen -e $ESCAPE && exit
