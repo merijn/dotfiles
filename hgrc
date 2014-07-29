@@ -46,9 +46,9 @@ vimdiff.args = -f $local $other
 
 [alias]
 qstatus = status --rev -2:.
-vlog = log --style $HOME/.hg/vlog.style
-vglog = glog --style $HOME/.hg/vlog.style
-show = log --style $HOME/.hg/vlog.style -r
+vlog = log --style $HOME/.hg-styles/vlog.style
+vglog = glog --style $HOME/.hg-styles/vlog.style
+show = log --style $HOME/.hg-styles/vlog.style -r
 ppush = push --mq
 
 [pager]
