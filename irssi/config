@@ -18,6 +18,8 @@ channels = (
   { name = "#haskell-infrastructure"; chatnet = "freenode"; autojoin = "yes"; }
   { name = "#ghc"; chatnet = "freenode"; autojoin = "yes"; }
   { name = "#haskell-lens"; chatnet = "freenode"; autojoin = "yes"; }
+  { name = "#numerical-haskell"; chatnet = "freenode"; autojoin = "yes"; }
+  { name = "#oplss"; chatnet = "freenode"; autojoin = "yes"; }
 );
 
 aliases = {
@@ -43,7 +45,7 @@ settings = {
   };
   "irc/core" = {
     skip_motd = "yes";
-    alternate_nick = "merijn_";
+    alternate_nick = "comerijn";
     usermode = "+Qwi";
     ctcp_userinfo_reply = "";
     ctcp_version_reply = "";
@@ -56,7 +58,7 @@ settings = {
   };
   "fe-common/core" = {
     activity_hide_level = "JOINS PARTS QUITS";
-    activity_hide_targets = "#python ##freebsd #racket #startups";
+    activity_hide_targets = "#python ##freebsd #racket #startups #travis ##math #haskell-lens #osdev #opencl ##c ##c++ #cuda";
     autocreate_windows = "yes";
     autoclose_windows = "yes";
     emphasis_multiword = "yes";
@@ -82,6 +84,8 @@ windows = {
   5 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-infrastructure"; }); };
   6 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#ghc"; } ); };
   7 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-lens"; } ); };
+  8 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#numerical-haskell"; } ); };
+  9 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#oplss"; } ); };
 };
 
 mainwindows = { 1 = { first_line = "1"; lines = "44"; }; };
