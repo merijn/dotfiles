@@ -49,6 +49,10 @@ set ignorecase                  "Turn of case sensitivity
 set smartcase                   "Only enable above for strings in all lowercase
 set incsearch                   "Search while typing query
 if &t_Co > 2 || has("gui_running")
+    set guioptions-=r               "Right-hand scrollbar always present
+    set guioptions-=R               "Right-hand scrollbar present in split-window
+    set guioptions-=l               "Left-hand scrollbar always present
+    set guioptions-=L               "Left-hand scrollbar present in split-window
     set hlsearch                "Highlight all search matches if color is
 endif                           "possible (:noh to toggle off)
 
