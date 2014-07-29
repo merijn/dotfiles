@@ -9,5 +9,5 @@ function! ToggleType()
     endif
 endfunction
 
-nnoremap <silent> <return> :noh<return>:call ToggleType()<return>
-nnoremap <silent> <C-]> :HdevtoolsInfo<return>
+nnoremap <silent> <buffer> <return> :noh<return>:call ToggleType()<return>
+nnoremap <silent> <buffer> <C-]> :HdevtoolsInfo<return>
