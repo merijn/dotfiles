@@ -22,7 +22,7 @@ endif
 set confirm                     "Prompt save confirmation instead of returning
                                 "error for command
 
-let mapleader = "\<C-g>"             "Map leader key
+let mapleader = "\<C-g>"        "Map leader key
 "Y behaves as D and C rather than yy
 noremap Y y$
 
