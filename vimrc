@@ -154,7 +154,6 @@ let g:tagbar_sort = 0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_enable_highlighting = 1
 let g:syntastic_echo_current_error = 0
-let g:syntastic_haskell_hdevtools_args = "-g-Wall -g-XConstraintKinds -g-XCPP -g-XFlexibleContexts -g-fno-warn-unused-do-bind -g-ishared -g-isrc -g-idist/build/autogen -g-optP-include -g-optPdist/build/autogen/cabal_macros.h"
 let g:syntastic_error_list_is_open = 0
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': [],

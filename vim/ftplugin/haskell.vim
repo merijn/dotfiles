@@ -1,6 +1,9 @@
 " HdevTools options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:hdevtools_options = "-g-Wall -g-XConstraintKinds -g-XCPP -g-XFlexibleContexts -g-fno-warn-unused-do-bind -g-ishared -g-isrc -g-fdefer-type-errors -g-idist/build/autogen -g-optP-include -g-optPdist/build/autogen/cabal_macros.h"
+let s:hdevtools_options = "-g-Wall -g-fno-warn-unused-do-bind -g-fdefer-type-errors"
+let g:hdevtools_options = s:hdevtools_options
+let g:syntastic_haskell_hdevtools_args = s:hdevtools_options
+
 nnoremap <silent> <Tab> :HdevtoolsType<return>
 
 function! ToggleType()
