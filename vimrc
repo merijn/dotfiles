@@ -138,20 +138,6 @@ runtime bundle/vim-pathogen/autoload/pathogen.vim
 
 call pathogen#infect()
 
-" Coq options
-""""""""""
-
-augroup CoqBindings
-    au FileType coq nnoremap <buffer> <silent> <Leader>j :CoqNext<CR>
-    au FileType coq nnoremap <buffer> <silent> <Leader>k :CoqUndo<CR>
-    au FileType coq nnoremap <buffer> <silent> <Leader>l :CoqToCursor<CR>
-    au FileType coq nnoremap <buffer> <silent> <Leader>h :CoqKill<CR>
-    au FileType coq nnoremap <buffer> <Leader>g :Coq 
-    au FileType coq inoremap <buffer> <silent> . .<ESC>:CoqToCursor<CR>a
-    au FileType coq inoremap <buffer> <silent> ; ;<ESC>:CoqToCursor<CR>a
-augroup END
-
-
 " Ctrl-P options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <silent> <Leader>t :CtrlPMixed<return>
