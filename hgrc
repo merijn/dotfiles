@@ -53,8 +53,8 @@ ppush = push --mq
 
 [pager]
 pager = LESS='FSRX' less
-attend = annotate, cat, diff, glog, grep, help, incoming, log, outgoing, qdiff,
-         show, status, vglog, vlog
+attend = annotate, cat, diff, glog, grep, heads, help, incoming, log, outgoing,
+         qdiff, show, status, vglog, vlog
 
 [color]
 changeset.secret = red
