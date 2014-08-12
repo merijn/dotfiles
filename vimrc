@@ -101,12 +101,8 @@ if version >= 700
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Language options                                                            "
+" Language detection                                                          "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if &t_Co > 2 || has("gui_running")
-    let python_highlight_all = 1 "Enable highlighting all python syntax
-endif
-
 if has("autocmd")
     au BufReadPost *.rkt,*.rktl set filetype=racket
     au filetype racket set lisp
