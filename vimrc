@@ -21,6 +21,7 @@ if has("mouse")
 endif
 set confirm                     "Prompt save confirmation instead of returning
                                 "error for command
+set shortmess+=I                "Disable showing splash screen
 
 let mapleader = "\<C-g>"        "Map leader key
 "Y behaves as D and C rather than yy
