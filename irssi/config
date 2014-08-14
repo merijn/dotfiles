@@ -58,7 +58,7 @@ settings = {
   };
   "fe-common/core" = {
     activity_hide_level = "JOINS PARTS QUITS";
-    activity_hide_targets = "#python ##freebsd #racket #startups #travis ##math #haskell-lens #osdev #opencl ##c ##c++ #cuda";
+    activity_hide_targets = "#python ##freebsd #racket #startups #travis ##math #haskell-lens #osdev #opencl ##c ##c++ #cuda #vim #bash";
     autocreate_windows = "yes";
     autoclose_windows = "yes";
     emphasis_multiword = "yes";
@@ -81,11 +81,11 @@ windows = {
   2 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell"; }); };
   3 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-blah"; }); };
   4 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#csa_uva"; }); };
-  5 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-infrastructure"; }); };
-  6 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#ghc"; } ); };
-  7 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-lens"; } ); };
-  8 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#numerical-haskell"; } ); };
-  9 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#oplss"; } ); };
+  11 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#ghc"; } ); };
+  12 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-infrastructure"; }); };
+  13 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#numerical-haskell"; } ); };
+  14 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-lens"; } ); };
+  15 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#oplss"; } ); };
 };
 
 mainwindows = { 1 = { first_line = "1"; lines = "44"; }; };
