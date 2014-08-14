@@ -32,6 +32,7 @@ relink =
 record =
 # Mutable changesets
 rebase =
+histedit =
 evolve = $HOME/src/mutable-history/hgext/evolve.py
 
 [mq]
