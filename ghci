@@ -2,23 +2,23 @@
 :set -w
 :set -optP-include -optPdist/build/autogen/cabal_macros.h
 
-:set -XConstraintKinds
-:set -XDeriveDataTypeable
-:set -XDeriveFoldable
-:set -XDeriveFunctor
-:set -XDeriveGeneric
-:set -XDeriveTraversable
-:set -XDataKinds
-:set -XImplicitParams
-:set -XKindSignatures
-:set -XMonadComprehensions
-:set -XNoMonomorphismRestriction
-:set -XOverloadedStrings
-:set -XRankNTypes
-:set -XScopedTypeVariables
-:set -XTupleSections
-:set -XTypeFamilies
-:set -XTypeOperators
+:seti -XConstraintKinds
+:seti -XDeriveDataTypeable
+:seti -XDeriveFoldable
+:seti -XDeriveFunctor
+:seti -XDeriveGeneric
+:seti -XDeriveTraversable
+:seti -XDataKinds
+:seti -XImplicitParams
+:seti -XKindSignatures
+:seti -XMonadComprehensions
+:seti -XNoMonomorphismRestriction
+:seti -XOverloadedStrings
+:seti -XRankNTypes
+:seti -XScopedTypeVariables
+:seti -XTupleSections
+:seti -XTypeFamilies
+:seti -XTypeOperators
 
 import Control.Applicative
 import Control.Arrow
