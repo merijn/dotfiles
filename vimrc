@@ -139,6 +139,8 @@ call pathogen#infect()
 " Ctrl-P options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <silent> <Leader>t :CtrlPMixed<return>
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_mruf_relative = 1
 
 " Gundo options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
