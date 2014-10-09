@@ -99,6 +99,8 @@ if version >= 700
     if has("autocmd")
         autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex setlocal spell
         autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex setlocal nonumber
+        autocmd BufNewFile,BufRead CMakeLists.txt setlocal nospell
+        autocmd BufNewFile,BufRead CMakeLists.txt setlocal number
     endif
 endif
 
