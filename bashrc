@@ -65,8 +65,8 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
 
     # Set OS specific aliases and settings or overwrites
     if [ "$(uname)" = "Darwin" ]; then
-        if [ -f ~/.hg-bash_completion ]; then
-            . ~/.hg-bash_completion
+        if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
+            . /opt/local/etc/profile.d/bash_completion.sh
         fi
     elif [ "$(uname)" = "FreeBSD" ]; then
         alias rm='rm -rI' # (Recursively) delete and ask confirmation for >3 files
