@@ -1,0 +1,36 @@
+#!/bin/bash
+cabal configure && cabal build && cabal haddock --hyperlink-source \
+                                    --html-location='http://hackage.haskell.org/package/$pkg/docs' \
+                                    --contents-location='http://hackage.haskell.org/package/$pkg'
+S=$?
+if [ "${S}" -eq "0" ]; then
+    cabal_file="$(ls *.cabal)"
+    if [ ! -f "${cabal_file}" ]; then
+        printf "Couldn't find cabal file\n" 1>&2
+        exit 1
+    fi
+
+    pkg_name="${cabal_file%.cabal}"
+    pkg_version="$(grep "^Version:" ${cabal_file} | awk '{print $2}')"
+
+    if [ -z "$pkg_version" ]; then
+        printf "Couldn't determine package version\n" 1>&2
+        exit 1
+    fi
+
+    cd "dist/doc/html"
+    DDIR="${pkg_name}-${pkg_version}-docs"
+    cp -r "${pkg_name}" "${DDIR}" && tar -c -v -z -f "${DDIR}.tar.gz" "${DDIR}"
+    CS=$?
+    if [ "${CS}" -eq "0" ]; then
+        echo "Uploading to Hackage…"
+        curl -u MerijnVerstraaten -X PUT -H 'Content-Type: application/x-tar' -H 'Content-Encoding: gzip' --data-binary "@${DDIR}.tar.gz" "http://hackage.haskell.org/package/${pkg_name}-${pkg_version}/docs"
+        exit $?
+    else
+        printf "Error when packaging the documentation\n" 1>&2
+        exit $CS
+    fi
+else
+    printf "Error when trying to build the package\n" 1>&2
+    exit $S
+fi
