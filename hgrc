@@ -46,6 +46,7 @@ delay = 1.5
 vimdiff.args = -f $local $other
 
 [alias]
+qrecord = qnew -i
 qstatus = status --rev -2:.
 vlog = log --style $HOME/.hg-styles/vlog.style
 vglog = glog --style $HOME/.hg-styles/vlog.style
