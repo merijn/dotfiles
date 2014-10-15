@@ -54,10 +54,6 @@ set ignorecase                  "Turn of case sensitivity
 set smartcase                   "Only enable above for strings in all lowercase
 set incsearch                   "Search while typing query
 if &t_Co > 2 || has("gui_running")
-    set guioptions-=r               "Right-hand scrollbar always present
-    set guioptions-=R               "Right-hand scrollbar present in split-window
-    set guioptions-=l               "Left-hand scrollbar always present
-    set guioptions-=L               "Left-hand scrollbar present in split-window
     set hlsearch                "Highlight all search matches if color is
 endif                           "possible (:noh to toggle off)
 
@@ -120,13 +116,18 @@ endif
 " GUI options                                                                 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has("gui_running")
-  if has("unix")
-    let s:uname = system("uname")
-    " Use Monaco font on OS X
-    if s:uname =~ "Darwin"
-        set guifont=Monaco:h14
+    set guioptions-=r   "Disable right-hand scrollbar
+    set guioptions-=R   "Disable split-window right-hand scrollbar
+    set guioptions-=l   "Disable left-hand scrollbar
+    set guioptions-=L   "Disable split-window left-hand scrollbar present
+
+    if has("unix")
+        let s:uname = system("uname")
+        " Use Monaco font on OS X
+        if s:uname =~ "Darwin"
+            set guifont=Monaco:h14
+        endif
     endif
-  endif
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
