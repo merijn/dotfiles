@@ -1,4 +1,4 @@
-if ! which cabal >/dev/null; then
+if ! which cabal >/dev/null 2>&1; then
     printf "cabal not found, skipping Haskell config install.\n" 1>&2
     return 0
 fi
