@@ -75,9 +75,8 @@ install_repo ()
     }
 
     if [ "$(count)" -ge "1" ]; then
-
         while true; do
-            printf "\n$(count) new commits in $1/$repo_name\n"
+            printf "$(count) new commits in $1/$repo_name\n"
             printf "(D)iff new commits/(U)pdate/(K)eep current? [Duk?] "
             read COMMAND
 
@@ -104,6 +103,7 @@ install_repo ()
                     ;;
             esac
         done
+        printf "\n"
     fi
 
     cd - >/dev/null
