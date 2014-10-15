@@ -1,0 +1,119 @@
+#!/usr/bin/env bash
+
+set -e
+
+install_file ()
+{
+    # If the destination exists
+    if [ -f "$1" -a -f "$2" ] || [ -d "$1" -a -d "$2" ] || [ -L "$2" ]; then
+        # And is not a link to the right source
+        if [ "$1" != "$(readlink "$2")" ]; then
+            while true; do
+                printf "Wrong source file found for:\n$2\n"
+                printf "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] "
+                read COMMAND
+
+                if [ -z "$COMMAND" ]; then
+                    COMMAND=d
+                fi
+
+                case "$COMMAND" in
+                    [dD])
+                        if [ -L "$2" ]; then
+                            printf "$2\nLinks to:\n$(readlink "$2")\n%s"
+                                   "Should link to:\n$1\n"
+                        else
+                            (printf "$2\n"; diff -u "$2" "$1") | less
+                        fi
+                        ;;
+                    [oO])
+                        if rm "$2"; then
+                            ln -s "$1" "$2"
+                        else
+                            printf "Failed to delete $2" 1>&2
+                        fi
+                        break
+                        ;;
+                    [kK])
+                        break
+                        ;;
+                    ?)
+                        printf "d - show diff between current and repo file\n"
+                        printf "o - overwrite current file with repo symlink\n"
+                        printf "k - keep the current file\n"
+                        printf "? - this help\n"
+                        ;;
+                esac
+            done
+        fi
+    else
+        # The destination doesn't exists, so symlink it.
+        ln -s "$1" "$2"
+    fi
+}
+
+install_repo ()
+{
+    repo_name="${2##*/}"
+    repo_name="${repo_name%.git}"
+
+    if [ ! -d "$1/$repo_name" ]; then
+        hg clone --noupdate "$2" "$1/$repo_name" >/dev/null 2>&1
+    fi
+
+    if [ ! -d "$1/$repo_name" ]; then
+        printf "Not a mercurial repo: $1/$repo_name\n" 1>&2
+        exit 1
+    fi
+
+    cd "$1/$repo_name"
+
+    hg pull >/dev/null 2>&1
+    count () {
+        hg log -T 'Version: {rev}\n' -r 'descendants(.) - .' | \
+            grep 'Version' | wc -l | awk '{print $1}' 2>/dev/null
+    }
+
+    if [ "$(count)" -ge "1" ]; then
+
+        while true; do
+            printf "\n$(count) new commits in $1/$repo_name\n"
+            printf "(D)iff new commits/(U)pdate/(K)eep current? [Duk?] "
+            read COMMAND
+
+            if [ -z "$COMMAND" ]; then
+                COMMAND=d
+            fi
+
+            case "$COMMAND" in
+                [dD])
+                    hg log -p -r 'descendants(.) - .'
+                    ;;
+                [uU])
+                    hg update -C
+                    break
+                    ;;
+                [kK])
+                    break
+                    ;;
+                ?)
+                    printf "d - show diff between current and repo file\n"
+                    printf "u - update repository to latest revision\n"
+                    printf "k - keep the current revision\n"
+                    printf "? - this help\n"
+                    ;;
+            esac
+        done
+    fi
+
+    cd - >/dev/null
+}
+
+for link in dotfiles/*; do
+    install_file "$(pwd)/$link" "$HOME/.${link##*/}"
+done
+
+for install_script in install/*/install.sh; do
+    src="$(pwd)/${install_script%install.sh}"
+    . "$install_script"
+done
