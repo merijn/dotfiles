@@ -164,10 +164,11 @@ let g:tagbar_sort = 0
 
 " Syntastic options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:syntastic_enable_highlighting = 1
+let g:syntastic_check_on_wq = 0
 let g:syntastic_aggregate_errors = 1
 let g:syntastic_echo_current_error = 0
-let g:syntastic_error_list_is_open = 0
+let g:syntastic_error_symbol = "✗"
+let g:syntastic_warning_symbol = "⚠"
 let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'active_filetypes': [],
                            \ 'passive_filetypes': ['tex'] }
@@ -186,6 +187,7 @@ function! GetNextSyntasticError(next)
     endif
 endfunction
 
+let g:syntastic_error_list_is_open = 0
 function! ToggleSyntasticErrorList()
     if g:syntastic_error_list_is_open
         " This should use lclose, as Synastic uses the location list. However,
