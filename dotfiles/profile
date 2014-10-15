@@ -12,7 +12,7 @@ export EDITOR PAGER LESSHISTFILE GREP_COLOR PATH PROMPTCOMMAND TMUX_COMMAND
 
 if [ "$(uname)" = "Darwin" ]; then
     TMUX_COMMAND="reattach-to-user-namespace bash"
-    PATH=/opt/local/bin:/opt/local/sbin:$PATH
+    PATH=$HOME/Library/Haskell/bin:/opt/local/bin:/opt/local/sbin:$PATH
     MANPATH=/opt/local/share/man:$MANPATH
     LC_ALL=en_US.UTF-8
     LANG=en_US.UTF-8
