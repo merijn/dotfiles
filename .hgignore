@@ -1,7 +1,4 @@
 syntax: glob
 vim/.netrwhist
-vim/bundle/go
-vim/bundle/gundo.vim
-bin/ack
 bin/mvim
 irssi/default.theme
