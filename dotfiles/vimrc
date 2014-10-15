@@ -165,6 +165,7 @@ let g:tagbar_sort = 0
 " Syntastic options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:syntastic_enable_highlighting = 1
+let g:syntastic_aggregate_errors = 1
 let g:syntastic_echo_current_error = 0
 let g:syntastic_error_list_is_open = 0
 let g:syntastic_mode_map = { 'mode': 'active',
