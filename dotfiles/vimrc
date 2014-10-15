@@ -174,16 +174,28 @@ let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'passive_filetypes': ['tex'] }
 
 function! GetNextSyntasticError(next)
-    " If there's only one error, jump to it.
+    " If there's no error, do nothing
     if len(getloclist(0)) == 0
+    " If there's one error, jump to it
     elseif len(getloclist(0)) == 1
         ll
-    " Else, if we're going forward, jump to the next error.
+    " If we're going forward
     elseif a:next
-        lnext
-    " Else, jump to the previous error.
+        " Try to go to the next error
+        try
+            lnext
+        " On error rewind to the start (wrap-around)
+        catch
+            lrewind
+        endtry
     else
-        lprev
+        " Try to go to the previous error
+        try
+            lprev
+        " On error jump to the last error (wrap-around)
+        catch
+            llast
+        endtry
     endif
 endfunction
 
