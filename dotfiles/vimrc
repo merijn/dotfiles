@@ -1,7 +1,11 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set nocompatible                "Turn off vi compatibility
 set langmenu=none               "Set all the menu's to use English
-colorscheme delph               "Use custom colour scheme
+if &t_Co >= 256 || has("gui_running")
+    colorscheme delph256        "Use custom 256 colour scheme
+else
+    colorscheme delph           "Use custom minimal colour scheme
+endif
 if has("autocmd")
     "Clear all autocommands to avoid duplicates, has to be on empty line
     autocmd!
