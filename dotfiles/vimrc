@@ -134,6 +134,7 @@ endif
 " Misc options & commands                                                     "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 command! StripWhitespace :%s/\s\+$//
+command! ShowSyntax :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Options                                                              "
