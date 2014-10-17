@@ -7,7 +7,6 @@ syntax: glob
 .*.d
 *.pyc
 *.swp
-*.orig
 .DS_Store
 *.aux
 *.bbl
@@ -17,6 +16,10 @@ syntax: glob
 *.lot
 *.toc
 *.hi
+*.p_o
+*.p_hi
+*.dyn_hi
+*.dyn_o
 tags
 dist/**
 .cabal-sandbox/**

@@ -34,7 +34,6 @@ exclude *.la
 exclude .*.d
 exclude *.pyc
 exclude *.swp
-exclude *.orig
 exclude .DS_Store
 exclude *.aux
 exclude *.bbl
@@ -44,6 +43,10 @@ exclude *.log
 exclude *.lot
 exclude *.toc
 exclude *.hi
+exclude *.p_o
+exclude *.p_hi
+exclude *.dyn_hi
+exclude *.dyn_o
 exclude tags
 
 # Include only files and directories matching specified patterns
