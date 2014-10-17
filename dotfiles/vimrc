@@ -46,6 +46,7 @@ set shiftwidth=4                "An indent is 4 spaces
 set smarttab                    "Indent instead of tab at start of line
 set shiftround                  "Round spaces to nearest shiftwidth multiple
 set nojoinspaces                "Don't convert spaces to tabs
+set formatoptions=croqajn
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Search options                                                              "
@@ -99,6 +100,8 @@ if version >= 700
     if has("autocmd")
         autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex setlocal spell
         autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex setlocal nonumber
+        autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex setlocal formatoptions+=t
+
         autocmd BufNewFile,BufRead CMakeLists.txt setlocal nospell
         autocmd BufNewFile,BufRead CMakeLists.txt setlocal number
     endif
