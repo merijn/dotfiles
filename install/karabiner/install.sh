@@ -11,4 +11,4 @@ if [ ! -d "${karabiner_dir}" ]; then
     return 0
 fi
 
-link_file "${src}/private.xml" "${karabiner_dir}/private.xml"
+link_file_or_directory "${src}/private.xml" "${karabiner_dir}/private.xml"
