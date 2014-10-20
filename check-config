@@ -2,7 +2,7 @@
 
 set -e
 
-install_file ()
+link_file ()
 {
     # If the destination exists
     if [ -f "$1" -a -f "$2" ] || [ -d "$1" -a -d "$2" ] || [ -L "$2" ]; then
@@ -68,6 +68,7 @@ install_repo ()
 
     cd "$1/$repo_name"
 
+    printf "Checking for updates to ${repo_name}...\n"
     hg pull >/dev/null 2>&1
     count () {
         hg log -T 'Version: {rev}\n' -r 'descendants(.) - .' | \
@@ -110,7 +111,7 @@ install_repo ()
 }
 
 for link in dotfiles/*; do
-    install_file "$(pwd)/$link" "$HOME/.${link##*/}"
+    link_file "$(pwd)/$link" "$HOME/.${link##*/}"
 done
 
 for install_script in install/*/install.sh; do

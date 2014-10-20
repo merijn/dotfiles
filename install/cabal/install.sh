@@ -12,4 +12,4 @@ if [ ! -d "${HOME}/.cabal" ]; then
     fi
 fi
 
-install_file "${src}/config" "${HOME}/.cabal/config"
+link_file "${src}/config" "${HOME}/.cabal/config"
