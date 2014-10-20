@@ -12,4 +12,4 @@ if [ ! -d "${HOME}/.cabal" ]; then
     fi
 fi
 
-link_file_or_directory "${src}/config" "${HOME}/.cabal/config"
+symlink_config "${src}/config" "${HOME}/.cabal/config"
