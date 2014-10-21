@@ -154,7 +154,7 @@ install_config ()
 
 sudo_install_config ()
 {
-    install_config "$1" "$2" "sudo -n sh -c"
+    install_config "$1" "$2" "sudo -n"
 }
 
 install_repo ()
