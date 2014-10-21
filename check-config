@@ -12,6 +12,7 @@ trap 'rm -f success' EXIT
 # Install a symlink to a config file
 symlink_config ()
 {
+    updated=0
     # If the correct symlink already exists, do nothing.
     if [ -L "$2" ] && [ "$1" = "$(readlink "$2")" ]; then
         return 0
@@ -46,10 +47,10 @@ symlink_config ()
 
                     # $3 contains optional sudo command
                     $3 sh -c "$cmd"
-                    if [ -f success ]; then
-                        rm success
-                    else
+                    if ! rm success 2>/dev/null; then
                         printf "Failed to resymlink $2\n" 1>&2
+                    else
+                        updated=1
                     fi
                     break
                     ;;
@@ -74,10 +75,10 @@ symlink_config ()
 
         # $3 contains optional sudo command
         $3 sh -c "$cmd"
-        if [ -f success ]; then
-            rm success
-        else
+        if ! rm success 2>/dev/null; then
             printf "Failed to symlink $2\n" 1>&2
+        else
+            updated=1
         fi
     else
         printf "$2 already exists and is not a file, directory or symlink!\n" 1>&2
@@ -91,6 +92,7 @@ sudo_symlink_config ()
 
 install_config ()
 {
+    updated=0
     # If the target is the correct file type
     if [ -f "$1" -a -f "$2" ] || [ -d "$1" -a -d "$2" ]; then
         # As long as the file doesn't match the installable file
@@ -115,10 +117,10 @@ install_config ()
 
                     # $3 contains optional sudo command
                     $3 sh -c "$cmd"
-                    if [ -f success ]; then
-                        rm success
-                    else
+                    if ! rm success 2>/dev/null; then
                         printf "Failed to update $2\n" 1>&2
+                    else
+                        updated=1
                     fi
                     break
                     ;;
@@ -142,10 +144,10 @@ install_config ()
 
         # $3 contains optional sudo command
         $3 sh -c "$cmd"
-        if [ -f success ]; then
-            rm success
-        else
+        if ! rm success 2>/dev/null; then
             printf "Failed to copy to $2\n" 1>&2
+        else
+            updated=1
         fi
     else
         printf "$2 already exists and is not a file or directory!\n" 1>&2
