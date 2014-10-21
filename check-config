@@ -92,7 +92,7 @@ install_config ()
     # If the target is the correct file type
     if [ -f "$1" -a -f "$2" ] || [ -d "$1" -a -d "$2" ]; then
         # As long as the file doesn't match the installable file
-        while !diff -ur "$1" "$2" >/dev/null 2>&1; do
+        while ! diff -ur "$1" "$2" >/dev/null 2>&1; do
             # Prompt user for action.
             printf "Wrong source file found for:\n$2\n"
             printf "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] "
