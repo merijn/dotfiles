@@ -63,6 +63,8 @@ symlink_config ()
                     printf "? - this help\n"
                     ;;
             esac
+
+            printf "\n"
         done
     elif [ ! -e "$2" ]; then
         # The destination doesn't exists, so try to symlink it. See sudo note
@@ -130,6 +132,8 @@ install_config ()
                     printf "? - this help\n"
                     ;;
             esac
+
+            printf "\n"
         done
     elif [ ! -e "$2" ]; then
         # Attempt to copy over. See sudo note at top of file.
