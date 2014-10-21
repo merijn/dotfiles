@@ -1,3 +1,4 @@
+FILE="vimplugins/install.sh"
 bundle_dir="$HOME/.vim/bundle"
 
 install_repo "$bundle_dir" "git+ssh://git@github.com:trefis/coquille.git"

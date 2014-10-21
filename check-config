@@ -1,101 +1,157 @@
 #!/usr/bin/env bash
+FILE=${_#*/}
 
+# Setup error handlers
 set -e
+trap 'printf "$FILE:$FUNCNAME:$LINENO: $_\n" 1>&2' ERR
+trap 'rm -f success' EXIT
 
+# On OSX "sudo -n" returns a 0 exit code on password failure, so we use touch
+# to determine whether the command succesfully executed.
+
+# Install a symlink to a config file
 symlink_config ()
 {
-    # If the destination exists
-    if [ -f "$1" -a -f "$2" ] || [ -d "$1" -a -d "$2" ] || [ -L "$2" ]; then
-        # And is not a link to the right source
-        if [ "$1" != "$(readlink "$2")" ]; then
-            while true; do
-                printf "Wrong source file found for:\n$2\n"
-                printf "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] "
-                read COMMAND
+    # If the correct symlink already exists, do nothing.
+    if [ -L "$2" ] && [ "$1" = "$(readlink "$2")" ]; then
+        return 0
+    # If the target is the correct file type OR a symlink to the wrong file
+    elif [ -f "$1" -a -f "$2" ] || [ -d "$1" -a -d "$2" ] || [ -L "$2" ]; then
+        while true; do
+            # Prompt user for action
+            printf "Wrong source file found for:\n$2\n"
+            printf "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] "
+            read COMMAND
 
-                if [ -z "$COMMAND" ]; then
-                    COMMAND=d
-                fi
+            if [ -z "$COMMAND" ]; then
+                COMMAND=d
+            fi
 
-                case "$COMMAND" in
-                    [dD])
-                        if [ -L "$2" ]; then
-                            printf "$2\nLinks to:\n$(readlink "$2")\n%s"
-                                   "Should link to:\n$1\n"
-                        else
-                            (printf "$2\n"; diff -u "$2" "$1") | less
-                        fi
-                        ;;
-                    [oO])
-                        if $3 rm "$2"; then
-                            $3 ln -s "$1" "$2"
-                        else
-                            printf "Failed to delete $2" 1>&2
-                        fi
-                        break
-                        ;;
-                    [kK])
-                        break
-                        ;;
-                    ?)
-                        printf "d - show diff between current and repo file\n"
-                        printf "o - overwrite current file with repo symlink\n"
-                        printf "k - keep the current file\n"
-                        printf "? - this help\n"
-                        ;;
-                esac
-            done
+            case "$COMMAND" in
+                [dD])
+                    # Check the symlink target
+                    if [ -L "$2" ]; then
+                        printf "$2\nLinks to:\n$(readlink "$2")\n%s"
+                                "Should link to:\n$1\n"
+                    # Diff the files
+                    else
+                        diff -ur "$2" "$1" | less
+                    fi
+                    ;;
+                [oO])
+                    # Try to overwrite the file. See sudo note at top of file.
+                    cmd="rm -- \"$2\""
+                    cmd+=" && ln -s -- \"$1\" \"$2\""
+                    cmd+=" && sudo -u \#$UID touch success"
+
+                    # $3 contains optional sudo command
+                    $3 sh -c "$cmd"
+                    if [ -f success ]; then
+                        rm success
+                    else
+                        printf "Failed to resymlink $2\n" 1>&2
+                    fi
+                    break
+                    ;;
+                [kK])
+                    break
+                    ;;
+                ?)
+                    printf "d - show diff between current and repo file\n"
+                    printf "o - overwrite current file with repo symlink\n"
+                    printf "k - keep the current file\n"
+                    printf "? - this help\n"
+                    ;;
+            esac
+        done
+    elif [ ! -e "$2" ]; then
+        # The destination doesn't exists, so try to symlink it. See sudo note
+        # at top of file.
+        cmd="ln -s -- \"$1\" \"$2\""
+        cmd+=" && sudo -u \#$UID touch success"
+
+        # $3 contains optional sudo command
+        $3 sh -c "$cmd"
+        if [ -f success ]; then
+            rm success
+        else
+            printf "Failed to symlink $2\n" 1>&2
         fi
     else
-        # The destination doesn't exists, so symlink it.
-        $3 ln -s "$1" "$2"
+        printf "$2 already exists and is not a file, directory or symlink!\n" 1>&2
     fi
 }
 
-sudo_symlink_config () { symlink "$1" "$2" "sudo -n" }
+sudo_symlink_config ()
+{
+    symlink "$1" "$2" "sudo -n"
+}
 
 install_config ()
 {
-    if [ -e "$2" ]; then
-        if [ -f "$1" -a -f "$2" ] || [ -d "$1" -a -d "$2" ]; then
-            while !diff -ur "$1" "$2" >/dev/null 2>&1; do
-                printf "Wrong source file found for:\n$2\n"
-                printf "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] "
-                read COMMAND
+    # If the target is the correct file type
+    if [ -f "$1" -a -f "$2" ] || [ -d "$1" -a -d "$2" ]; then
+        # As long as the file doesn't match the installable file
+        while !diff -ur "$1" "$2" >/dev/null 2>&1; do
+            # Prompt user for action.
+            printf "Wrong source file found for:\n$2\n"
+            printf "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] "
+            read COMMAND
 
-                if [ -z "$COMMAND" ]; then
-                    COMMAND=d
-                fi
+            if [ -z "$COMMAND" ]; then
+                COMMAND=d
+            fi
 
-                case "$COMMAND" in
-                    [dD])
-                        printf "$2\n"; diff -u "$2" "$1" | less
-                        ;;
-                    [oO])
-                        $3 cp -r "$1" "$2" || printf "Failed to delete $2" 1>&2
-                        break
-                        ;;
-                    [kK])
-                        break
-                        ;;
-                    ?)
-                        printf "d - show diff between current and repo file\n"
-                        printf "o - overwrite current file with repo symlink\n"
-                        printf "k - keep the current file\n"
-                        printf "? - this help\n"
-                        ;;
-                esac
-            done
+            case "$COMMAND" in
+                [dD])
+                    diff -ur "$2" "$1" | less
+                    ;;
+                [oO])
+                    # Attempt to copy over. See sudo note at top of file.
+                    cmd="cp -r -- \"$1\" \"$2\""
+                    cmd+=" && sudo -u \#$UID touch success"
 
+                    # $3 contains optional sudo command
+                    $3 sh -c "$cmd"
+                    if [ -f success ]; then
+                        rm success
+                    else
+                        printf "Failed to update $2\n" 1>&2
+                    fi
+                    break
+                    ;;
+                [kK])
+                    break
+                    ;;
+                ?)
+                    printf "d - show diff between current and repo file\n"
+                    printf "o - overwrite current file with repo symlink\n"
+                    printf "k - keep the current file\n"
+                    printf "? - this help\n"
+                    ;;
+            esac
+        done
+    elif [ ! -e "$2" ]; then
+        # Attempt to copy over. See sudo note at top of file.
+        cmd="cp -r -- \"$1\" \"$2\""
+        cmd+=" && sudo -u \#$UID touch success"
+
+        # $3 contains optional sudo command
+        $3 sh -c "$cmd"
+        if [ -f success ]; then
+            rm success
         else
-            printf "Error installing $2, file or directory already exists."
+            printf "Failed to copy to $2\n" 1>&2
         fi
     else
-        $3 cp -r "$1" "$2"
+        printf "$2 already exists and is not a file or directory!\n" 1>&2
     fi
 }
 
-sudo_install_config () { install_config "$1" "$2" "sudo -n" }
+sudo_install_config ()
+{
+    install_config "$1" "$2" "sudo -n sh -c"
+}
 
 install_repo ()
 {
@@ -156,7 +212,7 @@ install_repo ()
 }
 
 for link in dotfiles/*; do
-    link_file_or_directory "$(pwd)/$link" "$HOME/.${link##*/}"
+    symlink_config "$(pwd)/$link" "$HOME/.${link##*/}"
 done
 
 for install_script in install/*/install.sh; do
