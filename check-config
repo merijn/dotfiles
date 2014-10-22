@@ -6,18 +6,36 @@ set -e
 trap 'printf "$FILE:$FUNCNAME:$LINENO: $_\n" 1>&2' ERR
 trap 'rm -f success' EXIT
 
+# Simple helper functions to avoid excessively long lines when checking for
+# loaded launchd plists
+list_loaded ()
+{
+    launchctl list $1 >/dev/null 2>&1
+}
+
+sudo_list_loaded ()
+{
+    sudo -p "Enter password to query launchd about $1:" \
+        sh -c "launchctl list $1 >/dev/null 2>&1"
+}
+
+
 # Install a symlink to a config file
 symlink_config ()
 {
+    local src="$1"
+    local dst="$2"
     updated=0
+    shift 2
+
     # If the correct symlink already exists, do nothing.
-    if [ -L "$2" ] && [ "$1" = "$(readlink "$2")" ]; then
+    if [ -L "$dst" ] && [ "$src" = "$(readlink "$dst")" ]; then
         return 0
     # If the target is the correct file type OR a symlink to the wrong file
-    elif [ -f "$1" -a -f "$2" ] || [ -d "$1" -a -d "$2" ] || [ -L "$2" ]; then
+    elif [ -f "$src" -a -f "$dst" ] || [ -d "$src" -a -d "$dst" ] || [ -L "$dst" ]; then
         while true; do
             # Prompt user for action
-            printf "Wrong source file found for:\n$2\n"
+            printf "Wrong source file found for:\n$dst\n"
             printf "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] "
             read COMMAND
 
@@ -28,21 +46,21 @@ symlink_config ()
             case "$COMMAND" in
                 [dD])
                     # Check the symlink target
-                    if [ -L "$2" ]; then
-                        printf "$2\nLinks to:\n$(readlink "$2")\n%s"
-                                "Should link to:\n$1\n"
+                    if [ -L "$dst" ]; then
+                        printf "$dst\nLinks to:\n$(readlink "$dst")\n%s"
+                                "Should link to:\n$src\n"
                     # Diff the files
                     else
-                        diff -ur "$2" "$1" | less
+                        diff -ur "$dst" "$src" | less
                     fi
                     ;;
                 [oO])
-                    # Try to overwrite the file. $3 contains optional sudo
+                    # Try to overwrite the file. $@ contains optional sudo
                     # command.
-                    if $3 rm -- "$2" && $3 ln -s -- "$1" "$2"; then
+                    if "$@" rm -- "$dst" && "$@" ln -s -- "$src" "$dst"; then
                         updated=1
                     else
-                        printf "Failed to resymlink $2\n" 1>&2
+                        printf "Failed to resymlink $dst\n" 1>&2
                     fi
 
                     printf "\n"
@@ -62,33 +80,37 @@ symlink_config ()
 
             printf "\n"
         done
-    elif [ ! -e "$2" ]; then
-        # The destination doesn't exists, so try to symlink it. $3 contains
+    elif [ ! -e "$dst" ]; then
+        # The destination doesn't exists, so try to symlink it. $@ contains
         # optional sudo command.
-        if $3 ln -s -- "$1" "$2"; then
+        if "$@" ln -s -- "$src" "$dst"; then
             updated=1
         else
-            printf "Failed to symlink $2\n" 1>&2
+            printf "Failed to symlink $dst\n" 1>&2
         fi
     else
-        printf "$2 already exists and is not a file, directory or symlink!\n" 1>&2
+        printf "$dst already exists and is not a file, directory or symlink!\n" 1>&2
     fi
 }
 
 sudo_symlink_config ()
 {
-    symlink "$1" "$2" "sudo -p \"Enter password to symlink $2:\""
+    symlink "$1" "$2" sudo -p "\"Enter password to symlink $2:\""
 }
 
 install_config ()
 {
+    local src="$1"
+    local dst="$2"
     updated=0
+    shift 2
+
     # If the target is the correct file type
-    if [ -f "$1" -a -f "$2" ] || [ -d "$1" -a -d "$2" ]; then
+    if [ -f "$src" -a -f "$dst" ] || [ -d "$src" -a -d "$dst" ]; then
         # As long as the file doesn't match the installable file
-        while ! diff -ur "$1" "$2" >/dev/null 2>&1; do
+        while ! diff -ur "$src" "$dst" >/dev/null 2>&1; do
             # Prompt user for action.
-            printf "Wrong source file found for:\n$2\n"
+            printf "Wrong source file found for:\n$dst\n"
             printf "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] "
             read COMMAND
 
@@ -98,14 +120,14 @@ install_config ()
 
             case "$COMMAND" in
                 [dD])
-                    diff -ur "$2" "$1" | less
+                    diff -ur "$dst" "$src" | less
                     ;;
                 [oO])
-                    # Attempt to copy over. $3 contains optional sudo command.
-                    if $3 cp -r -- "$1" "$2"; then
+                    # Attempt to copy over. $@ contains optional sudo command.
+                    if "$@" cp -r -- "$src" "$dst"; then
                         updated=1
                     else
-                        printf "Failed to update $2\n" 1>&2
+                        printf "Failed to update $dst\n" 1>&2
                     fi
 
                     printf "\n"
@@ -125,21 +147,21 @@ install_config ()
 
             printf "\n"
         done
-    elif [ ! -e "$2" ]; then
-        # Attempt to copy over. $3 contains optional sudo command.
-        if $3 cp -r -- "$1" "$2"; then
+    elif [ ! -e "$dst" ]; then
+        # Attempt to copy over. $@ contains optional sudo command.
+        if "$@" cp -r -- "$src" "$dst"; then
             updated=1
         else
-            printf "Failed to copy to $2\n" 1>&2
+            printf "Failed to copy to $dst\n" 1>&2
         fi
     else
-        printf "$2 already exists and is not a file or directory!\n" 1>&2
+        printf "$dst already exists and is not a file or directory!\n" 1>&2
     fi
 }
 
 sudo_install_config ()
 {
-    install_config "$1" "$2" "sudo -p \"Enter password to install $2:\""
+    install_config "$1" "$2" sudo -p "Enter password to install $2:"
 }
 
 install_repo ()
