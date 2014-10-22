@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+shopt -s nullglob
+
+for dir in "$@"; do
+    for path in "$dir"/*; do
+        file="$(basename "$path")"
+        logdate=${file%%.*}
+        prettydate="$(date -j -f %Y%m%d%H%M $logdate "+%H:%M %d-%m-%Y")"
+        program=${file%.*}
+        program=${program#*.}
+        class=${file##*.}
+
+        cat - "$path" <<<"$prettydate" | \
+            /usr/local/bin/growlnotify -s -n "$program" "$program $class" && \
+            rm -- "$path"
+    done
+done
