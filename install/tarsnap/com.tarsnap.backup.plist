@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
+"http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.tarsnap.backup</string>
+
+    <key>UserName</key>
+    <string>root</string>
+
+    <key>GroupName</key>
+    <string>wheel</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Library/Application Support/Tarsnap/backup</string>
+        <string>keys</string>
+        <string>/Users/merijn/.ssh/ /Users/merijn/Library/Keychains</string>
+        <string>config</string>
+        <string>/Users/merijn/.dotfiles/</string>
+        <string>projects</string>
+        <string>/Users/merijn/projects</string>
+        <string>documents</string>
+        <string>/Users/merijn/Dropbox/Documents</string>
+    </array>
+
+    <key>EnableGlobbing</key>
+    <false/>
+
+    <key>WorkingDirectory</key>
+    <string>/Library/Application Support/Tarsnap/</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Library/Application Support/Tarsnap/err.log</string>
+
+    <key>StandardOutPath</key>
+    <string>/Library/Application Support/Tarsnap/out.log</string>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>12</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+</dict>
+</plist>
