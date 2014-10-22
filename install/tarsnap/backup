@@ -16,8 +16,7 @@ if [ $(($# % 2)) -ne 0 ]; then
 fi
 
 while [ $# -gt 0 ]; do
-    bin/tarsnap -c -f "$1-$logdate" $2 &
-    wait
+    bin/tarsnap -c -f "$1-$logdate" $2 & wait $!
     status=$?
 
     if [ $status -ne 0 ] && [ $interrupted -ne 0 ]; then
