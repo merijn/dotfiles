@@ -168,7 +168,7 @@
 	<key>FontWidthSpacing</key>
 	<real>0.99596774193548387</real>
 	<key>ProfileCurrentVersion</key>
-	<real>2.02</real>
+	<real>2.04</real>
 	<key>ScrollbackLines</key>
 	<integer>0</integer>
 	<key>SelectionColor</key>
@@ -205,6 +205,8 @@
 	</data>
 	<key>UseBrightBold</key>
 	<true/>
+	<key>VisualBell</key>
+	<false/>
 	<key>WindowTitle</key>
 	<string></string>
 	<key>deleteSendsBackspace</key>
