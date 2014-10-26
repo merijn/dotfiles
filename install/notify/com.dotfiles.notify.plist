@@ -10,11 +10,13 @@
     <array>
         <string>/Library/Application Support/Dotfiles/notify</string>
         <string>/Library/Application Support/Tarsnap/errors/</string>
+        <string>/Library/Application Support/Dotfiles/messages/</string>
     </array>
 
     <key>QueueDirectories</key>
     <array>
         <string>/Library/Application Support/Tarsnap/errors/</string>
+        <string>/Library/Application Support/Dotfiles/messages/</string>
     </array>
 
     <key>WorkingDirectory</key>

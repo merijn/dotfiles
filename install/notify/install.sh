@@ -12,6 +12,7 @@ if ! [ -d "$notify_dir" ]; then
     sudo -p "Enter password to create $notify_dir:" mkdir "$notify_dir"
     sudo chown $UID "$notify_dir"
     chmod 700 "$notify_dir"
+    mkdir -p "$notify_dir/notifications"
 fi
 
 # Copy over the relevant shell scripts
