@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+logdate=$(date +%Y%m%d%H%M)
+trap 'mv ${logdate}.MacPorts.Notification notifications/ 2>/dev/null' EXIT
+
+port selfupdate
+count=$(port -q installed outdated | wc -l | awk '{print $1}')
+printf "$count new ports available:\n" >>${logdate}.MacPorts.Notification
+port -q installed outdated >>${logdate}.MacPorts.Notification
