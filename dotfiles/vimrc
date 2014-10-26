@@ -1,5 +1,4 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set nocompatible                "Turn off vi compatibility
 set langmenu=none               "Set all the menu's to use English
 if &t_Co >= 256 || has("gui_running")
     colorscheme delph256        "Use custom 256 colour scheme
