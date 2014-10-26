@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Show bottom status bar with available space in finder
+defaults write com.apple.finder ShowStatusBar -bool true
+
+# Show full posix path in Finder title bars
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+
+# Disable the warning before emptying the Trash
+defaults write com.apple.finder WarnOnEmptyTrash -bool false
+
+# Expand save panel by default
+defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+
+# Don't create .DS_Store on network volumes
+defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+
+# Expand print panel by default
+defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+
+# Disable smart quotes as it’s annoying for messages that contain code
+defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
