@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <root>
     <appdef>
-        <appname>Terminal</appname>
-        <equal>com.apple.Terminal</equal>
+        <appname>Chrome</appname>
+        <equal>com.google.Chrome</equal>
     </appdef>
 
     <item>
@@ -44,13 +44,13 @@
         </autogen>
     </item>
     <item>
-        <name>Fn is always Control in Terminal</name>
+        <name>Fix Fn to work with Chrome URL autocomplete deletion</name>
         <identifier>private.fn2ctrlterminal</identifier>
-        <only>Terminal</only>
+        <only>Chrome</only>
         <autogen>
             --KeyToKey--
-            KeyCode::FN,
-            KeyCode::CONTROL_L
+            KeyCode::DELETE, ModifierFlag::CONTROL_L | ModifierFlag::SHIFT_L,
+            KeyCode::DELETE, ModifierFlag::FN | ModifierFlag::SHIFT_L
         </autogen>
     </item>
 </root>
