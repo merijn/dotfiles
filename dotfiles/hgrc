@@ -48,6 +48,7 @@ vimdiff.args = -f $local $other
 [alias]
 qrecord = qnew -i
 qstatus = status --rev -2:.
+qmove = qpush --move
 vlog = log --style $HOME/.hg-styles/vlog.style
 vglog = glog --style $HOME/.hg-styles/vlog.style
 show = log --style $HOME/.hg-styles/vlog.style -r
