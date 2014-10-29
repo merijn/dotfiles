@@ -1,6 +1,6 @@
 changeset_quiet = '{long}\n'
 changeset = '{long}\n{file_changes}\n'
-changeset_verbose ='{long}description:\n{desc|fill76}\n\n{file_changes}\n'
+changeset_verbose ='{long}\ndescription:\n{desc|fill76}\n\n{file_changes}\n'
 
 long = long.style
 
