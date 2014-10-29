@@ -1,34 +1,12 @@
-EDITOR=vim
-PAGER=less
-LESSHISTFILE=-
-GREP_OPTIONS="--colour=auto"
-PATH=$HOME/opt/bin:$HOME/.bin:$PATH
-PROMPT_COMMAND="history -n; history -a"
-TMUX_COMMAND="bash"
-export EDITOR PAGER LESSHISTFILE GREP_COLOR PATH PROMPTCOMMAND TMUX_COMMAND
+# Read and set standard paths and environment variables
+[ -f ~/.bash_env ] && . ~/.bash_env
 
-# Read local overrides, if any. (i.e. for PATH, MANPATH, SNET_*, etc.)
-[ -f ~/.profile_local ] && . ~/.profile_local
-
-if [ "$(uname)" = "Darwin" ]; then
-    TMUX_COMMAND="reattach-to-user-namespace bash"
-    PATH=$HOME/Library/Haskell/bin:/opt/local/bin:/opt/local/sbin:$PATH
-    MANPATH=/opt/local/share/man:$MANPATH
-    LC_ALL=en_US.UTF-8
-    LANG=en_US.UTF-8
-
-    export MANPATH LC_ALL LANG
-fi
-
-# If the XYZZY variable (declared in .bashrc) is not defined, source .bashrc.
-# This prevents recursion when .profile is sourced from .bashrc to set paths in
-# non-interactive, non-login shells.
-if [ "$XYZZY" != "xyzzy" ]; then
-    . ~/.bashrc
-fi
-
-# Exit if the shell is non-interactive
-[ -z "$PS1" ] && return 0
+# Interactive bash have 'i' in $-, don't run rest of script for non-interactive
+# login shells.
+case $- in
+    *i*) ;;
+    *) return 0;;
+esac
 
 case $TERM in
     cons*)
@@ -84,7 +62,7 @@ export ESCAPE
 
 if [ $(which tmux | wc -l) -eq 1 ]; then
     ESCAPE=`expr $ESCAPE : "\(..\)"`
-    tmux attach && exit || tmux new "$TMUX_COMMAND" && exit
+    tmux attach && exit || tmux new "$TMUX_CMD" && exit
 elif [ $(which screen | wc -l) -eq 1 ]; then
     if [ $(screen -ls | grep "\(No Sockets found in\)" | wc -l) -eq 1 ]; then
         screen -e $ESCAPE && exit
