@@ -52,6 +52,15 @@ hi Special                  ctermfg=130     guifg=#AF5F00
     hi link Tag             Special
 
 hi SpecialKey               ctermfg=1       guifg=#BB0000
+" Spelling error
+hi SpellBad         cterm=reverse   ctermbg=9       gui=reverse     guibg=#FF5555
+" Capitalisation error
+hi SpellCap         cterm=reverse   ctermbg=12      gui=reverse     guibg=#5555FF
+" Wrong language
+hi SpellLocal       cterm=reverse   ctermbg=14      gui=reverse     guibg=#55FFFF
+" Uncommon word
+hi SpellRare        cterm=reverse   ctermbg=13      gui=reverse     guibg=#FF55FF
+
 hi Statement                ctermfg=130     guifg=#AF5F00
     hi link Conditional     Statement
     hi link Exception       Statement
