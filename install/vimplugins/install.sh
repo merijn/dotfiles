@@ -9,6 +9,7 @@ install_repo "$bundle_dir" "git+ssh://git@github.com/kien/rainbow_parentheses.vi
 install_repo "$bundle_dir" "git+ssh://git@github.com/scrooloose/syntastic.git"
 install_repo "$bundle_dir" "git+ssh://git@github.com/majutsushi/tagbar.git"
 install_repo "$bundle_dir" "git+ssh://git@github.com/bitc/vim-hdevtools.git"
+install_repo "$bundle_dir" "git+ssh://git@github.com:Twinside/vim-hoogle.git"
 install_repo "$bundle_dir" "git+ssh://git@github.com/tpope/vim-pathogen.git"
 install_repo "$bundle_dir" "git+ssh://git@github.com/tpope/vim-surround.git"
 install_repo "$bundle_dir" "git+ssh://git@github.com:def-lkb/vimbufsync.git"
