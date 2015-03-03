@@ -1,6 +1,5 @@
 :set prompt "λ "
 :set -w
-:set -optP-include -optPdist/build/autogen/cabal_macros.h
 
 :seti -XConstraintKinds
 :seti -XDeriveDataTypeable
