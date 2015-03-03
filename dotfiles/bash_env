@@ -19,7 +19,7 @@ if [ "$(uname)" = "Darwin" ]; then
     PATH="/Library/Application Support/Tarsnap/bin:$PATH"
 
     TMUX_CMD="reattach-to-user-namespace bash"
-    export LANG LC_ALL MANPATH
+    export LANG LC_ALL MANPATH DYLD_LIBRARY_PATH
 fi
 
 # Read and set any machine local overrides
