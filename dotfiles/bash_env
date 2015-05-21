@@ -17,6 +17,11 @@ if [ "$(uname)" = "Darwin" ]; then
     PATH="$HOME/Library/Haskell/bin:/opt/local/bin:/opt/local/sbin:$PATH"
     PATH="/Library/Application Support/Tarsnap/bin:$PATH"
 
+    GHC_DOT_APP="/Applications/ghc-7.10.1.app"
+    if [ -d "$GHC_DOT_APP" ]; then
+        PATH="${GHC_DOT_APP}/Contents/bin:${PATH}"
+    fi
+
     TMUX_CMD="reattach-to-user-namespace bash"
     export LANG LC_ALL MANPATH DYLD_LIBRARY_PATH
 fi
