@@ -8,63 +8,71 @@ case $- in
     *) return 0;;
 esac
 
-case $TERM in
-    cons*)
-        if [ `id -u` -ne 0 ]; then
-            [ $(which startx | wc -l) -eq 1 ] && startx && exit
-        else
-            if [ $(which tmux | wc -l) -eq 1\
-                  -o $(which screen | wc -l) -eq 1 ]; then
+set_escape() {
+    case $TERM in
+        cons*)
+            if [ `id -u` -ne 0 ]; then
+                [ $(which startx | wc -l) -eq 1 ] && startx && exit
+            else
+                if [ $(which tmux | wc -l) -eq 1\
+                    -o $(which screen | wc -l) -eq 1 ]; then
 
-                printf "Start tmux/screen? (y/n) "
+                    printf "Start tmux/screen? (y/n) "
+                    read ESCAPE
+
+                    [ "$ESCAPE" = "n" ] && return 0
+                fi
+            fi
+
+            ESCAPE=^Dd
+            ;;
+
+        screen*)
+            while true; do
+                printf "%s\n"\
+                "Running a new screen/tmux inside a screen/tmux session. Enter "\
+                "an escape sequence for the new session (format: ^Dd) or \"None\""\
+                "to stop starting screen: "
+
                 read ESCAPE
 
-                [ "$ESCAPE" = "n" ] && return 0
-            fi
-        fi
+                if [ -z "$ESCAPE" ]; then
+                    ESCAPE=^Dd
+                    break
+                fi
 
-        ESCAPE=^Dd
-        ;;
+                case $ESCAPE in
+                    ^[A-Z][a-z])
+                        if [ "${ESCAPE:1:1}" = $(echo "${ESCAPE:2:1}" | tr '[a-z]' '[A-Z]') ]; then
+                            break
+                        fi
+                        ;;
+                    [Nn][Oo][Nn][Ee])
+                        return 0
+                        ;;
+                esac
+            done
+            ;;
 
-    screen*)
-        while true; do
-            printf "%s\n"\
-            "Running a new screen/tmux inside a screen/tmux session. Enter "\
-            "an escape sequence for the new session (format: ^Dd) or \"None\""\
-            "to stop starting screen: "
+        xterm*)
+            ESCAPE=^Dd
+            ;;
+    esac
 
-            read ESCAPE
-
-            if [ -z "$ESCAPE" ]; then
-                ESCAPE=^Dd
-                break
-            fi
-
-            case $ESCAPE in
-                ^[A-Z][a-z])
-                    if [ "${ESCAPE:1:1}" = $(echo "${ESCAPE:2:1}" | tr '[a-z]' '[A-Z]') ]; then
-                        break
-                    fi
-                    ;;
-                [Nn][Oo][Nn][Ee])
-                    return 0
-                    ;;
-            esac
-        done
-        ;;
-
-    xterm*)
-        ESCAPE=^Dd
-        ;;
-esac
-
-export ESCAPE
+    export ESCAPE
+}
 
 if [ $(which tmux | wc -l) -eq 1 ]; then
-    ESCAPE=`expr $ESCAPE : "\(..\)"`
-    tmux attach && exit || tmux new "$TMUX_CMD" && exit
+    if ! tmux attach; then
+        set_escape
+        ESCAPE=`expr $ESCAPE : "\(..\)"`
+        tmux new "$TMUX_CMD" && exit
+    else
+        exit
+    fi
 elif [ $(which screen | wc -l) -eq 1 ]; then
     if [ $(screen -ls | grep "\(No Sockets found in\)" | wc -l) -eq 1 ]; then
+        set_escape
         screen -e $ESCAPE && exit
     else
         screen -DRR && exit
