@@ -6,7 +6,6 @@ PAGER=less
 PATH=$HOME/opt/bin:$HOME/.bin:$PATH
 PROMPT_CMD="history -n; history -a"
 TMUX_CMD="bash"
-export BASH_ENV EDITOR GREP_OPTIONS LESSHISTFILE PAGER PATH PROMPT_CMD TMUX_CMD
 
 if [ "$(uname)" = "Darwin" ]; then
     LANG=en_US.UTF-8
@@ -25,7 +24,4 @@ fi
 # Read and set any machine local overrides
 [ -f ~/.bash_env_local ] && . ~/.bash_env_local
 
-# Interactive bash have 'i' in $-, only source ~/.bashrc for interactive shells
-case $- in
-    *i*) [ -f ~/.bashrc ] && . ~/.bashrc
-esac
+export BASH_ENV EDITOR GREP_OPTIONS LESSHISTFILE PAGER PATH PROMPT_CMD TMUX_CMD

@@ -1,10 +1,10 @@
 # Read and set standard paths and environment variables
 [ -f ~/.bash_env ] && . ~/.bash_env
 
-# Interactive bash have 'i' in $-, don't run rest of script for non-interactive
-# login shells.
+# Interactive bash have 'i' in $-, load .bashrc for interactive scripts. Don't
+# run rest of script for non-interactive login shells.
 case $- in
-    *i*) ;;
+    *i*) [ -f ~/.bashrc ] && . ~/.bashrc;;
     *) return 0;;
 esac
 
