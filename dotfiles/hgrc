@@ -9,6 +9,7 @@ merge = vimdiff
 style = $HOME/.hg-styles/log.style
 
 [extensions]
+extdiff =
 # Enable fetch extension which acts as "hg pull -u && hg merge && hg commit"
 fetch =
 # Enable purge extension which nukes any non-tracked file.
@@ -45,6 +46,12 @@ delay = 1.5
 [merge-tools]
 vimdiff.args = -f $local $other
 
+[extdiff]
+# if cwdiff is in your path, otherwise set to wherever you've installed cwdiff
+cmd.wdiff = cwdiff
+#add --no-color below, if you dislike colors!
+opts.wdiff = --diff --ab
+
 [alias]
 qrecord = qnew -i
 qstatus = status --rev -2:.
@@ -57,7 +64,7 @@ ppush = push --mq
 [pager]
 pager = LESS='FSRX' less
 attend = annotate, bookmarks, cat, diff, glog, grep, heads, help, incoming,
-         log, outgoing, qdiff, show, status, vglog, vlog
+         log, outgoing, qdiff, show, status, vglog, vlog, wdiff
 
 [color]
 changeset.secret = red
