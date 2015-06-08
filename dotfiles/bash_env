@@ -3,7 +3,6 @@ EDITOR=vim
 GREP_OPTIONS="--colour=auto"
 LESSHISTFILE=-
 PAGER=less
-PATH=$HOME/opt/bin:$HOME/.bin:$PATH
 PROMPT_CMD="history -n; history -a"
 TMUX_CMD="bash"
 
@@ -25,6 +24,8 @@ if [ "$(uname)" = "Darwin" ]; then
     TMUX_CMD="reattach-to-user-namespace bash"
     export LANG LC_ALL MANPATH DYLD_LIBRARY_PATH
 fi
+
+PATH=$HOME/opt/bin:$HOME/.bin:$PATH
 
 # Read and set any machine local overrides
 [ -f ~/.bash_env_local ] && . ~/.bash_env_local
