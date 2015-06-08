@@ -50,7 +50,7 @@ vimdiff.args = -f $local $other
 # if cwdiff is in your path, otherwise set to wherever you've installed cwdiff
 cmd.wdiff = cwdiff
 #add --no-color below, if you dislike colors!
-opts.wdiff = --diff --ab
+opts.wdiff = --diff
 
 [alias]
 qrecord = qnew -i
