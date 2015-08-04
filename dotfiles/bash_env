@@ -14,7 +14,8 @@ if [ "$(uname)" = "Darwin" ]; then
     MANPATH="/Library/Application Support/Tarsnap/share/man:$MANPATH"
 
     PATH="$HOME/Library/Haskell/bin:/opt/local/bin:/opt/local/sbin:$PATH"
-    PATH="/Library/Application Support/Tarsnap/bin:$PATH"
+    PATH="/Library/Application Support/Tarsnap/bin:$HOME/opt/j64-803/bin:$PATH"
+    PATH="/Applications/Racket\ v6.1.1/bin/:$PATH"
 
     GHC_DOT_APP="/Applications/ghc-7.10.1.app"
     if [ -d "$GHC_DOT_APP" ]; then
