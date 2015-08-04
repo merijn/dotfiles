@@ -3,7 +3,7 @@ bundle_dir="$HOME/.vim/bundle"
 
 install_repo "$bundle_dir" "git+https://github.com/trefis/coquille.git"
 install_repo "$bundle_dir" "git+https://github.com/kien/ctrlp.vim.git"
-install_repo "$bundle_dir" "https://bitbucket.org/sjl/gundo.vim"
+install_repo "$bundle_dir" "ssh://hg@bitbucket.org/sjl/gundo.vim"
 install_repo "$bundle_dir" "git+https://github.com/merijn/haskellFoldIndent.git"
 install_repo "$bundle_dir" "git+https://github.com/kien/rainbow_parentheses.vim.git"
 install_repo "$bundle_dir" "git+https://github.com/scrooloose/syntastic.git"
