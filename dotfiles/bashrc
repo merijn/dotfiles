@@ -93,3 +93,6 @@ mq () {
         hg -R $(hg root)/.hg/patches-$queue $*
     fi
 }
+
+# Read and set any machine local overrides
+[ -f ~/.bashrc_local ] && . ~/.bashrc_local
