@@ -13,6 +13,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
     TITLEBAR="\[\e]0;\u@\h:\w\007\]" # Sets titlebar of xterm/PuTTy to \u@\h:\w
     CAPTION="\[\e]0;\w\007\]"        # Sets screen status bar to CWD
     JOBS="\[\e[0;36m\]"              # Bright cyan, no. of background jobs
+    EXIT="\[\e[0;31m\]"              # Bright red, error exit code
     TIME="\[\e[1;37m\]"              # Bright white, clock colours
     CWD="\[\e[1;34m\]"               # Pale blue, top directory
     CLEAR="\[\e[0m\]"                # Clear colour changes
@@ -23,8 +24,14 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
         USERCOLOR="\[\e[0;32m\]"     # Green otherwise
     fi
 
+    prompt_status ()
+    {
+        [ $? = 0 ] && return
+        echo -n " $?"
+    }
+
     # Default prompt (for TMUX)
-    PS1="$USERCOLOR\u $CWD\W $JOBS\j$CLEAR\$ "
+    PS1="$USERCOLOR\u $CWD\W $JOBS\j$EXIT\$(prompt_status)$CLEAR\$ "
 
     if [[ $TERM =~ cons* ]]; then
         # Prompt when running on console
@@ -60,6 +67,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
         if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
             . /opt/local/etc/profile.d/bash_completion.sh
         fi
+        alias make="make -j`sysctl -n hw.ncpu`"
     elif [ "$(uname)" = "FreeBSD" ]; then
         alias rm='rm -rI' # (Recursively) delete and ask confirmation for >3 files
         if [ -f /usr/local/etc/bash_completion ]; then
@@ -70,6 +78,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
             . /usr/local/share/mercurial/contrib/bash_completion
         fi
     elif [ "$(uname)" = "Linux" ]; then
+        alias make="make -j`awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo`"
         alias ls='ls -F --color=auto'
         alias la='ls -aF --color=auto'
         alias ll='ls -lhoAF --color=auto'
@@ -95,4 +104,4 @@ mq () {
 }
 
 # Read and set any machine local overrides
-[ -f ~/.bashrc_local ] && . ~/.bashrc_local
+[ -f ~/.bashrc_local ] && . ~/.bashrc_local || true
