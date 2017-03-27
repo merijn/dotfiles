@@ -15,11 +15,12 @@ channels = (
   { name = "#haskell"; chatnet = "freenode"; autojoin = "yes"; },
   { name = "#haskell-blah"; chatnet = "freenode"; autojoin = "yes"; },
   { name = "#csa_uva"; chatnet = "freenode"; autojoin = "yes"; },
+  { name = "#haskell-beginners"; chatnet = "freenode"; autojoin = "yes"; },
+  { name = "#haskell-offtopic"; chatnet = "freenode"; autojoin = "yes"; }
   { name = "#haskell-infrastructure"; chatnet = "freenode"; autojoin = "yes"; }
   { name = "#ghc"; chatnet = "freenode"; autojoin = "yes"; }
   { name = "#haskell-lens"; chatnet = "freenode"; autojoin = "yes"; }
   { name = "#numerical-haskell"; chatnet = "freenode"; autojoin = "yes"; }
-  { name = "#oplss"; chatnet = "freenode"; autojoin = "yes"; }
 );
 
 aliases = {
@@ -81,11 +82,12 @@ windows = {
   2 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell"; }); };
   3 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-blah"; }); };
   4 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#csa_uva"; }); };
+  5 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-beginners"; }); };
+  6 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-offtopic"; }); };
   11 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#ghc"; } ); };
   12 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-infrastructure"; }); };
   13 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#numerical-haskell"; } ); };
   14 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-lens"; } ); };
-  15 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#oplss"; } ); };
 };
 
 mainwindows = { 1 = { first_line = "1"; lines = "44"; }; };
