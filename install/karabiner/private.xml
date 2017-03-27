@@ -53,4 +53,10 @@
             KeyCode::DELETE, ModifierFlag::FN | ModifierFlag::SHIFT_L
         </autogen>
     </item>
+    <item>
+        <name>Map Page Up/Down to Arrows</name>
+      <identifier>remap.presentation</identifier>
+      <autogen>__KeyToKey__ KeyCode::PAGEUP,  KeyCode::CURSOR_LEFT</autogen>
+      <autogen>__KeyToKey__ KeyCode::PAGEDOWN, KeyCode::CURSOR_RIGHT</autogen>
+    </item>
 </root>
