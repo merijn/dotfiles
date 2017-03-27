@@ -16,7 +16,7 @@ fetch =
 purge =
 # Enable hg-git extension which allows interaction with git
 bookmarks =
-hggit =
+hggit = $HOME/src/hg-git/hggit
 # Enable colorized diffs
 color =
 # Enable paging
@@ -60,6 +60,10 @@ vlog = log --style $HOME/.hg-styles/vlog.style
 vglog = glog --style $HOME/.hg-styles/vlog.style
 show = log --style $HOME/.hg-styles/vlog.style -r
 ppush = push --mq
+clonedas = clone --remotecmd=/home/mverstra/opt/python/bin/hg
+pulldas = pull --remotecmd=/home/mverstra/opt/python/bin/hg
+pushdas = push --remotecmd=/home/mverstra/opt/python/bin/hg
+strip-obsolete = strip --hidden -r 'extinct()'
 
 [pager]
 pager = LESS='FSRX' less
