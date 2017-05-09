@@ -34,6 +34,7 @@ record =
 # Mutable changesets
 rebase =
 histedit =
+convert =
 evolve = $HOME/src/mutable-history/hgext/evolve.py
 
 [mq]
