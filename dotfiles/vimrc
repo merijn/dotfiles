@@ -148,6 +148,8 @@ command! ShowSyntax :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 
 call pathogen#infect()
+" Rebuild database of help tags so pathogen plugin help works.
+Helptags
 
 " Ctrl-P options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -247,3 +249,15 @@ augroup RainbowParentheses
     au Syntax * RainbowParenthesesLoadRound
     au Syntax * RainbowParenthesesLoadSquare
 augroup END
+
+" Supertab options
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:SuperTabDefaultCompletionType = '<c-x><c-o>'
+
+if has("gui_running")
+  imap <c-space> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
+else " no gui
+  if has("unix")
+    inoremap <Nul> <c-r>=SuperTabAlternateCompletion("\<lt>c-x>\<lt>c-o>")<cr>
+  endif
+endif
