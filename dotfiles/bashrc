@@ -59,8 +59,9 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
 
     # Commands (colon separated) not added to the history
     HISTIGNORE="fortune*" # Stop me from wasting time on fortune!
-    HISTCONTROL=ignorespace:erasedups
-    HISTFILESIZE=50000  # Keep 50000 lines of history
+    HISTCONTROL=ignoreboth:erasedups
+    HISTSIZE=1000000      # Number of history lines to keep
+    HISTFILESIZE=1000000  # Number of history lines to store
 
     # Set OS specific aliases and settings or overwrites
     if [ "$(uname)" = "Darwin" ]; then
@@ -83,6 +84,12 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
         alias la='ls -aF --color=auto'
         alias ll='ls -lhoAF --color=auto'
         alias lg='ls -lhoAF --color=auto | grep -i'
+    fi
+
+    if ! type ag; then
+        ag () {
+            grep -r $1 .
+        }
     fi
 fi
 

@@ -48,7 +48,7 @@ set_escape() {
                         fi
                         ;;
                     [Nn][Oo][Nn][Ee])
-                        return 0
+                        return 1
                         ;;
                 esac
             done
@@ -60,11 +60,14 @@ set_escape() {
     esac
 
     export ESCAPE
+    return 0
 }
 
 if [ $(which tmux | wc -l) -eq 1 ]; then
     if ! tmux attach; then
-        set_escape
+        if ! set_escape; then
+            return 0
+        fi
         ESCAPE=`expr $ESCAPE : "\(..\)"`
         tmux new "$TMUX_CMD" && exit
     else

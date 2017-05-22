@@ -3,7 +3,7 @@ EDITOR=vim
 GREP_OPTIONS="--colour=auto"
 LESSHISTFILE=-
 PAGER=less
-PROMPT_COMMAND="history -n; history -a"
+PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 TMUX_CMD="bash"
 
 if [ "$(uname)" = "Darwin" ]; then
@@ -27,4 +27,4 @@ PATH=$HOME/opt/bin:$HOME/.bin:$PATH:$HOME/ghc8/bin:$HOME/.cabal/bin/
 # Read and set any machine local overrides
 [ -f ~/.bash_env_local ] && . ~/.bash_env_local
 
-export BASH_ENV EDITOR GREP_OPTIONS LESSHISTFILE PAGER PATH PROMPT_COMMAND TMUX_CMD
+export BASH_ENV EDITOR GREP_OPTIONS LESSHISTFILE PAGER PATH TMUX_CMD
