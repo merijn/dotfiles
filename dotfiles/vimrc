@@ -206,6 +206,23 @@ function! GetNextSyntasticError(next)
     endif
 endfunction
 
+function! FindSyntasticConfig(file, where)
+    let cfg = findfile(a:file, escape(a:where, ' ') . ';')
+    if cfg ==# ''
+        return []
+    endif
+
+    let lines = readfile(cfg)
+    " filter out empty lines and comments
+    call filter(lines, 'v:val !~# ''\v^(\s*#|$)''')
+
+    " remove leading and trailing spaces
+    call map(lines, 'substitute(v:val, ''\m^\s\+'', "", "")')
+    call map(lines, 'substitute(v:val, ''\m\s\+$'', "", "")')
+    call map(lines, 'syntastic#util#shescape(v:val)')
+    return lines
+endfunction
+
 let g:syntastic_error_list_is_open = 0
 function! ToggleSyntasticErrorList()
     if g:syntastic_error_list_is_open
