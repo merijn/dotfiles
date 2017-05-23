@@ -2,3 +2,4 @@ syntax: glob
 vim/.netrwhist
 bin/mvim
 irssi/default.theme
+dotfiles/vim/spell/*.add.spl
