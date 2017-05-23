@@ -58,10 +58,10 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
     set -o vi             # Set vi keybindings.
 
     # Commands (colon separated) not added to the history
-    HISTIGNORE="fortune*" # Stop me from wasting time on fortune!
-    HISTCONTROL=ignoreboth:erasedups
+    HISTIGNORE="fortune*:history*" # Stop me from wasting time on fortune!
+    HISTTIMEFORMAT='%H:%M ' # Fixes multiline command history
+    HISTCONTROL=ignorespace:erasedups
     HISTSIZE=1000000      # Number of history lines to keep
-    HISTFILESIZE=1000000  # Number of history lines to store
 
     # Set OS specific aliases and settings or overwrites
     if [ "$(uname)" = "Darwin" ]; then
@@ -86,7 +86,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
         alias lg='ls -lhoAF --color=auto | grep -i'
     fi
 
-    if ! type ag; then
+    if ! type ag 2>/dev/null; then
         ag () {
             grep -r $1 .
         }
