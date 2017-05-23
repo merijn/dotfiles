@@ -3,8 +3,6 @@ EDITOR=vim
 GREP_OPTIONS="--colour=auto"
 LESSHISTFILE=-
 PAGER=less
-PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
-TMUX_CMD="bash"
 
 if [ "$(uname)" = "Darwin" ]; then
     LANG=en_US.UTF-8
@@ -17,8 +15,6 @@ if [ "$(uname)" = "Darwin" ]; then
     PATH="/Library/Application Support/Tarsnap/bin:$HOME/opt/j64-803/bin:$PATH"
     PATH="/Applications/Racket\ v6.1.1/bin/:$PATH"
 
-    TMUX_CMD="reattach-to-user-namespace bash"
-
     export LANG LC_ALL MANPATH DYLD_LIBRARY_PATH
 fi
 
@@ -27,4 +23,4 @@ PATH=$HOME/opt/bin:$HOME/.bin:$PATH:$HOME/ghc8/bin:$HOME/.cabal/bin/
 # Read and set any machine local overrides
 [ -f ~/.bash_env_local ] && . ~/.bash_env_local
 
-export BASH_ENV EDITOR GREP_OPTIONS LESSHISTFILE PAGER PATH TMUX_CMD
+export BASH_ENV EDITOR GREP_OPTIONS LESSHISTFILE PAGER PATH

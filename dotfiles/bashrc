@@ -1,5 +1,7 @@
 # Settings for all shells
 # Set various aliases and functions
+PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
+
 alias grep='grep -I'
 alias hig='history | grep -i'
 alias ls='ls -FG'       # ls always shows colour and type (dir, link, etc)
@@ -86,7 +88,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
         alias lg='ls -lhoAF --color=auto | grep -i'
     fi
 
-    if ! type ag 2>/dev/null; then
+    if ! type ag >/dev/null 2>&1; then
         ag () {
             grep -r $1 .
         }
