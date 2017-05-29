@@ -12,6 +12,7 @@ TMUX_CMD="bash"
 if [ "$(uname)" = "Darwin" ]; then
     TMUX_CMD="reattach-to-user-namespace bash"
 fi
+export TMUX_CMD
 
 set_escape() {
     case $TERM in

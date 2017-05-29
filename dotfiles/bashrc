@@ -1,6 +1,6 @@
 # Settings for all shells
 # Set various aliases and functions
-PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
+PROMPT_COMMAND="$PROMPT_COMMAND"
 
 alias grep='grep -I'
 alias hig='history | grep -i'
@@ -71,6 +71,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
             . /opt/local/etc/profile.d/bash_completion.sh
         fi
         alias make="make -j`sysctl -n hw.ncpu`"
+        bind 'set completion-ignore-case on'
     elif [ "$(uname)" = "FreeBSD" ]; then
         alias rm='rm -rI' # (Recursively) delete and ask confirmation for >3 files
         if [ -f /usr/local/etc/bash_completion ]; then
