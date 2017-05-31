@@ -28,8 +28,9 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
 
     prompt_status ()
     {
-        [ $? = 0 ] && return
-        echo -n " $?"
+        local status=$?
+        [ $status = 0 ] && return
+        echo -n " $status"
     }
 
     # Default prompt (for TMUX)
