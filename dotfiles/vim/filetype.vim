@@ -4,6 +4,7 @@ if exists("did_load_filetypes")
 endif
 
 augroup filetypedetect
+  au! BufRead,BufNewFile *.rkt,*.rktl   setfiletype racket
   au! BufRead,BufNewFile *.bnf          setfiletype ebnf
   au! BufRead,BufNewFile *.ebnf         setfiletype ebnf
   au! BufRead,BufNewFile *.mcrl         setfiletype mcrl
