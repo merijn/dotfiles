@@ -1,6 +1,5 @@
 # Settings for all shells
 # Set various aliases and functions
-PROMPT_COMMAND="$PROMPT_COMMAND"
 
 alias grep='grep -I'
 alias hig='history | grep -i'
@@ -44,7 +43,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
         PS1="$CAPTION$PS1"
     elif [[ $TERM =~ screen* && ! $TMUX ]]; then
         # Prompt when running in a remote screen
-        PS1="$USERCOLOR\u@\h $CWD\W $JOBS\j$CLEAR\$ "
+        PS1="$USERCOLOR\u@\h $CWD\W $JOBS\j$EXIT\$(prompt_status)$CLEAR\$ "
     elif [[ ! $TMUX ]]; then
         # Set terminal titlebar to user@host:path for all other terminals
         PS1="$TITLEBAR$TIME\$(date "+%H:%M") $PS1"
@@ -53,7 +52,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
     # Set various shell options
     shopt -s no_empty_cmd_completion
     shopt -s nocaseglob   # * matches case insensitively
-    shopt -s histappend   # Append to .bash_history instead of overwriting
+    shopt -s extglob      # Enable extended bash patterns
     shopt -s histreedit   # Edit line on failed history substitution
     shopt -s cmdhist      # Multi-line command are stored multi-line in history
     shopt -s lithist      # Store multi-line history entries with s/;/\n
@@ -65,6 +64,54 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
     HISTTIMEFORMAT='%H:%M ' # Fixes multiline command history
     HISTCONTROL=ignorespace:erasedups
     HISTSIZE=1000000      # Number of history lines to keep
+    unset HISTFILE
+    if type sync_history >/dev/null 2>&1; then
+        last_cmd_no ()
+        {
+            last_cmd=$(HISTTIMEFORMAT='	' history 1)
+            if [ $? -eq 0 -a -n "$last_cmd" ]; then
+                last_cmd="${last_cmd##*( )}"
+                last_cmd="${last_cmd%%	*}"
+            else
+                last_cmd="0"
+            fi
+        }
+
+        last_cmd_no
+        prompt_command ()
+        {
+            local old="$last_cmd"
+            local reset=""
+            local newhist=""
+            last_cmd_no
+
+            if [ "$old" -ne "$last_cmd" ]; then
+                local cmd=$(HISTTIMEFORMAT='	' history 1)
+                cmd=${cmd##*	}
+                history -d $last_cmd
+                newhist="$(sync_history update $$ "$cmd")"
+                reset=$?
+                unset cmd
+            else
+                newhist="$(sync_history update $$)"
+                reset=$?
+            fi
+
+            if [ -n "$newhist" ]; then
+                history -r /dev/stdin <<<"$newhist"
+            fi
+
+            if [ $reset -eq 2 ]; then
+                history -cr "$HOME/.test_history"
+            fi
+            last_cmd_no
+        }
+        PROMPT_COMMAND="prompt_command; $PROMPT_COMMAND"
+        trap "sync_history deregister $$" EXIT
+    else
+        shopt -s histappend   # Append to .bash_history instead of overwriting
+    fi
+
 
     # Set OS specific aliases and settings or overwrites
     if [ "$(uname)" = "Darwin" ]; then

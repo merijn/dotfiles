@@ -1,24 +1,46 @@
 #include <errno.h>
-#include <stdio.h>
-#include <sys/select.h>
-#include <sys/stat.h>
+#include <pwd.h>
 #include <sys/socket.h>
 #include <sys/time.h>
+#include <sys/wait.h>
 #include <sys/un.h>
-#include <pwd.h>
-#include <stdlib.h>
 #include <unistd.h>
 
-#include <string>
-#include <utility>
-#include <memory>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <sstream>
 #include <unordered_map>
 
 using std::string;
 using std::runtime_error;
+
+#if defined(__GLIBC__)
+static size_t
+strlcpy(char *dst, const char *src, size_t siz)
+{
+    char *d = dst;
+    const char *s = src;
+    size_t n = siz;
+
+    /* Copy as many bytes as will fit */
+    if (n != 0 && --n != 0) {
+        do {
+            if ((*d++ = *s++) == 0)
+                break;
+        } while (--n != 0);
+    }
+
+    /* Not enough room in dst, add NUL and traverse rest of src */
+    if (n == 0) {
+        if (siz != 0)
+            *d = '\0';          /* NUL-terminate dst */
+        while (*s++)
+            ;
+    }
+
+    return static_cast<size_t>(s - src - 1);   /* count does not include NUL */
+}
+#endif
 
 const size_t max_size = 1000;
 
@@ -115,7 +137,9 @@ struct membuf : public std::streambuf {
     using openmode = std::ios_base::openmode;
     using ios_base = std::ios_base;
 
-    template <size_t Size> membuf(char (&array)[Size]) {
+    template <size_t Size>
+    membuf(char (&array)[Size])
+    {
         setp(array, array + Size - 2);
         std::fill_n(array, Size, 0);
     }
@@ -131,10 +155,10 @@ struct membuf : public std::streambuf {
     }
 
     pos_type seekpos(pos_type pos, openmode which = ios_base::out)
-    { return seekoff(pos, seekdir::beg, which); }
+    { return seekoff(pos, ios_base::beg, which); }
 
     pos_type
-    seekoff(off_type off, seekdir dir, openmode which = ios_base::out )
+    seekoff(off_type off, seekdir dir, openmode which = ios_base::out)
     {
         if ((which & ios_base::out) != ios_base::out) {
             return pos_type(off_type(-1));
@@ -143,16 +167,8 @@ struct membuf : public std::streambuf {
         off_type current = pptr() - pbase();
         off_type max = epptr() - pbase();
 
-        switch (dir) {
-            case seekdir::beg:
-                break;
-            case seekdir::end:
-                off = max - off;
-                break;
-            case seekdir::cur:
-                off = current + off;
-                break;
-        }
+        if (dir == ios_base::end) off = max - off;
+        else if (dir == ios_base::cur) off = current + off;
 
         if (off < 0 || off > max) return pos_type(off_type(-1));
         pbump(static_cast<int>(off - current));
@@ -247,6 +263,7 @@ class UnixSocket {
         } else if (static_cast<size_t>(ret) != buf->length + sizeof *buf) {
             throw FatalError("recvmsg(): Incorrect message length");
         }
+        received = true;
     }
 
     template<typename T>
@@ -296,10 +313,11 @@ class UnixSocket {
 using namespace std;
 
 class HistCache : virtual membuf, public ostream {
+    bool fresh;
     char array[max_size];
 
   public:
-    HistCache() : membuf(array), ostream(this) {}
+    HistCache() : membuf(array), ostream(this), fresh(true) {}
     ~HistCache();
 
     operator void*()
@@ -308,7 +326,12 @@ class HistCache : virtual membuf, public ostream {
     size_t length()
     { return static_cast<size_t>(tellp()); }
 
-    bool empty() { return length() == 0; }
+    bool is_new()
+    {
+        bool result = fresh;
+        fresh = false;
+        return result;
+    }
 
     bool should_reload()
     { return eof() || fail(); }
@@ -320,7 +343,7 @@ class HistCache : virtual membuf, public ostream {
 HistCache::~HistCache() {}
 
 static void __attribute__((noreturn))
-server(UnixSocket sock, ofstream history)
+server(UnixSocket sock, ofstream&& history)
 {
     int result;
     unordered_map<pid_t,HistCache> caches;
@@ -328,7 +351,7 @@ server(UnixSocket sock, ofstream history)
     Reply rep;
     Request *req = reinterpret_cast<Request*>(messageBuffer);
 
-    result = daemon(0, 1);
+    result = daemon(0, 0);
     if (result == -1) throw ErrnoFatal("daemon");
 
     while (1) {
@@ -343,33 +366,36 @@ server(UnixSocket sock, ofstream history)
                 result = gettimeofday(&time, nullptr);
                 if (result == -1) throw ErrnoFatal("gettimeofday");
 
-                /* Generate history entry */
-                //FIXME: optimise
-                stringstream buf;
-                buf << '#' << time.tv_sec << "\n" << req->payload << "\n";
-                string output = buf.str();
-                history << output;
-                history.flush();
+                if (req->length > 0) {
+                    /* Generate history entry */
+                    //FIXME: optimise
+                    stringstream buf;
+                    buf << '#' << time.tv_sec << "\n" << req->payload << "\n";
+                    string output = buf.str();
+                    history << output;
+                    history.flush();
 
-                /* Append to all histories */
-                for(auto it = caches.begin(); it != caches.end(); ) {
-                    it->second << output;
-                    /* Purge full/errored caches */
-                    if (it->second.should_reload()) {
-                        it = caches.erase(it);
-                    } else {
-                        ++it;
+                    /* Append to all histories */
+                    for(auto it = caches.begin(); it != caches.end(); ) {
+                        it->second << output;
+                        /* Purge full/errored caches */
+                        if (it->second.should_reload()) {
+                            it = caches.erase(it);
+                        } else {
+                            ++it;
+                        }
                     }
                 }
 
                 /* Check whether to reload or update */
                 auto& current = caches[req->origin];
-                if (current.empty()) {
+                if (current.is_new()) {
                     rep.cmd = Reply::Command::reload_file;
                     rep.length = 0;
                 } else {
                     rep.cmd = Reply::Command::new_hist;
-                    rep.length = current.length() + 1;
+                    rep.length = current.length();
+                    if (rep.length) rep.length += 1;
                 }
 
                 /* Send result and close connection */
@@ -388,7 +414,7 @@ server(UnixSocket sock, ofstream history)
 }
 
 static void
-launchServer(UnixSocket& sock, const string& sockPath, const string& path)
+launchServer(UnixSocket& sock, const string& sockPath, string path)
 {
     int ret = fork();
     if (ret == -1) throw ErrnoFatal("fork");
@@ -396,8 +422,9 @@ launchServer(UnixSocket& sock, const string& sockPath, const string& path)
         /* Child process */
         sock.close();
 
+        path += "/.test_history";
         try {
-            server(UnixSocket(sockPath), ofstream(path + ".test_history"));
+            server(UnixSocket(sockPath), ofstream(path, ios_base::app));
         } catch (const ErrnoFatal& exc) {
             if (exc.error == EADDRINUSE && exc.func == "bind") {
                 /* Either another server won the race, or left over socket. */
@@ -443,11 +470,13 @@ client(const string& path, pid_t pid, Request::Command cmd, char* data)
     sock.recv(rep);
     switch (rep->cmd) {
         case Reply::Command::new_hist:
-            ret = write(STDOUT_FILENO, rep->payload, rep->length);
-            if (ret == -1) {
-                throw ErrnoFatal("write");
-            } else if (static_cast<size_t>(ret) != rep->length) {
-                throw FatalError("write(): Didn't write full history!");
+            if (rep->length) {
+                ret = write(STDOUT_FILENO, rep->payload, rep->length);
+                if (ret == -1) {
+                    throw ErrnoFatal("write");
+                } else if (static_cast<size_t>(ret) != rep->length) {
+                    throw FatalError("write(): Didn't write full history!");
+                }
             }
             break;
         case Reply::Command::reload_file:
@@ -460,16 +489,19 @@ client(const string& path, pid_t pid, Request::Command cmd, char* data)
 int main(int argc, char **argv)
 {
     Request::Command cmd;
+    pid_t pid = 0;
     char *data = nullptr;
     struct passwd *passwdEnt;
 
     try {
-        if (argc == 4 && !strcmp(argv[2], "update")) {
+        if ((argc == 3 || argc == 4) && !strcmp(argv[1], "update")) {
             cmd = Request::Command::update;
-            data = argv[3];
-        } else if (argc == 3 && !strcmp(argv[2], "deregister")) {
+            pid = stoi(argv[2]);
+            if (argc == 4) data = argv[3];
+        } else if (argc == 3 && !strcmp(argv[1], "deregister")) {
             cmd = Request::Command::deregister;
-        } else if (argc == 3 && !strcmp(argv[2], "shutdown")) {
+            pid = stoi(argv[2]);
+        } else if (argc == 2 && !strcmp(argv[1], "shutdown")) {
             cmd = Request::Command::shutdown;
         } else {
             throw Terminate();
@@ -479,7 +511,7 @@ int main(int argc, char **argv)
         if (passwdEnt == nullptr) throw ErrnoFatal("getpwduid");
 
         string path = string(passwdEnt->pw_dir);
-        return client(path, stoi(argv[1]), cmd, data);
+        return client(path, pid, cmd, data);
     } catch (const FatalError& exc) {
         /* Program exit due to unexpected errors */
         cerr << exc.what() << endl;
