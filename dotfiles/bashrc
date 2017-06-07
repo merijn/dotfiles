@@ -62,7 +62,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
     # Commands (colon separated) not added to the history
     HISTIGNORE="fortune*:history*" # Stop me from wasting time on fortune!
     HISTTIMEFORMAT='%H:%M ' # Fixes multiline command history
-    HISTCONTROL=ignorespace:erasedups
+    HISTCONTROL=ignorespace
     HISTSIZE=1000000      # Number of history lines to keep
     unset HISTFILE
     if type sync_history >/dev/null 2>&1; then
@@ -102,7 +102,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
             fi
 
             if [ $reset -eq 2 ]; then
-                history -cr "$HOME/.test_history"
+                history -cr "$HOME/.bash_history"
             fi
             last_cmd_no
         }

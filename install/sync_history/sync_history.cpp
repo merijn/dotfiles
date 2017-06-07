@@ -422,7 +422,7 @@ launchServer(UnixSocket& sock, const string& sockPath, string path)
         /* Child process */
         sock.close();
 
-        path += "/.test_history";
+        path += "/.bash_history";
         try {
             server(UnixSocket(sockPath), ofstream(path, ios_base::app));
         } catch (const ErrnoFatal& exc) {
@@ -471,7 +471,7 @@ client(const string& path, pid_t pid, Request::Command cmd, char* data)
     switch (rep->cmd) {
         case Reply::Command::new_hist:
             if (rep->length) {
-                ret = write(STDOUT_FILENO, rep->payload, rep->length);
+                ret = write(STDOUT_FILENO, rep->payload, --rep->length);
                 if (ret == -1) {
                     throw ErrnoFatal("write");
                 } else if (static_cast<size_t>(ret) != rep->length) {
