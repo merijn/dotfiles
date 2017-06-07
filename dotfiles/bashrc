@@ -141,6 +141,8 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
         ag () {
             grep -r $1 .
         }
+    else
+        alias ag='ag --pager "less -FXR"'
     fi
 fi
 
