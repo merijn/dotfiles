@@ -5,3 +5,4 @@ irssi/default.theme
 dotfiles/vim/spell/*.add.spl
 install/sync_history/*.d
 install/sync_history/sync_history
+bin/sync_history
