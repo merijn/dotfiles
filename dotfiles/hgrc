@@ -16,7 +16,7 @@ fetch =
 purge =
 # Enable hg-git extension which allows interaction with git
 bookmarks =
-hggit = $HOME/src/hg-git/hggit
+hggit =
 # Enable colorized diffs
 color =
 # Enable paging
@@ -35,7 +35,7 @@ record =
 rebase =
 histedit =
 convert =
-evolve = $HOME/src/mutable-history/hgext/evolve.py
+evolve =
 
 [mq]
 secret = True
