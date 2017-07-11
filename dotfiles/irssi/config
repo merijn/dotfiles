@@ -72,7 +72,7 @@ settings = {
 };
 
 ignores = ({ level = "JOINS PARTS QUITS"; });
-
+hilights = ( { text = "merĳn"; nick = "yes"; word = "yes"; } );
 windows = {
   1 = {
     immortal = "yes";
