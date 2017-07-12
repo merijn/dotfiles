@@ -30,6 +30,17 @@ let mapleader = "\<C-g>"        "Map leader key
 "Y behaves as D and C rather than yy
 noremap Y y$
 
+function! s:isOSX()
+    if has("unix")
+        let s:uname = system("uname")
+        " Use Monaco font on OS X
+        if s:uname =~ "Darwin"
+            return 1
+        endif
+    endif
+    return 0
+endfunction
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Edit options                                                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -126,12 +137,8 @@ if has("gui_running")
     set guioptions-=l   "Disable left-hand scrollbar
     set guioptions-=L   "Disable split-window left-hand scrollbar present
 
-    if has("unix")
-        let s:uname = system("uname")
-        " Use Monaco font on OS X
-        if s:uname =~ "Darwin"
-            set guifont=Monaco:h14
-        endif
+    if s:isOSX()
+        set guifont=Monaco:h14
     endif
 endif
 
