@@ -10,6 +10,11 @@ alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
 alias ulimit='ulimit -S'
 alias more='less'
 
+rlist ()
+{
+    ssh -q $1 tmux list-buffers
+}
+
 if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
     TITLEBAR="\[\e]0;\u@\h:\w\007\]" # Sets titlebar of xterm/PuTTy to \u@\h:\w
     CAPTION="\[\e]0;\w\007\]"        # Sets screen status bar to CWD
@@ -120,6 +125,17 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
         fi
         alias make="make -j`sysctl -n hw.ncpu`"
         bind 'set completion-ignore-case on'
+
+        rcopy ()
+        {
+            ssh -q $1 tmux save-buffer -b ${2:-0} - | pbcopy
+        }
+
+        rpaste ()
+        {
+            pbpaste | ssh -q $1 tmux load-buffer -b ${2:-0} -
+        }
+
     elif [ "$(uname)" = "FreeBSD" ]; then
         alias rm='rm -rI' # (Recursively) delete and ask confirmation for >3 files
         if [ -f /usr/local/etc/bash_completion ]; then

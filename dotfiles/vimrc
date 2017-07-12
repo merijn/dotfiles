@@ -149,6 +149,114 @@ command! -range=% StripWhitespace :%s/\s\+$//
 command! ShowSyntax :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Remote copy/paste support                                                   "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! s:RawYank(host, buf, type, ...)
+    let sel_save = &selection
+    let &selection = "inclusive"
+    let reg_save = @@
+    let cmd = "tmux load-buffer"
+    if !empty(a:host)
+        let cmd = "ssh -q " . a:host . " " . l:cmd
+    endif
+
+    if !empty(a:buf)
+        let cmd = l:cmd . " -b " . a:buf
+    endif
+
+    if a:0  " Invoked from Visual mode, use gv command.
+        silent exe "normal! gvy"
+    elseif a:type == 'line'
+        silent exe "normal! '[V']y"
+    else
+        silent exe "normal! `[v`]y"
+    endif
+
+    call system(l:cmd . " -", @@)
+    redraw!
+
+    let &selection = sel_save
+    let @@ = reg_save
+endfunction
+
+function! s:RawPaste(host, buf)
+    let cmd = "tmux save-buffer"
+    if !empty(a:host)
+        let cmd = "ssh -q " . a:host . " " . l:cmd
+    endif
+
+    if !empty(a:buf)
+        let cmd = l:cmd . " -b " . a:buf
+    endif
+
+    set paste
+    silent exe ":r !" . l:cmd . " -"
+    set nopaste
+    redraw!
+endfunction
+
+function! YankLocal(type, ...)
+    call s:RawYank("", "", a:type, a:000)
+endfunction
+
+function! YankLocalBuf(type, ...)
+    let buf = input("Buffer: ")
+    call s:RawYank("", l:buf, a:type, a:000)
+endfunction
+
+function! YankRemote(type, ...)
+    let host = input("Host: ")
+    call s:RawYank(l:host, "", a:type, a:000)
+endfunction
+
+function! YankRemoteBuf(type, ...)
+    let host = input("Host: ")
+    let buf = input("Buffer: ")
+    call s:RawYank(l:host, l:buf, a:type, a:000)
+endfunction
+
+function! PasteLocal()
+    call s:RawPaste("", "")
+endfunction
+
+function! PasteLocalBuf()
+    let buf = input("Buffer: ")
+    call s:RawPaste("", l:buf)
+endfunction
+
+function! PasteRemote()
+    let host = input("Host: ")
+    call s:RawPaste(l:host, "")
+endfunction
+
+function! PasteRemoteBuf()
+    let host = input("Host: ")
+    let buf = input("Buffer: ")
+    call s:RawPaste(l:host, l:buf)
+endfunction
+
+if !empty($TMUX)
+    noremap <silent> <Leader>p :call PasteLocal()<CR>
+    inoremap <silent> <Leader>p <ESC>:call PasteLocal()<CR>i
+    noremap <silent> <Leader>bp :call PasteLocalBuf()<CR>
+    inoremap <silent> <Leader>bp <ESC>:call PasteLocalBuf()<CR>i
+
+    nnoremap <silent> <Leader>y :set opfunc=YankLocal<CR>g@
+    vnoremap <silent> <Leader>y :<C-U>call YankLocal(visualmode(), 1)<CR>
+    nnoremap <silent> <Leader>by :set opfunc=YankLocalBuf<CR>g@
+    vnoremap <silent> <Leader>by :<C-U>call YankLocalBUf(visualmode(), 1)<CR>
+endif
+
+noremap <silent> <Leader>rp :call PasteRemote()<CR>
+inoremap <silent> <Leader>rp <ESC>:call PasteRemote()<CR>i
+noremap <silent> <Leader>rbp :call PasteRemoteBuf()<CR>
+inoremap <silent> <Leader>rbp <ESC>:call PasteRemoteBuf()<CR>i
+
+nnoremap <silent> <Leader>ry :set opfunc=YankRemote<CR>g@
+vnoremap <silent> <Leader>ry :<C-U>call YankRemote(visualmode(), 1)<CR>
+nnoremap <silent> <Leader>rby :set opfunc=YankRemoteBuf<CR>g@
+vnoremap <silent> <Leader>rby :<C-U>call YankRemoteBuf(visualmode(), 1)<CR>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Options                                                              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Load Pathogen to deal with plugins
