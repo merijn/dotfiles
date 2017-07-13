@@ -20,7 +20,7 @@ CXXFLAGS=-O3 -MMD -MP -std=c++14 -g \
 LDFLAGS=-ldl -g
 LD=$(CXX)
 
-sync_history: sync_history.o
+../../dotfiles/bin/sync_history: sync_history.o
 	$(PRINTF) " LD\t$@\n"
 	$(AT)$(LD) $(LDFLAGS) $^ -o $@
 
