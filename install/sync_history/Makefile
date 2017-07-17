@@ -23,6 +23,7 @@ LD=$(CXX)
 ../../dotfiles/bin/sync_history: sync_history.o
 	$(PRINTF) " LD\t$@\n"
 	$(AT)$(LD) $(LDFLAGS) $^ -o $@
+	$(AT)$@ shutdown
 
 %.o: %.cpp
 	$(PRINTF) " CXX\t$*.cpp\n"

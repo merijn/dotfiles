@@ -108,6 +108,18 @@ closeFd(int fd)
     }
 }
 
+static void
+setProcName(int argc, char *argv[], const char *name)
+{
+    char *argvEnd = strrchr(argv[argc-1], '\0');
+    size_t argvSize = static_cast<size_t>(argvEnd - argv[0]);
+    size_t len = strlcpy(argv[0], name, argvSize);
+    if (len >= argvSize) {
+        throw FatalError("Name too long!");
+    }
+    memset(&argv[0][len], '\0', argvSize - len);
+}
+
 struct Request {
     enum class Command {
         update,
@@ -414,7 +426,8 @@ server(UnixSocket sock, ofstream&& history)
 }
 
 static void
-launchServer(UnixSocket& sock, const string& sockPath, string path)
+launchServer
+(int argc, char *argv[], UnixSocket& sock, const string& sockPath, string path)
 {
     int ret = fork();
     if (ret == -1) throw ErrnoFatal("fork");
@@ -424,6 +437,7 @@ launchServer(UnixSocket& sock, const string& sockPath, string path)
 
         path += "/.bash_history";
         try {
+            setProcName(argc, argv, "sync-historyd");
             server(UnixSocket(sockPath), ofstream(path, ios_base::app));
         } catch (const ErrnoFatal& exc) {
             if (exc.error == EADDRINUSE && exc.func == "bind") {
@@ -442,7 +456,9 @@ launchServer(UnixSocket& sock, const string& sockPath, string path)
 }
 
 static int
-client(const string& path, pid_t pid, Request::Command cmd, char* data)
+client
+( int argc, char *argv[], const string& path
+, pid_t pid, Request::Command cmd, char* data)
 {
     ssize_t ret;
     UnixSocket sock(path + "/.sync-" + to_string(pid));
@@ -455,7 +471,7 @@ client(const string& path, pid_t pid, Request::Command cmd, char* data)
     } catch (const ErrnoFatal& exc) {
         if (exc.error == ENOENT && exc.func == "sendmsg") {
             /* No server socket! */
-            launchServer(sock, sockPath, path);
+            launchServer(argc, argv, sock, sockPath, path);
             /* Retry after launching server */
             sock.send(req, data, sockPath);
         } else {
@@ -511,7 +527,7 @@ int main(int argc, char **argv)
         if (passwdEnt == nullptr) throw ErrnoFatal("getpwduid");
 
         string path = string(passwdEnt->pw_dir);
-        return client(path, pid, cmd, data);
+        return client(argc, argv, path, pid, cmd, data);
     } catch (const FatalError& exc) {
         /* Program exit due to unexpected errors */
         cerr << exc.what() << endl;
