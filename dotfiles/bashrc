@@ -123,7 +123,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
         if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
             . /opt/local/etc/profile.d/bash_completion.sh
         fi
-        alias make="make -j`sysctl -n hw.ncpu`"
+        alias make="make -j`/usr/sbin/sysctl -n hw.ncpu`"
         bind 'set completion-ignore-case on'
 
         rcopy ()

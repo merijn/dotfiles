@@ -5,7 +5,7 @@
 	<key>CharacterEncoding</key>
 	<integer>4</integer>
 	<key>CommandString</key>
-	<string>bash --noprofile --rcfile ~/.cleanbashrc</string>
+	<string>~/.bin/clean.sh</string>
 	<key>Font</key>
 	<data>
 	YnBsaXN0MDDUAQIDBAUGGBlYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3AS
