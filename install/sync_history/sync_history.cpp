@@ -43,7 +43,31 @@ strlcpy(char *dst, const char *src, size_t siz)
 }
 #endif
 
-const size_t max_size = ARG_MAX;
+struct Request {
+    enum class Command {
+        update,
+        deregister,
+        shutdown
+    };
+
+    pid_t origin;
+    Command cmd;
+    size_t length;
+    char payload[];
+};
+
+struct Reply {
+    enum class Command {
+        new_hist,
+        reload_file
+    };
+
+    Command cmd;
+    size_t length;
+    char payload[];
+};
+
+const size_t max_size = sizeof (Request) + ARG_MAX;
 
 static char messageBuffer[max_size];
 
@@ -120,30 +144,6 @@ setProcName(int argc, char *argv[], const char *name)
     }
     memset(&argv[0][len], '\0', argvSize - len);
 }
-
-struct Request {
-    enum class Command {
-        update,
-        deregister,
-        shutdown
-    };
-
-    pid_t origin;
-    Command cmd;
-    size_t length;
-    char payload[];
-};
-
-struct Reply {
-    enum class Command {
-        new_hist,
-        reload_file
-    };
-
-    Command cmd;
-    size_t length;
-    char payload[];
-};
 
 struct membuf : public std::streambuf {
     using seekdir = std::ios_base::seekdir;
