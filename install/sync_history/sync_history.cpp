@@ -1,4 +1,5 @@
 #include <pwd.h>
+#include <signal.h>
 #include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/wait.h>
@@ -355,6 +356,28 @@ class HistCache : virtual membuf, public ostream {
 
 HistCache::~HistCache() {}
 
+static bool shutdownServer = false;
+
+// Signals to replace with graceful shutdown
+static int signals[] =
+{ SIGHUP
+, SIGINT
+, SIGQUIT
+, SIGPIPE
+, SIGALRM
+, SIGTERM
+, SIGXCPU
+, SIGXFSZ
+, SIGVTALRM
+, SIGPROF
+, SIGUSR1
+, SIGUSR2
+};
+
+static void
+handleSignal(int)
+{ shutdownServer = true; }
+
 static void __attribute__((noreturn))
 server(UnixSocket sock, ofstream&& history)
 {
@@ -367,7 +390,18 @@ server(UnixSocket sock, ofstream&& history)
     result = daemon(0, 0);
     if (result == -1) throw ErrnoFatal("daemon");
 
-    while (1) {
+    struct sigaction handler;
+
+    sigemptyset(&handler.sa_mask);
+    handler.sa_handler = handleSignal;
+    handler.sa_flags = 0;
+
+    for (size_t i = 0; i < sizeof signals / sizeof signals[0]; i++) {
+        result = sigaction(signals[i], &handler, nullptr);
+        if (result == -1) throw ErrnoFatal("sigaction");
+    }
+
+    while (!shutdownServer) {
         /* receive command from new connection */
         sock.recv(req);
 
@@ -421,9 +455,11 @@ server(UnixSocket sock, ofstream&& history)
                 caches.erase(req->origin);
                 break;
             case Request::Command::shutdown:
-                throw Terminate(EXIT_SUCCESS);
+                shutdownServer = true;
         }
     }
+
+    throw Terminate(EXIT_SUCCESS);
 }
 
 static void
