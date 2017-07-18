@@ -1,4 +1,3 @@
-#include <errno.h>
 #include <pwd.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -6,6 +5,8 @@
 #include <sys/un.h>
 #include <unistd.h>
 
+#include <cerrno>
+#include <climits>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -42,7 +43,7 @@ strlcpy(char *dst, const char *src, size_t siz)
 }
 #endif
 
-const size_t max_size = 1000;
+const size_t max_size = ARG_MAX;
 
 static char messageBuffer[max_size];
 
