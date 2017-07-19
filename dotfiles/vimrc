@@ -108,7 +108,8 @@ endif
 
 " English spell checking, turn off by default except for TeX/LaTeX files.
 if version >= 700
-    set spl=en spell
+    " Run manually to fetch spellfiles from vim FTP server
+    set spelllang=en_gb,nl spell
     set nospell
 
     " Check if binary spell files are outdated and rebuild if necessary
