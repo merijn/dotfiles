@@ -1,5 +1,10 @@
 let g:tex_flavor='latex'
 
+" Replace TeX math notation with unicode in every mode except insert.
+set conceallevel=2
+set concealcursor=nvc
+let g:tex_conceal="adgms"
+
 "let b:ip_boundary = '\\begin{enumerate}'
 
 fun! TeX_fmt()
