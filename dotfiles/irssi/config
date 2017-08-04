@@ -17,6 +17,7 @@ channels = (
   { name = "#csa_uva"; chatnet = "freenode"; autojoin = "yes"; },
   { name = "#haskell-beginners"; chatnet = "freenode"; autojoin = "yes"; },
   { name = "#haskell-offtopic"; chatnet = "freenode"; autojoin = "yes"; }
+  { name = "##programming"; chatnet = "freenode"; autojoin = "yes"; }
   { name = "#haskell-infrastructure"; chatnet = "freenode"; autojoin = "yes"; }
   { name = "#ghc"; chatnet = "freenode"; autojoin = "yes"; }
   { name = "#haskell-lens"; chatnet = "freenode"; autojoin = "yes"; }
@@ -84,6 +85,7 @@ windows = {
   4 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#csa_uva"; }); };
   5 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-beginners"; }); };
   6 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-offtopic"; }); };
+  7 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "##programming"; }); };
   11 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#ghc"; } ); };
   12 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-infrastructure"; }); };
   13 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#numerical-haskell"; } ); };
