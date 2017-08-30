@@ -158,7 +158,15 @@ function! s:RawYank(host, buf, type, ...)
     let sel_save = &selection
     let &selection = "inclusive"
     let reg_save = @@
-    let cmd = "tmux load-buffer"
+    if has("unix")
+        let s:uname = system("uname -s")
+        if s:uname == "Linux"
+            let cmd = "EVENT_NOEPOLL=1 tmux load-buffer"
+        else
+            " Environment variable to work around broken libevent on DAS5
+            let cmd = "tmux load-buffer"
+        endif
+    endif
     if !empty(a:host)
         let cmd = "ssh -q " . a:host . " " . l:cmd
     endif
@@ -167,7 +175,7 @@ function! s:RawYank(host, buf, type, ...)
         let cmd = l:cmd . " -b " . a:buf
     endif
 
-    if a:0  " Invoked from Visual mode, use gv command.
+    if a:0 " Invoked from Visual mode, use gv command.
         silent exe "normal! gvy"
     elseif a:type == 'line'
         silent exe "normal! '[V']y"
@@ -175,7 +183,7 @@ function! s:RawYank(host, buf, type, ...)
         silent exe "normal! `[v`]y"
     endif
 
-    call system(l:cmd . " -", @@)
+    call system(l:cmd . " - ", @@)
     redraw!
 
     let &selection = sel_save
@@ -247,7 +255,7 @@ if !empty($TMUX)
     nnoremap <silent> <Leader>y :set opfunc=YankLocal<CR>g@
     vnoremap <silent> <Leader>y :<C-U>call YankLocal(visualmode(), 1)<CR>
     nnoremap <silent> <Leader>by :set opfunc=YankLocalBuf<CR>g@
-    vnoremap <silent> <Leader>by :<C-U>call YankLocalBUf(visualmode(), 1)<CR>
+    vnoremap <silent> <Leader>by :<C-U>call YankLocalBuf(visualmode(), 1)<CR>
 endif
 
 noremap <silent> <Leader>rp :call PasteRemote()<CR>
