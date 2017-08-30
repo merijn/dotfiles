@@ -22,5 +22,6 @@ syntax: glob
 *.dyn_o
 tags
 dist/**
+dist-newstyle/**
 .cabal-sandbox/**
 cabal.sandbox.config

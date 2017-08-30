@@ -1,27 +1,19 @@
-" HdevTools options
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let s:hdevtools_options = "-g-fdefer-typed-holes -g-fno-code -g-O0 -g-fno-warn-typed-holes"
-let g:hdevtools_options = s:hdevtools_options
-let g:syntastic_haskell_hdevtools_args = s:hdevtools_options
-let g:syntastic_haskell_checkers = ['hdevtools']
+let g:neomake_haskell_enabled_makers = ['ghcmod']
+let g:neomake_haskell_ghcmod_args = [ '-g-fdefer-typed-holes', '-g-fno-code',
+    \'-g-O0', '-g-fno-warn-typed-holes']
+    \+ neomake#makers#ft#haskell#ghcmod().args
 
-let b:syntastic_haskell_hdevtools_args =
-    \ get(g:, 'syntastic_haskell_hdevtools_args', '') . " " .
-    \ join(FindSyntasticConfig('.syntastic_hdevtools_config',
-    \                          expand('<afile>:p:h', 1)))
-
-nnoremap <silent> <Tab> :HdevtoolsType<return>
+nnoremap <silent> <Tab> :GhcModType<return>
 
 function! ToggleType()
-    if exists(":HdevtoolsClear")
-        :HdevtoolsClear
+    if exists(":GhcModTypeClear")
+        :GhcModTypeClear
     endif
 endfunction
 
 nnoremap <silent> <buffer> <return> :noh<return>:call ToggleType()<return>
-nnoremap <silent> <buffer> <C-]> :HdevtoolsInfo<return>
 
-" Enable neco-ghc omnicompleteion
+" Enable neco-ghc omnicompletion
 set omnifunc=necoghc#omnifunc
 
 " Insert ghc-mod inferred type signature

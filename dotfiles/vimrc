@@ -123,12 +123,13 @@ if version >= 700
         autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex setlocal spell
         autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex setlocal nonumber
         autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex setlocal formatoptions+=t
-        autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex WritegooderEnable
 
         autocmd BufNewFile,BufRead CMakeLists.txt setlocal nospell
         autocmd BufNewFile,BufRead CMakeLists.txt setlocal number
     endif
 endif
+
+autocmd BufNewFile,BufRead *.ptx setlocal ft=asm
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " GUI options                                                                 "
@@ -157,7 +158,15 @@ function! s:RawYank(host, buf, type, ...)
     let sel_save = &selection
     let &selection = "inclusive"
     let reg_save = @@
-    let cmd = "tmux load-buffer"
+    if has("unix")
+        let s:uname = system("uname -s")
+        if s:uname == "Linux"
+            let cmd = "EVENT_NOEPOLL=1 tmux load-buffer"
+        else
+            " Environment variable to work around broken libevent on DAS5
+            let cmd = "tmux load-buffer"
+        endif
+    endif
     if !empty(a:host)
         let cmd = "ssh -q " . a:host . " " . l:cmd
     endif
@@ -166,7 +175,7 @@ function! s:RawYank(host, buf, type, ...)
         let cmd = l:cmd . " -b " . a:buf
     endif
 
-    if a:0  " Invoked from Visual mode, use gv command.
+    if a:0 " Invoked from Visual mode, use gv command.
         silent exe "normal! gvy"
     elseif a:type == 'line'
         silent exe "normal! '[V']y"
@@ -174,7 +183,7 @@ function! s:RawYank(host, buf, type, ...)
         silent exe "normal! `[v`]y"
     endif
 
-    call system(l:cmd . " -", @@)
+    call system(l:cmd . " - ", @@)
     redraw!
 
     let &selection = sel_save
@@ -246,7 +255,7 @@ if !empty($TMUX)
     nnoremap <silent> <Leader>y :set opfunc=YankLocal<CR>g@
     vnoremap <silent> <Leader>y :<C-U>call YankLocal(visualmode(), 1)<CR>
     nnoremap <silent> <Leader>by :set opfunc=YankLocalBuf<CR>g@
-    vnoremap <silent> <Leader>by :<C-U>call YankLocalBUf(visualmode(), 1)<CR>
+    vnoremap <silent> <Leader>by :<C-U>call YankLocalBuf(visualmode(), 1)<CR>
 endif
 
 noremap <silent> <Leader>rp :call PasteRemote()<CR>
@@ -258,6 +267,51 @@ nnoremap <silent> <Leader>ry :set opfunc=YankRemote<CR>g@
 vnoremap <silent> <Leader>ry :<C-U>call YankRemote(visualmode(), 1)<CR>
 nnoremap <silent> <Leader>rby :set opfunc=YankRemoteBuf<CR>g@
 vnoremap <silent> <Leader>rby :<C-U>call YankRemoteBuf(visualmode(), 1)<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Quickfix List Functions                                                     "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! GetNextError(next)
+    " If there's no error, do nothing
+    if len(getloclist(0)) == 0
+    " If there's one error, jump to it
+    elseif len(getloclist(0)) == 1
+        ll
+    " If we're going forward
+    elseif a:next
+        " Try to go to the next error
+        try
+            lnext
+        " On error rewind to the start (wrap-around)
+        catch
+            lrewind
+        endtry
+    else
+        " Try to go to the previous error
+        try
+            lprev
+        " On error jump to the last error (wrap-around)
+        catch
+            llast
+        endtry
+    endif
+endfunction
+
+let g:error_list_is_open = 0
+function! ToggleErrorList()
+    if g:error_list_is_open
+        lclose
+        let g:error_list_is_open = 0
+    else
+        " Open the location list
+        lopen
+        let g:error_list_is_open = 1
+    endif
+endfunction
+
+nnoremap <silent> <C-j> :call GetNextError(1)<CR>
+nnoremap <silent> <C-k> :call GetNextError(0)<CR>
+nnoremap <silent> \ :call ToggleErrorList()<return>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Options                                                              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -286,44 +340,13 @@ nnoremap <silent> <F2> :TagbarToggle<CR>
 let g:tagbar_autoclose = 1
 let g:tagbar_sort = 0
 
-" Syntastic options
+" Neomake options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:syntastic_check_on_wq = 0
-let g:syntastic_aggregate_errors = 1
-let g:syntastic_echo_current_error = 0
-let g:syntastic_error_symbol = "✗"
-let g:syntastic_warning_symbol = "❢"
-let g:syntastic_mode_map = { 'mode': 'active',
-                           \ 'active_filetypes': [],
-                           \ 'passive_filetypes': ['tex'] }
-
-function! GetNextSyntasticError(next)
-    " If there's no error, do nothing
-    if len(getloclist(0)) == 0
-    " If there's one error, jump to it
-    elseif len(getloclist(0)) == 1
-        ll
-    " If we're going forward
-    elseif a:next
-        " Try to go to the next error
-        try
-            lnext
-        " On error rewind to the start (wrap-around)
-        catch
-            lrewind
-        endtry
-    else
-        " Try to go to the previous error
-        try
-            lprev
-        " On error jump to the last error (wrap-around)
-        catch
-            llast
-        endtry
-    endif
+function! s:shescape(string) abort
+    return a:string =~# '\m^[A-Za-z0-9_/.-]\+$' ? a:string : shellescape(a:string)
 endfunction
 
-function! FindSyntasticConfig(file, where)
+function! FindLocalConfig(file, where)
     let cfg = findfile(a:file, escape(a:where, ' ') . ';')
     if cfg ==# ''
         return []
@@ -336,25 +359,13 @@ function! FindSyntasticConfig(file, where)
     " remove leading and trailing spaces
     call map(lines, 'substitute(v:val, ''\m^\s\+'', "", "")')
     call map(lines, 'substitute(v:val, ''\m\s\+$'', "", "")')
-    call map(lines, 'syntastic#util#shescape(v:val)')
+    call map(lines, 's:shescape(v:val)')
     return lines
 endfunction
 
-let g:syntastic_error_list_is_open = 0
-function! ToggleSyntasticErrorList()
-    if g:syntastic_error_list_is_open
-        lclose
-        let g:syntastic_error_list_is_open = 0
-    else
-        " Open the Syntastic error window.
-        Errors
-        let g:syntastic_error_list_is_open = 1
-    endif
-endfunction
-
-nnoremap <silent> <C-j> :call GetNextSyntasticError(1)<CR>
-nnoremap <silent> <C-k> :call GetNextSyntasticError(0)<CR>
-nnoremap <silent> \ :call ToggleSyntasticErrorList()<return>
+hi NeomakeWarningSign ctermfg=yellow ctermbg=242
+hi NeomakeWarning cterm=underline
+autocmd! BufReadPost,BufWritePost * Neomake
 
 " Rainbow Parentheses options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
