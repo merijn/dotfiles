@@ -159,7 +159,8 @@ function! s:RawYank(host, buf, type, ...)
     let &selection = "inclusive"
     let reg_save = @@
     if has("unix")
-        let s:uname = system("uname -s")
+        let s:uname = substitute(system("uname -s"), '\n\+$', '', '')
+
         if s:uname == "Linux"
             let cmd = "EVENT_NOEPOLL=1 tmux load-buffer"
         else
