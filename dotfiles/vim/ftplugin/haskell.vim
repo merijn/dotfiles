@@ -1,4 +1,5 @@
 let g:neomake_haskell_enabled_makers = ['ghcmod']
+let g:neomake_haskell_ghcmod_exe = 'ghc-modid'
 let g:neomake_haskell_ghcmod_args = [ '-g-fdefer-typed-holes', '-g-fno-code',
     \'-g-O0', '-g-fno-warn-typed-holes']
     \+ neomake#makers#ft#haskell#ghcmod().args
