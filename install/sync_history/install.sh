@@ -6,4 +6,4 @@ printf "Building sync_history.\n" 1>&2
 make -C $src/sync_history >/dev/null 2>&1
 printf "Installing sync_history.\n" 1>&2
 ./dotfiles/bin/sync_history shutdown
-cp install/sync_history/sync_history/sync_history dotfiles/bin/
+mv install/sync_history/sync_history/sync_history dotfiles/bin/
