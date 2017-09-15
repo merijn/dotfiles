@@ -1,3 +1,9 @@
 FILE="sync_history/install.sh"
 
-make -C $src
+install_repo "install/sync_history" "git+https://github.com/merijn/sync_history"
+
+printf "Building sync_history.\n" 1>&2
+make -C $src/sync_history >/dev/null 2>&1
+printf "Installing sync_history.\n" 1>&2
+./dotfiles/bin/sync_history shutdown
+cp install/sync_history/sync_history/sync_history dotfiles/bin/
