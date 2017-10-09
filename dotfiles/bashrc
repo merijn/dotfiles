@@ -9,6 +9,7 @@ alias ll='ls -lhoAFG'   # Show file flags in long mode with human readable size
 alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
 alias ulimit='ulimit -S'
 alias more='less'
+alias config='sed -n "s/^package-db.*/--&/p" .ghc.environment.* | xargs cabal-1.24 configure --enable-tests'
 
 rlist ()
 {

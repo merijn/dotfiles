@@ -21,10 +21,10 @@
 :seti -XTypeOperators
 
 import Control.Applicative
-import Control.Arrow
 import Control.Concurrent
 import Control.Exception
 import Control.Monad
+import Data.Bifunctor
 import Data.Functor
 import Data.Function
 import Data.Monoid
