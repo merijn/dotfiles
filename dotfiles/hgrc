@@ -6,7 +6,7 @@ ssh = ssh -C
 ignore = ~/.hgignore
 # Use MacVim as merge tool
 merge = vimdiff
-style = $HOME/.hg/styles/log.style
+style = $HOME/.hg-data/styles/log.style
 
 [extensions]
 extdiff =
