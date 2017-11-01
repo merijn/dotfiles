@@ -57,9 +57,9 @@ opts.wdiff = --diff
 qrecord = qnew -i
 qstatus = status --rev -2:.
 qmove = qpush --move
-vlog = log --style $HOME/.hg-styles/vlog.style
-vglog = glog --style $HOME/.hg-styles/vlog.style
-show = log --style $HOME/.hg-styles/vlog.style -r
+vlog = log --style $HOME/.hg-data/styles/vlog.style
+vglog = glog --style $HOME/.hg-data/styles/vlog.style
+show = log --style $HOME/.hg-data/styles/vlog.style -r
 ppush = push --mq
 clonedas = clone --remotecmd=/home/mverstra/opt/python/bin/hg
 pulldas = pull --remotecmd=/home/mverstra/opt/python/bin/hg
