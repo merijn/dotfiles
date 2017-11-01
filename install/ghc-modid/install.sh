@@ -11,5 +11,5 @@ cd ./install/ghc-modid/ghc-modid
 printf "Building ghc-modid.\n" 1>&2
 cabal new-build >/dev/null 2>&1
 printf "Installing ghc-modid.\n" 1>&2
-mv dist-newstyle/build/*/ghc-8.0.2/ghc-modid-0.1.0/c/ghc-modid/opt/build/ghc-modid/ghc-modid ../../../dotfiles/bin/
+cp dist-newstyle/build/*/ghc-8.0.2/ghc-modid-0.1.0/c/ghc-modid/opt/build/ghc-modid/ghc-modid ../../../dotfiles/bin/
 cd - >/dev/null 2>&1
