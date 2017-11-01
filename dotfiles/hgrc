@@ -37,6 +37,9 @@ histedit =
 convert =
 evolve =
 
+[hooks]
+post-push.bitbucket = python:$HOME/.hg-data/hooks/push-hook.py:bitbucket
+
 [mq]
 secret = True
 keepchanges = True
