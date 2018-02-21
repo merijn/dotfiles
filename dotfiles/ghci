@@ -1,5 +1,4 @@
 :set prompt "λ "
-:set -w
 :set -fobject-code
 
 :seti -XConstraintKinds
