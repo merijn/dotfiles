@@ -1,10 +1,4 @@
 syntax: glob
-*.o
-*.a
-*.so
-*.lo
-*.la
-.*.d
 *.pyc
 *.swp
 .DS_Store
@@ -15,14 +9,4 @@ syntax: glob
 *.log
 *.lot
 *.toc
-*.hi
-*.p_o
-*.p_hi
-*.dyn_hi
-*.dyn_o
 tags
-dist/**
-dist-newstyle/**
-.cabal-sandbox/**
-cabal.sandbox.config
-.ghc.environment.*
