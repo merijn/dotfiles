@@ -38,7 +38,10 @@ convert =
 evolve =
 
 [hooks]
-post-push.bitbucket = python:$HOME/.hg-data/hooks/push-hook.py:bitbucket
+pre-clone.dasremote = python:$HOME/.hg-data/hooks/dasremote.py:dasremote
+pre-push.dasremote = python:$HOME/.hg-data/hooks/dasremote.py:dasremote
+pre-pull.dasremote = python:$HOME/.hg-data/hooks/dasremote.py:dasremote
+post-push.bitbucket = python:$HOME/.hg-data/hooks/bitbucket.py:bitbucket
 
 [mq]
 secret = True
@@ -63,10 +66,6 @@ qmove = qpush --move
 vlog = log --style $HOME/.hg-data/styles/vlog.style
 vglog = glog --style $HOME/.hg-data/styles/vlog.style
 show = log --style $HOME/.hg-data/styles/vlog.style -r
-ppush = push --mq
-clonedas = clone --remotecmd=/home/mverstra/opt/python/bin/hg
-pulldas = pull --remotecmd=/home/mverstra/opt/python/bin/hg
-pushdas = push --remotecmd=/home/mverstra/opt/python/bin/hg
 strip-obsolete = strip --hidden -r 'extinct()'
 
 [pager]

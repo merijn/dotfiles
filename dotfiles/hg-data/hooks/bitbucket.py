@@ -7,6 +7,9 @@ def stripPrefix(s, prefix):
     return s[n:]
 
 def bitbucket(ui, repo, args=None, **kwargs):
+    if "default" not in ui.paths:
+        return False
+
     url = ui.paths["default"].url
     if args == "push" and url.host == "github.com" and "bitbucket" in ui.paths:
         if repo.url().startswith("file:"):
