@@ -304,7 +304,7 @@ function! ToggleErrorList()
     if g:error_list_is_open
         lclose
         let g:error_list_is_open = 0
-    else
+    elseif len(getloclist(0)) != 0
         " Open the location list
         lopen
         let g:error_list_is_open = 1
