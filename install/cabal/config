@@ -1,40 +1,46 @@
 -- This is the configuration file for the 'cabal' command line tool.
-
+--
 -- The available configuration options are listed below.
 -- Some of them have default values listed.
-
+--
 -- Lines (like this one) beginning with '--' are comments.
 -- Be careful with spaces and indentation because they are
 -- used to indicate layout for nested sections.
-
--- Cabal library version: 1.24.2.0
--- cabal-install version: 1.24.0.2
+--
+-- This config file was generated using the following versions
+-- of Cabal and cabal-install:
+-- Cabal library version: 2.3.0.0
+-- cabal-install version: 2.3.0.0
 
 
 repository hackage.haskell.org
   url: http://hackage.haskell.org/
-  -- secure: False
+  -- secure: True
   -- root-keys:
-  -- key-threshold:
+  -- key-threshold: 3
 
 -- default-user-config:
 -- require-sandbox: False
 -- ignore-sandbox: False
 -- ignore-expiry: False
 -- http-transport:
+-- nix: False
 remote-repo-cache: /Users/merijn/.cabal/packages
 -- local-repo:
--- logs-dir:
+-- logs-dir: /Users/merijn/.cabal/logs
 world-file: /Users/merijn/.cabal/world
+-- store-dir:
 -- verbose: 1
 -- compiler: ghc
+-- cabal-file:
 -- with-compiler:
 -- with-hc-pkg:
 -- program-prefix: 
 -- program-suffix: 
 -- library-vanilla: True
-library-profiling: True
-shared: True
+-- library-profiling:
+-- shared:
+-- static:
 -- executable-dynamic: False
 -- profiling:
 -- executable-profiling:
@@ -43,6 +49,7 @@ shared: True
 optimization: 2
 -- debug-info: False
 -- library-for-ghci:
+-- split-sections: False
 -- split-objs: False
 -- executable-stripping: True
 -- library-stripping: True
@@ -51,53 +58,67 @@ optimization: 2
 -- package-db:
 -- flags:
 -- extra-include-dirs:
+-- deterministic:
+-- cid:
 -- extra-lib-dirs:
 -- extra-framework-dirs:
 extra-prog-path: /Users/merijn/.cabal/bin
+-- instantiate-with:
 -- tests: False
 -- coverage: False
 -- library-coverage:
--- allow-newer: False
 -- exact-configuration: False
 -- benchmarks: False
 -- relocatable: False
+-- response-files:
 -- cabal-lib-version:
 -- constraint:
 -- preference:
--- solver: choose
+-- solver: modular
+-- allow-older: False
+-- allow-newer: False
 documentation: True
 -- doc-index-file: $datadir/doc/$arch-$os-$compiler/index.html
+-- target-package-db:
 -- max-backjumps: 2000
 -- reorder-goals: False
+-- count-conflicts: True
+-- independent-goals: False
 -- shadow-installed-packages: False
 -- strong-flags: False
+-- allow-boot-library-installs: False
 -- reinstall: False
 -- avoid-reinstalls: False
 -- force-reinstalls: False
 -- upgrade-dependencies: False
+-- index-state:
 -- root-cmd:
--- symlink-bindir:
+symlink-bindir: /Users/merijn/.cabal/bin
 build-summary: /Users/merijn/.cabal/logs/build.log
 -- build-log:
 remote-build-reporting: anonymous
 -- report-planning-failure: False
+-- per-component: True
 -- one-shot: False
 -- run-tests:
 jobs: $ncpus
+-- keep-going: False
 -- offline: False
--- username:
+-- project-file:
+username: MerijnVerstraaten
 -- password:
--- password-command:
+password-command: security find-internet-password -ws hackage.haskell.org
 -- builddir:
 
 haddock
   -- keep-temp-files: False
   hoogle: True
-  -- html: False
+  html: True
   -- html-location:
   -- executables: False
   -- tests: False
   -- benchmarks: False
+  -- foreign-libraries: False
   -- all:
   -- internal: False
   -- css:
@@ -112,6 +133,7 @@ install-dirs user
   -- libsubdir: $abi/$libname
   -- dynlibdir: $libdir/$abi
   -- libexecdir: $prefix/libexec
+  -- libexecsubdir: $abi/$pkgid
   -- datadir: $prefix/share
   -- datasubdir: $abi/$pkgid
   -- docdir: $datadir/doc/$abi/$pkgid
@@ -126,6 +148,7 @@ install-dirs global
   -- libsubdir: $abi/$libname
   -- dynlibdir: $libdir/$abi
   -- libexecdir: $prefix/libexec
+  -- libexecsubdir: $abi/$pkgid
   -- datadir: $prefix/share
   -- datasubdir: $abi/$pkgid
   -- docdir: $datadir/doc/$abi/$pkgid
@@ -138,6 +161,7 @@ program-locations
   -- ar-location:
   -- c2hs-location:
   -- cpphs-location:
+  -- doctest-location:
   -- gcc-location:
   -- ghc-location:
   -- ghc-pkg-location:
@@ -157,6 +181,7 @@ program-locations
   -- lhc-location:
   -- lhc-pkg-location:
   -- pkg-config-location:
+  -- runghc-location:
   -- strip-location:
   -- tar-location:
   -- uhc-location:
@@ -166,6 +191,7 @@ program-default-options
   -- ar-options:
   -- c2hs-options:
   -- cpphs-options:
+  -- doctest-options:
   -- gcc-options:
   -- ghc-options:
   -- ghc-pkg-options:
@@ -185,6 +211,7 @@ program-default-options
   -- lhc-options:
   -- lhc-pkg-options:
   -- pkg-config-options:
+  -- runghc-options:
   -- strip-options:
   -- tar-options:
   -- uhc-options:

@@ -16,7 +16,7 @@ runcabal ()
 {
     local exe="$1"
     shift 1
-    `cabal-plan list-bin --suffix "$exe"` $*
+    `cabal-plan list-bin "$exe"` $*
 }
 
 rlist ()
