@@ -8,4 +8,3 @@ install/sync_history/sync_history
 dotfiles/vim/spell/nl.utf-8.spl
 dotfiles/vim/spell/nl.utf-8.sug
 bin/sync_history
-bin/ghc-modid
