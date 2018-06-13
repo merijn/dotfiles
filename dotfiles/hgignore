@@ -2,11 +2,4 @@ syntax: glob
 *.pyc
 *.swp
 .DS_Store
-*.aux
-*.bbl
-*.blg
-*.lof
-*.log
-*.lot
-*.toc
 tags
