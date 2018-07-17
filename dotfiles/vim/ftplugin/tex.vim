@@ -4,5 +4,6 @@ set concealcursor=nvc
 let g:tex_conceal="adgms"
 let g:neomake_tex_enabled_makers = ['chktex']
 let g:vimtex_mappings_enabled = 0
+let g:vimtex_imaps_enabled = 0
 let g:vimtex_compiler_latexmk = {}
 let g:vimtex_compiler_latexmk['options'] = ['-xelatex']
