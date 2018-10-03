@@ -391,17 +391,6 @@ hi NeomakeWarningSign ctermfg=yellow ctermbg=242
 hi NeomakeWarning cterm=underline
 autocmd! BufReadPost,BufWritePost * Neomake
 
-function! ToggleGhcModiD(toggle)
-    if a:toggle
-        call system("ghc-modid -g-fdefer-typed-holes -g-fno-code -g-O0 -g-fno-warn-typed-holes -g-fno-warn-unused-do-bind daemon inc")
-    else
-        call system("ghc-modid daemon dec")
-    endif
-endfunction
-
-autocmd! BufWritePre,BufRead *.hs call ToggleGhcModiD(1)
-autocmd! BufUnload *.hs call ToggleGhcModiD(0)
-
 " Rainbow Parentheses options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:rbpt_colorpairs = [
