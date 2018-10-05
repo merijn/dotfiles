@@ -2,9 +2,8 @@
 FILE=${_#*/}
 
 # Setup error handlers
-set -e
-trap 'printf "$FILE:$FUNCNAME:$LINENO: $_\n" 1>&2' ERR
-trap 'rm -f success' EXIT
+set -eou pipefail
+trap 'printf "$FILE:$FUNCNAME:$LINENO: $_\n" 1>&2' ERR EXIT
 
 # Simple helper functions to avoid excessively long lines when checking for
 # loaded launchd plists
