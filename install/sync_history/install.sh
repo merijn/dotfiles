@@ -1,9 +1,14 @@
 FILE="sync_history/install.sh"
 
-install_repo "install/sync_history" "git+https://github.com/merijn/sync_history"
+printf "Checking for updates.\n"
 
-printf "Building sync_history.\n" 1>&2
-make -C $src/sync_history >/dev/null 2>&1
-printf "Installing sync_history.\n" 1>&2
-./dotfiles/bin/sync_history shutdown
+install_repo "install/sync_history" "git+ssh://git@github.com/merijn/sync_history"
+
+printf "Building sync_history.\n"
+make -C $src/sync_history >/dev/null
+
+printf "Installing sync_history.\n"
+if [ -f dotfiles/bin/sync_history ]; then
+    ./dotfiles/bin/sync_history shutdown
+fi
 mv install/sync_history/sync_history/sync_history dotfiles/bin/
