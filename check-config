@@ -3,7 +3,7 @@ FILE=${_#*/}
 
 # Setup error handlers
 set -eou pipefail
-trap 'printf "$FILE:$FUNCNAME:$LINENO: $_\n" 1>&2' ERR EXIT
+trap 'printf "$FILE:${FUNCNAME:-}:$LINENO: $_\n" 1>&2' ERR EXIT
 
 # Simple helper functions to avoid excessively long lines when checking for
 # loaded launchd plists
@@ -228,3 +228,5 @@ for install_script in install/*/install.sh; do
     src="$(pwd)/${install_script%install.sh}"
     . "$install_script"
 done
+
+trap '' EXIT
