@@ -1,9 +1,4 @@
-FILE="notify/install.sh"
-
-if [ "$(uname)" != "Darwin" ]; then
-    # Don't try to install on non-OSX
-    return 0
-fi
+FILE="${src}/install.sh"
 
 notify_dir="/Library/Application Support/Dotfiles"
 
