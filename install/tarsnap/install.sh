@@ -4,6 +4,9 @@ if [ "$(uname)" != "Darwin" ]; then
     printf "Tarsnap configuration is currently only set up for OSX.\n" 1>&2
     # Don't try to install on non-OSX
     return 0
+elif ! hash tarsnap 2>/dev/null; then
+    printf "Tarsnap not found!\n" 1>&2
+    return 0
 fi
 
 tarsnap_dir="/Library/Application Support/Tarsnap"
