@@ -38,6 +38,7 @@ brew install the_silver_searcher
 brew install tmux --with-utf8proc
 brew install reattach-to-user-namespace
 
+brew cask install growlnotify
 brew cask install macvim
 brew cask install mactex-no-gui
 brew cask install karabiner-elements
