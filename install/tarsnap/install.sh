@@ -1,4 +1,4 @@
-FILE="tarsnap/install.sh"
+FILE="${src}/install.sh"
 
 if [ "$(uname)" != "Darwin" ]; then
     printf "Tarsnap configuration is currently only set up for OSX.\n" 1>&2

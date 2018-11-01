@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-FILE=${_#*/}
+FILE="$(basename $0)"
 
 # Setup error handlers
 set -eou pipefail
@@ -228,5 +228,12 @@ for install_script in install/*/install.sh; do
     src="$(pwd)/${install_script%install.sh}"
     . "$install_script"
 done
+
+if [ "$(uname)" = "Darwin" ]; then
+    for install_script in install-osx/*/install.sh; do
+        src="$(pwd)/${install_script%install.sh}"
+        . "$install_script"
+    done
+fi
 
 trap '' EXIT

@@ -15,7 +15,7 @@ install_config "$src/notify" "$notify_dir/notify"
 
 # If growlnotify is present, install the notification job and load it into
 # launchd.
-if command -v growlnotify >/dev/null; then
+if hash growlnotify 2>/dev/null; then
     install_config "$src/com.dotfiles.notify.plist" \
                    "$HOME/Library/LaunchAgents/com.dotfiles.notify.plist"
 

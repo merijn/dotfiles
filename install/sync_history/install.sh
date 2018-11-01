@@ -1,4 +1,4 @@
-FILE="sync_history/install.sh"
+FILE="${src}/install.sh"
 
 printf "Checking for updates.\n"
 

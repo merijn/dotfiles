@@ -1,4 +1,4 @@
-FILE="cabal/install.sh"
+FILE="${src}/install.sh"
 
 if ! hash cabal 2>/dev/null; then
     printf "cabal not found, skipping Haskell config install.\n" 1>&2

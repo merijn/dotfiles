@@ -2,6 +2,11 @@ FILE="${src}/install.sh"
 
 notify_dir="/Library/Application Support/Dotfiles"
 
+if ! [ -f /opt/local/bin/port ]; then
+    printf "MacPorts not found, skipping update script install.\n" 1>&2
+    return 0
+fi
+
 # Ensure the application directories exists
 if ! [ -d "$notify_dir" ]; then
     sudo -p "Enter password to create $notify_dir:" mkdir "$notify_dir"
@@ -15,7 +20,7 @@ install_config "$src/macports-update" "$notify_dir/macports-update"
 
 # If growlnotify is present, install the notification job and load it into
 # launchd.
-if command -v port >/dev/null; then
+if hash growlnotify 2>/dev/null; then
     sudo_install_config "$src/com.dotfiles.macports.plist" \
                         "/Library/LaunchDaemons/com.dotfiles.macports.plist"
 
