@@ -389,7 +389,7 @@ endfunction
 
 hi NeomakeWarningSign ctermfg=yellow ctermbg=242
 hi NeomakeWarning cterm=underline
-autocmd! BufReadPost,BufWritePost * Neomake
+call neomake#configure#automake('w')
 
 " Rainbow Parentheses options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
