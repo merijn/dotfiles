@@ -14,7 +14,7 @@ let g:neomake_cpp_clang_args =
 setlocal cino=L-0.5s,:0.5s,=0.5s,l1,g0.5s,h0.5s,+0,i-0.5s
 setlocal indentkeys+=0<:>
 
-function GetCppIndent(lineno)
+function! GetCppIndent(lineno)
     let baseIndent = cindent(a:lineno)
 
     if getline(a:lineno) !~ '^\s*:'
