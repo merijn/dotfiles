@@ -387,9 +387,14 @@ function! FindLocalConfig(file, where)
     return lines
 endfunction
 
+let g:neomake_error_sign = {'text': 'E', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {'text': 'W', 'texthl': 'NeomakeWarningSign'}
+let g:neomake_message_sign = {'text': 'M', 'texthl': 'NeomakeMessageSign'}
+let g:neomake_info_sign = {'text': 'I', 'texthl': 'NeomakeInfoSign'}
+
 hi NeomakeWarningSign ctermfg=yellow ctermbg=242
 hi NeomakeWarning cterm=underline
-autocmd! BufReadPost,BufWritePost * Neomake
+call neomake#configure#automake('w')
 
 " Rainbow Parentheses options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

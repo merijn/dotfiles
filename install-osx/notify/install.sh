@@ -1,9 +1,4 @@
-FILE="notify/install.sh"
-
-if [ "$(uname)" != "Darwin" ]; then
-    # Don't try to install on non-OSX
-    return 0
-fi
+FILE="${src}/install.sh"
 
 notify_dir="/Library/Application Support/Dotfiles"
 
@@ -20,7 +15,7 @@ install_config "$src/notify" "$notify_dir/notify"
 
 # If growlnotify is present, install the notification job and load it into
 # launchd.
-if command -v growlnotify >/dev/null; then
+if hash growlnotify 2>/dev/null; then
     install_config "$src/com.dotfiles.notify.plist" \
                    "$HOME/Library/LaunchAgents/com.dotfiles.notify.plist"
 

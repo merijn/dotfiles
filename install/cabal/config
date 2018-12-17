@@ -9,8 +9,8 @@
 --
 -- This config file was generated using the following versions
 -- of Cabal and cabal-install:
--- Cabal library version: 2.3.0.0
--- cabal-install version: 2.3.0.0
+-- Cabal library version: 2.5.0.0
+-- cabal-install version: 2.5.0.0
 
 
 repository hackage.haskell.org
@@ -87,6 +87,7 @@ documentation: True
 -- shadow-installed-packages: False
 -- strong-flags: False
 -- allow-boot-library-installs: False
+-- reject-unconstrained-dependencies: none
 -- reinstall: False
 -- avoid-reinstalls: False
 -- force-reinstalls: False
@@ -123,6 +124,7 @@ haddock
   -- internal: False
   -- css:
   hyperlink-source: True
+  quickjump: True
   -- hscolour-css:
   -- contents-location:
 
@@ -178,8 +180,6 @@ program-locations
   -- hscolour-location:
   -- jhc-location:
   -- ld-location:
-  -- lhc-location:
-  -- lhc-pkg-location:
   -- pkg-config-location:
   -- runghc-location:
   -- strip-location:
@@ -208,8 +208,6 @@ program-default-options
   -- hscolour-options:
   -- jhc-options:
   -- ld-options:
-  -- lhc-options:
-  -- lhc-pkg-options:
   -- pkg-config-options:
   -- runghc-options:
   -- strip-options:

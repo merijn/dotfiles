@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+if [ "$(uname)" = "Darwin" ]; then
+  . setup/osx
+fi
+
+exec ./check-config

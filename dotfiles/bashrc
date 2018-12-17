@@ -10,14 +10,6 @@ alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
 alias ulimit='ulimit -S'
 alias more='less'
 alias ghci='ghci -ignore-dot-ghci -ghci-script ~/.ghci'
-alias config='sed -n "s/^package-db.*/--&/p" .ghc.environment.* | xargs cabal-1.24 configure --enable-tests'
-
-runcabal ()
-{
-    local exe="$1"
-    shift 1
-    `cabal-plan list-bin "$exe"` $*
-}
 
 rlist ()
 {
@@ -126,12 +118,12 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
         shopt -s histappend   # Append to .bash_history instead of overwriting
     fi
 
+    if [ -f /usr/local/etc/bash_completion ]; then
+        . /usr/local/etc/bash_completion
+    fi
 
     # Set OS specific aliases and settings or overwrites
     if [ "$(uname)" = "Darwin" ]; then
-        if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
-            . /opt/local/etc/profile.d/bash_completion.sh
-        fi
         alias make="make -j`/usr/sbin/sysctl -n hw.ncpu`"
         bind 'set completion-ignore-case on'
 
@@ -147,10 +139,6 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
 
     elif [ "$(uname)" = "FreeBSD" ]; then
         alias rm='rm -rI' # (Recursively) delete and ask confirmation for >3 files
-        if [ -f /usr/local/etc/bash_completion ]; then
-            . /usr/local/etc/bash_completion
-        fi
-
         if [ -f /usr/local/share/mercurial/contrib/bash_completion ]; then
             . /usr/local/share/mercurial/contrib/bash_completion
         fi
