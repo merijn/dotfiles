@@ -177,7 +177,7 @@ command! ShowSyntax :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remote copy/paste support                                                   "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! s:RawYank(host, buf, type, ...)
+function! s:RawGrab(operation, host, buf, type, ...)
     let sel_save = &selection
     let &selection = "inclusive"
     let reg_save = @@
@@ -200,11 +200,11 @@ function! s:RawYank(host, buf, type, ...)
     endif
 
     if a:0 " Invoked from Visual mode, use gv command.
-        silent exe "normal! gvy"
+        silent exe "normal! gv".a:operation
     elseif a:type == 'line'
-        silent exe "normal! '[V']y"
+        silent exe "normal! '[V']".a:operation
     else
-        silent exe "normal! `[v`]y"
+        silent exe "normal! `[v`]".a:operation
     endif
 
     call system(l:cmd . " - ", @@)
@@ -231,23 +231,43 @@ function! s:RawPaste(host, buf)
 endfunction
 
 function! YankLocal(type, ...)
-    call s:RawYank("", "", a:type, a:000)
+    call s:RawGrab("y", "", "", a:type, a:000)
 endfunction
 
 function! YankLocalBuf(type, ...)
     let buf = input("Buffer: ")
-    call s:RawYank("", l:buf, a:type, a:000)
+    call s:RawGrab("y", "", l:buf, a:type, a:000)
 endfunction
 
 function! YankRemote(type, ...)
     let host = input("Host: ")
-    call s:RawYank(l:host, "", a:type, a:000)
+    call s:RawGrab("y", l:host, "", a:type, a:000)
 endfunction
 
 function! YankRemoteBuf(type, ...)
     let host = input("Host: ")
     let buf = input("Buffer: ")
-    call s:RawYank(l:host, l:buf, a:type, a:000)
+    call s:RawGrab("y", l:host, l:buf, a:type, a:000)
+endfunction
+
+function! DeleteLocal(type, ...)
+    call s:RawGrab("d", "", "", a:type, a:000)
+endfunction
+
+function! DeleteLocalBuf(type, ...)
+    let buf = input("Buffer: ")
+    call s:RawGrab("d", "", l:buf, a:type, a:000)
+endfunction
+
+function! DeleteRemote(type, ...)
+    let host = input("Host: ")
+    call s:RawGrab("d", l:host, "", a:type, a:000)
+endfunction
+
+function! DeleteRemoteBuf(type, ...)
+    let host = input("Host: ")
+    let buf = input("Buffer: ")
+    call s:RawGrab("d", l:host, l:buf, a:type, a:000)
 endfunction
 
 function! PasteLocal()
@@ -280,6 +300,11 @@ if !empty($TMUX)
     vnoremap <silent> <Leader>y :<C-U>call YankLocal(visualmode(), 1)<CR>
     nnoremap <silent> <Leader>by :set opfunc=YankLocalBuf<CR>g@
     vnoremap <silent> <Leader>by :<C-U>call YankLocalBuf(visualmode(), 1)<CR>
+
+    nnoremap <silent> <Leader>d :set opfunc=DeleteLocal<CR>g@
+    vnoremap <silent> <Leader>d :<C-U>call DeleteLocal(visualmode(), 1)<CR>
+    nnoremap <silent> <Leader>bd :set opfunc=DeleteLocalBuf<CR>g@
+    vnoremap <silent> <Leader>bd :<C-U>call DeleteLocalBuf(visualmode(), 1)<CR>
 endif
 
 noremap <silent> <Leader>rp :call PasteRemote()<CR>
@@ -291,6 +316,11 @@ nnoremap <silent> <Leader>ry :set opfunc=YankRemote<CR>g@
 vnoremap <silent> <Leader>ry :<C-U>call YankRemote(visualmode(), 1)<CR>
 nnoremap <silent> <Leader>rby :set opfunc=YankRemoteBuf<CR>g@
 vnoremap <silent> <Leader>rby :<C-U>call YankRemoteBuf(visualmode(), 1)<CR>
+
+nnoremap <silent> <Leader>ry :set opfunc=DeleteRemote<CR>g@
+vnoremap <silent> <Leader>ry :<C-U>call DeleteRemote(visualmode(), 1)<CR>
+nnoremap <silent> <Leader>rby :set opfunc=DeleteRemoteBuf<CR>g@
+vnoremap <silent> <Leader>rby :<C-U>call DeleteRemoteBuf(visualmode(), 1)<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Quickfix List Functions                                                     "
