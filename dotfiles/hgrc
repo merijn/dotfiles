@@ -62,7 +62,7 @@ opts.wdiff = --diff
 
 [alias]
 qrecord = qnew -i
-qstatus = status --rev -2:.
+qstatus = status --rev "p1(.):."
 qmove = qpush --move
 vlog = log --style $HOME/.hg-data/styles/vlog.style
 vglog = glog --style $HOME/.hg-data/styles/vlog.style
