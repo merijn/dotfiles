@@ -67,6 +67,7 @@ qmove = qpush --move
 vlog = log --style $HOME/.hg-data/styles/vlog.style
 vglog = glog --style $HOME/.hg-data/styles/vlog.style
 show = log --style $HOME/.hg-data/styles/vlog.style -r
+cshow = !$HG log --config diff.ignorews=true -p --style $HOME/.hg-data/styles/vlog.style -r $1
 strip-obsolete = strip --hidden -r 'extinct()'
 
 [pager]
