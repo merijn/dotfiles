@@ -17,7 +17,7 @@ fetch =
 purge =
 # Enable hg-git extension which allows interaction with git
 bookmarks =
-hggit =
+hggit = $HOME/src/hg-git/hggit
 # Enable colorized diffs
 color =
 # Enable paging
