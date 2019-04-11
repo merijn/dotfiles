@@ -6,4 +6,14 @@ if [ "$(uname)" = "Darwin" ]; then
   . setup/osx
 fi
 
+if ! type hg >/dev/null 2>&1; then
+    printf "Mercurial not installed!\n"
+    exit 1
+fi
+
+if ! hg config extensions.hggit >/dev/null 2>&1; then
+    printf "hg-git not installed!\n"
+    exit 1
+fi
+
 exec ./check-config
