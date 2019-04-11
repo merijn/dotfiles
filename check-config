@@ -5,6 +5,12 @@ FILE="$(basename $0)"
 set -eou pipefail
 trap 'printf "$FILE:${FUNCNAME:-}:$LINENO: $_\n" 1>&2' ERR EXIT
 
+if type colordiff >/dev/null 2>&1; then
+    diffcmd=colordiff
+else
+    diffcmd=diff
+fi
+
 # Simple helper functions to avoid excessively long lines when checking for
 # loaded launchd plists
 list_loaded ()
@@ -50,7 +56,7 @@ symlink_config ()
                                 "Should link to:\n$src\n"
                     # Diff the files
                     else
-                        diff -ur "$dst" "$src" | less -FRX || true
+                        $diffcmd -ur "$dst" "$src" | less -FRX || true
                     fi
                     ;;
                 [oO])
@@ -107,7 +113,7 @@ install_config ()
     # If the target is the correct file type
     if [ -f "$src" -a -f "$dst" ] || [ -d "$src" -a -d "$dst" ]; then
         # As long as the file doesn't match the installable file
-        while ! diff -ur "$src" "$dst" >/dev/null 2>&1; do
+        while ! diff -qr "$src" "$dst" >/dev/null 2>&1; do
             # Prompt user for action.
             printf "Wrong source file found for:\n$dst\n"
             printf "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] "
@@ -119,7 +125,7 @@ install_config ()
 
             case "$COMMAND" in
                 [dD])
-                    diff -ur "$dst" "$src" | less -FRX || true
+                    $diffcmd -ur "$dst" "$src" | less -FRX || true
                     ;;
                 [oO])
                     # Attempt to copy over. $@ contains optional sudo command.
