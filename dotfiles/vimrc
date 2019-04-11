@@ -387,6 +387,9 @@ let g:ctrlp_mruf_relative = 1
 nnoremap <silent> <F1> :GundoToggle<CR>
 let g:gundo_preview_bottom = 1
 let g:gundo_right = 1
+if has('python3')
+    let g:gundo_prefer_python3 = 1
+endif
 
 " TagBar options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
