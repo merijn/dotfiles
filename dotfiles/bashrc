@@ -152,7 +152,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
 
     if ! type ag >/dev/null 2>&1; then
         ag () {
-            grep --color=always -r $1 . | less -FSRX
+            grep --color=always -r $1 --exclude-dir=.hg --exclude-dir=dist --exclude-dir=dist-newstyle --exclude=tags . | less -FRX
         }
     else
         alias ag='ag --pager "less -FXR"'
