@@ -427,7 +427,9 @@ let g:neomake_info_sign = {'text': 'I', 'texthl': 'NeomakeInfoSign'}
 
 hi NeomakeWarningSign ctermfg=yellow ctermbg=242
 hi NeomakeWarning cterm=underline
-call neomake#configure#automake('w')
+
+" Run neomake upon reading or writing files
+call neomake#configure#automake('rw')
 
 " Rainbow Parentheses options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
