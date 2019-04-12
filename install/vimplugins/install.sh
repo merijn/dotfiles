@@ -13,21 +13,21 @@ install_plugin ()
     unset installed_repos[$bundle_dir/${repo_name%.git}]
 }
 
-install_plugin "git+https://github.com/trefis/coquille.git"
-install_plugin "git+https://github.com/ctrlpvim/ctrlp.vim.git"
+install_plugin "git+ssh://git@github.com/trefis/coquille.git"
+install_plugin "git+ssh://git@github.com/ctrlpvim/ctrlp.vim.git"
 install_plugin "https://bitbucket.org/sjl/gundo.vim"
-install_plugin "git+https://github.com/merijn/haskellFoldIndent.git"
-install_plugin "git+https://github.com/kien/rainbow_parentheses.vim.git"
-install_plugin "git+https://github.com/majutsushi/tagbar.git"
-install_plugin "git+https://github.com/tpope/vim-pathogen.git"
-install_plugin "git+https://github.com/tpope/vim-surround.git"
-install_plugin "git+https://github.com/tpope/vim-repeat.git"
-install_plugin "git+https://github.com/def-lkb/vimbufsync.git"
-install_plugin "git+https://github.com/godlygeek/tabular.git"
-install_plugin "git+https://github.com/neovimhaskell/haskell-vim.git"
-install_plugin "git+https://github.com/JKirchartz/writegooder.vim.git"
-install_plugin "git+https://github.com/neomake/neomake.git"
-install_plugin "git+https://github.com/lervag/vimtex.git"
+install_plugin "git+ssh://git@github.com/merijn/haskellFoldIndent.git"
+install_plugin "git+ssh://git@github.com/kien/rainbow_parentheses.vim.git"
+install_plugin "git+ssh://git@github.com/majutsushi/tagbar.git"
+install_plugin "git+ssh://git@github.com/tpope/vim-pathogen.git"
+install_plugin "git+ssh://git@github.com/tpope/vim-surround.git"
+install_plugin "git+ssh://git@github.com/tpope/vim-repeat.git"
+install_plugin "git+ssh://git@github.com/def-lkb/vimbufsync.git"
+install_plugin "git+ssh://git@github.com/godlygeek/tabular.git"
+install_plugin "git+ssh://git@github.com/neovimhaskell/haskell-vim.git"
+install_plugin "git+ssh://git@github.com/JKirchartz/writegooder.vim.git"
+install_plugin "git+ssh://git@github.com/neomake/neomake.git"
+install_plugin "git+ssh://git@github.com/lervag/vimtex.git"
 
 for repo_dir in ${!installed_repos[*]}; do
     while true; do
