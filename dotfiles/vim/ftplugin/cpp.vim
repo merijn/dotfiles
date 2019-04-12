@@ -29,5 +29,5 @@ if expand('%:e') =~ 'h\(pp\)\?'
         \ b:neomake_cpp_clang_maker['args'] + [ "-Wno-unused-macros" ]
 
     let b:neomake_cpp_gcc_maker.args =
-        \ g:neomake_cpp_gcc_maker['args'] + [ "-Wno-unused-macros" ]
+        \ b:neomake_cpp_gcc_maker['args'] + [ "-Wno-unused-macros" ]
 endif
