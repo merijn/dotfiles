@@ -13,7 +13,7 @@ function dotfiles#GetCppIndent(lineno)
     endif
 
     let prevLine = getline(a:lineno - 1)
-    if prevLine !~ ';$' && (prevLine =~ ' = \?' || prevLine =~ ' << ')
+    if prevLine !~ ';$' && (prevLine =~ ' = [^;]*$' || prevLine =~ ' << ')
         return l:baseIndent + &shiftwidth
     endif
 
