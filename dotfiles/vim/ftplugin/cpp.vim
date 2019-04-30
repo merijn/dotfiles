@@ -1,5 +1,7 @@
 let b:neomake_cpp_enabled_makers = ['gcc']
 
+let b:cpp_config = FindLocalConfig('.neomake_cpp_config', expand('<afile>:p:h', 1))
+
 let b:base_cpp_flags =
     \ [ "-std=c++14"
     \ , "-pedantic"
@@ -7,7 +9,7 @@ let b:base_cpp_flags =
     \ , "-Wno-padded"
     \ , "-I$HOME/opt/include/"
     \ , "-isystem$HOME/opt/include/"
-    \] + FindLocalConfig('.neomake_cpp_config', expand('<afile>:p:h', 1))
+    \] + dotfiles#makeIncludesAbsolute(b:cpp_config)
 
 let b:neomake_cpp_clang_maker = {
     \ 'exe': 'clang++',

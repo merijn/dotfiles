@@ -414,10 +414,10 @@ function FindLocalConfig(file, where)
     call filter(lines, 'v:val !~# ''\v^(\s*#|$)''')
 
     " remove leading and trailing spaces
-    call map(lines, 'substitute(v:val, ''\m^\s\+'', "", "")')
-    call map(lines, 'substitute(v:val, ''\m\s\+$'', "", "")')
+    call map(lines, 'substitute(v:val, ''^\s\+'', "", "")')
+    call map(lines, 'substitute(v:val, ''\s\+$'', "", "")')
     call map(lines, 's:shescape(v:val)')
-    return lines
+    return { 'lines' : lines, 'root' : fnamemodify(cfg, ":p:h") . '/' }
 endfunction
 
 let g:neomake_error_sign = {'text': 'E', 'texthl': 'NeomakeErrorSign'}

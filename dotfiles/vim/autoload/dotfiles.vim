@@ -1,3 +1,13 @@
+function s:mkSubstitute(prefix, rootPath)
+    let pattern = '\C^' . a:prefix . '\([^/]\)'
+    let resultPattern = a:prefix . a:rootPath . '\1'
+    return {key, val -> substitute(val, l:pattern, l:resultPattern, "")}
+endfunction
+
+function dotfiles#makeIncludesAbsolute(config)
+    return map(a:config['lines'], s:mkSubstitute("-I", a:config['root']))
+endfunction
+
 function dotfiles#GetCppIndent(lineno)
     let baseIndent = cindent(a:lineno)
     let line = getline(a:lineno)
