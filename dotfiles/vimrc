@@ -30,7 +30,7 @@ let mapleader = "\<C-g>"        "Map leader key
 "Y behaves as D and C rather than yy
 noremap Y y$
 
-function! s:isOSX()
+function s:isOSX()
     if has("unix")
         let s:uname = system("uname")
         " Use Monaco font on OS X
@@ -107,13 +107,13 @@ if &t_Co > 2 || has("gui_running")  "Match characters past column 79 to mark
     match LineTooLong /\%>79v.\+/   "as red.
 endif
 
-function! s:CheckSpellFileUpToDate(file)
+function s:CheckSpellFileUpToDate(file)
     if filereadable(a:file) && (!filereadable(a:file . '.spl') || getftime(a:file) > getftime(a:file . '.spl'))
         exec 'mkspell! ' . fnameescape(a:file)
     endif
 endfunction
 
-function! SetLocalSpelling(path)
+function SetLocalSpelling(path)
     let spellfiles = []
     let where = a:path
 
@@ -177,7 +177,7 @@ command! ShowSyntax :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remote copy/paste support                                                   "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! s:RawGrab(operation, host, buf, type, ...)
+function s:RawGrab(operation, host, buf, type, ...)
     let sel_save = &selection
     let &selection = "inclusive"
     let reg_save = @@
@@ -214,7 +214,7 @@ function! s:RawGrab(operation, host, buf, type, ...)
     let @@ = reg_save
 endfunction
 
-function! s:RawPaste(host, buf)
+function s:RawPaste(host, buf)
     let cmd = "tmux save-buffer"
     if !empty(a:host)
         let cmd = "ssh -q " . a:host . " " . l:cmd
@@ -230,61 +230,61 @@ function! s:RawPaste(host, buf)
     redraw!
 endfunction
 
-function! YankLocal(type, ...)
+function YankLocal(type, ...)
     call s:RawGrab("y", "", "", a:type, a:000)
 endfunction
 
-function! YankLocalBuf(type, ...)
+function YankLocalBuf(type, ...)
     let buf = input("Buffer: ")
     call s:RawGrab("y", "", l:buf, a:type, a:000)
 endfunction
 
-function! YankRemote(type, ...)
+function YankRemote(type, ...)
     let host = input("Host: ")
     call s:RawGrab("y", l:host, "", a:type, a:000)
 endfunction
 
-function! YankRemoteBuf(type, ...)
+function YankRemoteBuf(type, ...)
     let host = input("Host: ")
     let buf = input("Buffer: ")
     call s:RawGrab("y", l:host, l:buf, a:type, a:000)
 endfunction
 
-function! DeleteLocal(type, ...)
+function DeleteLocal(type, ...)
     call s:RawGrab("d", "", "", a:type, a:000)
 endfunction
 
-function! DeleteLocalBuf(type, ...)
+function DeleteLocalBuf(type, ...)
     let buf = input("Buffer: ")
     call s:RawGrab("d", "", l:buf, a:type, a:000)
 endfunction
 
-function! DeleteRemote(type, ...)
+function DeleteRemote(type, ...)
     let host = input("Host: ")
     call s:RawGrab("d", l:host, "", a:type, a:000)
 endfunction
 
-function! DeleteRemoteBuf(type, ...)
+function DeleteRemoteBuf(type, ...)
     let host = input("Host: ")
     let buf = input("Buffer: ")
     call s:RawGrab("d", l:host, l:buf, a:type, a:000)
 endfunction
 
-function! PasteLocal()
+function PasteLocal()
     call s:RawPaste("", "")
 endfunction
 
-function! PasteLocalBuf()
+function PasteLocalBuf()
     let buf = input("Buffer: ")
     call s:RawPaste("", l:buf)
 endfunction
 
-function! PasteRemote()
+function PasteRemote()
     let host = input("Host: ")
     call s:RawPaste(l:host, "")
 endfunction
 
-function! PasteRemoteBuf()
+function PasteRemoteBuf()
     let host = input("Host: ")
     let buf = input("Buffer: ")
     call s:RawPaste(l:host, l:buf)
@@ -325,7 +325,7 @@ vnoremap <silent> <Leader>rby :<C-U>call DeleteRemoteBuf(visualmode(), 1)<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Quickfix List Functions                                                     "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! GetNextError(next)
+function GetNextError(next)
     " If there's no error, do nothing
     if len(getloclist(0)) == 0
     " If there's one error, jump to it
@@ -352,7 +352,7 @@ function! GetNextError(next)
 endfunction
 
 let g:error_list_is_open = 0
-function! ToggleErrorList()
+function ToggleErrorList()
     if g:error_list_is_open
         lclose
         let g:error_list_is_open = 0
@@ -399,11 +399,11 @@ let g:tagbar_sort = 0
 
 " Neomake options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! s:shescape(string) abort
+function s:shescape(string) abort
     return a:string =~# '\m^[A-Za-z0-9_/.-]\+$' ? a:string : shellescape(a:string)
 endfunction
 
-function! FindLocalConfig(file, where)
+function FindLocalConfig(file, where)
     let cfg = findfile(a:file, escape(a:where, ' ') . ';')
     if cfg ==# ''
         return []
