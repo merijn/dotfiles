@@ -5,7 +5,11 @@ function s:mkSubstitute(prefix, rootPath)
 endfunction
 
 function dotfiles#makeIncludesAbsolute(config)
-    return map(a:config['lines'], s:mkSubstitute("-I", a:config['root']))
+    if a:config !=# []
+        return map(a:config['lines'], s:mkSubstitute("-I", a:config['root']))
+    else
+        return []
+    endif
 endfunction
 
 function dotfiles#GetCppIndent(lineno)
