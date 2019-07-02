@@ -5,7 +5,7 @@ function s:mkSubstitute(prefix, rootPath)
 endfunction
 
 function dotfiles#makeIncludesAbsolute(config)
-    if a:config !=# []
+    if a:config['lines'] !=# []
         return map(a:config['lines'], s:mkSubstitute("-I", a:config['root']))
     else
         return []

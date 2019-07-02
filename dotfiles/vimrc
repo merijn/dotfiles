@@ -406,7 +406,7 @@ endfunction
 function FindLocalConfig(file, where)
     let cfg = findfile(a:file, escape(a:where, ' ') . ';')
     if cfg ==# ''
-        return []
+        return { 'lines' : [], 'root' : "" }
     endif
 
     let lines = readfile(cfg)
