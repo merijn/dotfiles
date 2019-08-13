@@ -1,6 +1,7 @@
 BASH_ENV=~/.bash_env
 EDITOR=vim
 GREP_OPTIONS="--colour=auto"
+LESS=FSRX
 LESSHISTFILE=-
 PAGER=less
 
@@ -24,4 +25,4 @@ PATH="$HOME/opt/bin:$HOME/.bin:${ghcdirs[@]: -1}/bin:$HOME/.cabal/bin/:$PATH"
 # Read and set any machine local overrides
 [ -f ~/.bash_env_local ] && . ~/.bash_env_local
 
-export BASH_ENV EDITOR GREP_OPTIONS LESSHISTFILE PAGER PATH
+export BASH_ENV EDITOR GREP_OPTIONS LESS LESSHISTFILE PAGER PATH
