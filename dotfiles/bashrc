@@ -159,6 +159,10 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
     fi
 fi
 
+symbolag () {
+    find -E . -regex ".*\.(a|dylib|so)" -exec symbolgrep {} "$@" \; | less -FSXR
+}
+
 st () {
     if [ $TMUX ]; then
         tmux renamew $*

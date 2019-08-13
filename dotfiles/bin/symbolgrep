@@ -1,0 +1,9 @@
+#!/bin/sh
+
+library="$1"
+shift 1
+
+if nm -P "$library" | awk '{print $2 " " $1}' | c++filt | grep -q "$@"; then
+    printf "\e[92m$library:\e[39m\n"
+    nm -P "$library" | awk '{print $2 " " $1}' | c++filt | grep --colour=always "$@"
+fi
