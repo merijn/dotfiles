@@ -353,7 +353,7 @@ endfunction
 
 let g:error_list_is_open = 0
 function ToggleErrorList()
-    if g:error_list_is_open
+    if g:error_list_is_open == 1
         lclose
         let g:error_list_is_open = 0
     elseif len(getloclist(0)) != 0
