@@ -19,8 +19,13 @@ if [ "$(uname)" = "Darwin" ]; then
     export LANG LC_ALL MANPATH DYLD_LIBRARY_PATH
 fi
 
+PATH="$HOME/.cabal/bin/:$PATH"
+
 ghcdirs=(~/ghc[0-9][0-9]/)
-PATH="$HOME/opt/bin:$HOME/.bin:${ghcdirs[@]: -1}/bin:$HOME/.cabal/bin/:$PATH"
+for dir in ${ghcdirs[@]}; do
+    PATH="$dir/bin/:$PATH"
+done
+PATH="$HOME/opt/bin:$HOME/.bin:$PATH"
 
 # Read and set any machine local overrides
 [ -f ~/.bash_env_local ] && . ~/.bash_env_local
