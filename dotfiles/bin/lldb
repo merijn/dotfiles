@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+if [ "$(uname)" = "Darwin" ]; then
+   PATH=/usr/bin exec lldb "$@"
+else
+   exec lldb "$@"
+fi
