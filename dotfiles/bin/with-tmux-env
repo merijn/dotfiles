@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+PID="$1"
+cleanup () {
+    rm -f "$HOME/tmux.$PID.env"
+}
+trap "cleanup" EXIT
+shift
+. "$HOME/tmux.$PID.env"
+rm "$HOME/tmux.$PID.env"
+"$@"
+tmux wait-for -S "$PID"

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+export -p > $HOME/tmux.$$.env
+cleanup () {
+    rm -f "$HOME/tmux.$$.env"
+}
+trap "cleanup" EXIT
+tmux new-window with-tmux-env $$ "$@" \; wait-for "$$"
