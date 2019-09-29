@@ -87,7 +87,10 @@ set wildignore+=*/dist-newstyle/*
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Programming options                                                         "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set number                      "Enable line numbers
+" Only do the following outside of vimdiff
+if !&diff
+    set number                      "Enable line numbers
+endif
 
 if &t_Co > 2 || has("gui_running")
     syntax on                   "Turn on syntax highlighting
