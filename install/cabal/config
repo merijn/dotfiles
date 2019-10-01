@@ -50,10 +50,10 @@ world-file: /Users/merijn/.cabal/world
 optimization: 2
 -- debug-info: False
 -- library-for-ghci:
--- split-sections: False
+split-sections: True
 -- split-objs: False
--- executable-stripping: True
--- library-stripping: True
+-- executable-stripping:
+-- library-stripping:
 -- configure-option:
 -- user-install: True
 -- package-db:
@@ -72,13 +72,14 @@ extra-prog-path: /Users/merijn/.cabal/bin
 -- benchmarks: False
 -- relocatable: False
 -- response-files:
+-- allow-depending-on-private-libs:
 -- cabal-lib-version:
 -- constraint:
 -- preference:
 -- solver: modular
 -- allow-older: False
 -- allow-newer: False
--- write-ghc-environment-files:
+write-ghc-environment-files: True
 documentation: True
 -- doc-index-file: $datadir/doc/$arch-$os-$compiler/index.html
 -- target-package-db:
@@ -111,8 +112,8 @@ jobs: $ncpus
 -- project-file:
 -- lib: False
 -- package-env:
--- overwrite-policy: never
--- install-method: symlink
+-- overwrite-policy:
+install-method: copy
 installdir: /Users/merijn/.cabal/bin
 username: MerijnVerstraaten
 -- password:
