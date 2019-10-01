@@ -1,7 +1,5 @@
 FILE="${src}/install.sh"
 
-printf "Checking for updates.\n"
-
 install_repo "install/sync_history" "git+ssh://git@github.com/merijn/sync_history"
 
 printf "Building sync_history.\n"
