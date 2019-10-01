@@ -400,7 +400,7 @@ nnoremap <silent> <F2> :TagbarToggle<CR>
 let g:tagbar_autoclose = 1
 let g:tagbar_sort = 0
 
-" Neomake options
+" ALE options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function s:shescape(string) abort
     return a:string =~# '\m^[A-Za-z0-9_/.-]\+$' ? a:string : shellescape(a:string)
@@ -423,16 +423,7 @@ function FindLocalConfig(file, where)
     return { 'lines' : lines, 'root' : fnamemodify(cfg, ":p:h") . '/' }
 endfunction
 
-let g:neomake_error_sign = {'text': 'E', 'texthl': 'NeomakeErrorSign'}
-let g:neomake_warning_sign = {'text': 'W', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_message_sign = {'text': 'M', 'texthl': 'NeomakeMessageSign'}
-let g:neomake_info_sign = {'text': 'I', 'texthl': 'NeomakeInfoSign'}
-
-hi NeomakeWarningSign ctermfg=yellow ctermbg=242
-hi NeomakeWarning cterm=underline
-
-" Run neomake upon reading or writing files
-call neomake#configure#automake('rw')
+highlight ALEWarning cterm=underline
 
 " Rainbow Parentheses options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

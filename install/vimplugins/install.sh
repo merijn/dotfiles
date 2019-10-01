@@ -26,8 +26,8 @@ install_plugin "git+ssh://git@github.com/def-lkb/vimbufsync.git"
 install_plugin "git+ssh://git@github.com/godlygeek/tabular.git"
 install_plugin "git+ssh://git@github.com/neovimhaskell/haskell-vim.git"
 install_plugin "git+ssh://git@github.com/JKirchartz/writegooder.vim.git"
-install_plugin "git+ssh://git@github.com/neomake/neomake.git"
 install_plugin "git+ssh://git@github.com/lervag/vimtex.git"
+install_plugin "git+ssh://git@github.com:dense-analysis/ale.git"
 
 for repo_dir in ${!installed_repos[*]}; do
     while true; do

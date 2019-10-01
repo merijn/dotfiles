@@ -1,4 +1,12 @@
-let g:neomake_haskell_enabled_makers = []
+let b:ale_linters = ['ghcide']
+
+call ale#linter#Define('haskell', {
+    \   'name': 'ghcide',
+    \   'lsp': 'stdio',
+    \   'executable': {b -> ale#Var(b, 'haskell_ghcide_executable')},
+    \   'command': '%e --lsp',
+    \   'project_root': function('ale_linters#haskell#ghcide#GetProjectRoot'),
+    \})
 
 let g:haskell_enable_quantification = 1   " to enable highlighting of `forall`
 let g:haskell_enable_recursivedo = 1      " to enable highlighting of `mdo` and `rec`
