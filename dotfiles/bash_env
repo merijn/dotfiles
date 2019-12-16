@@ -12,8 +12,8 @@ if [ "$(uname)" = "Darwin" ]; then
     MANPATH="/opt/local/share/man:$MANPATH"
     MANPATH="/Library/Application Support/Tarsnap/share/man:$MANPATH"
 
-    PATH="$HOME/Library/Haskell/bin:/opt/local/bin:/opt/local/sbin:$PATH"
-    PATH="/Library/Application Support/Tarsnap/bin:$HOME/opt/j64-803/bin:$PATH"
+    PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+    PATH="/Library/Application Support/Tarsnap/bin:$PATH"
     PATH="/Applications/Racket\ v6.1.1/bin/:$PATH"
 
     export LANG LC_ALL MANPATH DYLD_LIBRARY_PATH
