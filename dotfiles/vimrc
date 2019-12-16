@@ -106,8 +106,8 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Miscellaneous options                                                       "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if &t_Co > 2 || has("gui_running")  "Match characters past column 79 to mark
-    match LineTooLong /\%>79v.\+/   "as red.
+if !&diff && (&t_Co > 2 || has("gui_running"))  "Match characters past column
+    match LineTooLong /\%>79v.\+/               "79 to mark as red.
 endif
 
 function s:CheckSpellFileUpToDate(file)
