@@ -423,6 +423,7 @@ function FindLocalConfig(file, where)
     return { 'lines' : lines, 'root' : fnamemodify(cfg, ":p:h") . '/' }
 endfunction
 
+let g:ale_echo_msg_format = "%code: %%s [%linter%]"
 highlight ALEWarning cterm=underline
 
 " Rainbow Parentheses options
