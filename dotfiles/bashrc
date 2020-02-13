@@ -124,7 +124,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
 
     # Set OS specific aliases and settings or overwrites
     if [ "$(uname)" = "Darwin" ]; then
-        alias make="make -j`/usr/sbin/sysctl -n hw.ncpu`"
+        alias make="make -rj`/usr/sbin/sysctl -n hw.ncpu`"
         bind 'set completion-ignore-case on'
 
         rcopy ()
@@ -143,7 +143,7 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
             . /usr/local/share/mercurial/contrib/bash_completion
         fi
     elif [ "$(uname)" = "Linux" ]; then
-        alias make="make -j`awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo`"
+        alias make="make -rj`awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo`"
         alias ls='ls -F --color=auto'
         alias la='ls -aF --color=auto'
         alias ll='ls -lhoAF --color=auto'
