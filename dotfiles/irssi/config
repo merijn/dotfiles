@@ -20,6 +20,7 @@ channels = (
   { name = "#haskell-infrastructure"; chatnet = "freenode"; autojoin = "yes"; }
   { name = "#ghc"; chatnet = "freenode"; autojoin = "yes"; }
   { name = "#numerical-haskell"; chatnet = "freenode"; autojoin = "yes"; }
+  { name = "#nlesc-smcm"; chatnet = "freenode"; autojoin = "yes"; }
 );
 
 aliases = {
