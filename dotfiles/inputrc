@@ -12,6 +12,8 @@ $if Bash
     set show-all-if-ambiguous on
     # don't complete end of word when completing mid-word
     set skip-completed-text on
+    # disable bell sound
+    set bell-style none
     # ctrl-p cycles through options
     "\C-p": menu-complete
     "\C-x\C-x": exchange-point-and-mark
