@@ -62,6 +62,8 @@ cmd.wdiff = cwdiff
 #add --no-color below, if you dislike colors!
 opts.wdiff = --diff
 
+cmd.vimdiff =
+
 [alias]
 qrecord = qnew -i
 qstatus = status --rev "p1(.):."
