@@ -125,7 +125,6 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
     # Set OS specific aliases and settings or overwrites
     if [ "$(uname)" = "Darwin" ]; then
         alias make="make -rj`/usr/sbin/sysctl -n hw.ncpu`"
-        bind 'set completion-ignore-case on'
 
         rcopy ()
         {
