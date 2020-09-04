@@ -149,16 +149,18 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
         alias lg='ls -lhoAF --color=auto | grep -i'
     fi
 
-    if ! type ag >/dev/null 2>&1; then
-        ag () {
+    if ! type rg >/dev/null 2>&1; then
+        rg () {
             grep --color=always -r ${1+"$@"} --exclude-dir=.hg --exclude-dir=dist --exclude-dir=dist-newstyle --exclude-dir=.build --exclude=tags . | less -FRX
         }
     else
-        alias ag='ag --pager "less -FXR"'
+        rg () {
+            command rg --color=always ${1+"$@"} | less -FRX
+        }
     fi
 fi
 
-symbolag () {
+symbolrg () {
     find -E . -regex ".*\.(a|dylib|so)" -exec symbolgrep {} "$@" \; | less -FSXR
 }
 
