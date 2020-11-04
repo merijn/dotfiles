@@ -9,6 +9,12 @@ merge = vimdiff
 style = $HOME/.hg-data/styles/log.style
 commitsubrepos = false
 
+# Override the remote 'hg' command for some SSH nodes
+remotecmd.das5 = /home/mverstra/opt/bin/hg
+remotecmd.das5uva = /home/mverstra/opt/bin/hg
+remotecmd.das5delft = /home/mverstra/opt/bin/hg
+remotecmd.astron = /home/mverstra/opt/bin/hg
+
 [extensions]
 extdiff =
 # Enable fetch extension which acts as "hg pull -u && hg merge && hg commit"
@@ -37,14 +43,6 @@ rebase =
 histedit =
 convert =
 evolve =
-
-[hooks]
-pre-clone.dasremote = python:$HOME/.hg-data/hooks/dasremote.py:dasremote
-pre-incoming.dasremote = python:$HOME/.hg-data/hooks/dasremote.py:dasremote
-pre-outgoing.dasremote = python:$HOME/.hg-data/hooks/dasremote.py:dasremote
-pre-push.dasremote = python:$HOME/.hg-data/hooks/dasremote.py:dasremote
-pre-pull.dasremote = python:$HOME/.hg-data/hooks/dasremote.py:dasremote
-post-push.bitbucket = python:$HOME/.hg-data/hooks/bitbucket.py:bitbucket
 
 [mq]
 secret = True
