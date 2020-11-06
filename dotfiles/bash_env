@@ -4,6 +4,7 @@ GREP_OPTIONS="--colour=auto"
 LESS=FSRX
 LESSHISTFILE=-
 PAGER=less
+RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
 if [ "$(uname)" = "Darwin" ]; then
     LANG=en_US.UTF-8
@@ -31,3 +32,4 @@ PATH="$HOME/.bin:$HOME/opt/bin:$PATH"
 [ -f ~/.bash_env_local ] && . ~/.bash_env_local
 
 export BASH_ENV EDITOR GREP_OPTIONS LESS LESSHISTFILE PAGER PATH
+export RIPGREP_CONFIG_PATH
