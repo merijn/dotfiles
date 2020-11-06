@@ -15,7 +15,7 @@ install_plugin ()
 
 install_plugin "git+ssh://git@github.com/trefis/coquille.git"
 install_plugin "git+ssh://git@github.com/ctrlpvim/ctrlp.vim.git"
-install_plugin "https://bitbucket.org/sjl/gundo.vim"
+install_plugin "https://hg.stevelosh.com/gundo.vim"
 install_plugin "git+ssh://git@github.com/merijn/haskellFoldIndent.git"
 install_plugin "git+ssh://git@github.com/kien/rainbow_parentheses.vim.git"
 install_plugin "git+ssh://git@github.com/majutsushi/tagbar.git"
