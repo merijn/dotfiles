@@ -1,2 +1,3 @@
 # Ignore cabal build dirs
 -g!dist-newstyle
+-g!tags
