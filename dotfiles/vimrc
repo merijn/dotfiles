@@ -32,6 +32,10 @@ let mapleader = "\<C-g>"        "Map leader key
 "Y behaves as D and C rather than yy
 noremap Y y$
 
+"Make Ctrl-A a noop so it doesn't conflict with tmux mapping and clobber
+"numbers all over
+noremap <silent> <C-A> <Nop>
+
 function s:isOSX()
     if has("unix")
         let s:uname = system("uname")
