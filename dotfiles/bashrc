@@ -95,17 +95,16 @@ if [ ! -z "$BASH_VERSION" -a ! -z "$PS1" ]; then
                 local cmd=$(HISTTIMEFORMAT='	' history 1)
                 cmd=${cmd##*	}
                 history -d $last_cmd
-                newhist="$(sync_history update $$ "$cmd")"
+                sync_history update $$ "$cmd" >hist-update.$$
                 reset=$?
                 unset cmd
             else
-                newhist="$(sync_history update $$)"
+                sync_history update $$ >hist-update.$$
                 reset=$?
             fi
 
-            if [ -n "$newhist" ]; then
-                history -r /dev/stdin <<<"$newhist"
-            fi
+            history -r hist-update.$$
+            rm hist-update.$$
 
             if [ $reset -eq 2 ]; then
                 history -cr "$HOME/.bash_history"
