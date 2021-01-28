@@ -22,9 +22,13 @@ if [ ! -e ~/.hgrc ]; then
     cp dotfiles/hgrc ~/.hgrc
 fi
 
-if ! hg config extensions.hggit >/dev/null 2>&1; then
-    printf "hg-git not installed!\n"
-    exit 1
+if ! hg git-cleanup >/dev/null 2>&1; then
+    if [ ! -d ~/src/hg-git ]; then
+        hg clone https://foss.heptapod.net/mercurial/hg-git ~/src/hg-git
+    else
+        printf "hg-git not installed!\n"
+        exit 1
+    fi
 fi
 
 exec ./check-config
