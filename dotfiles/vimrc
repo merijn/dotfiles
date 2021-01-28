@@ -378,6 +378,7 @@ endfunction
 nnoremap <silent> <C-j> :call GetNextError(1)<CR>
 nnoremap <silent> <C-k> :call GetNextError(0)<CR>
 nnoremap <silent> \ :call ToggleErrorList()<return>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Options                                                              "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
