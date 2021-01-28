@@ -229,10 +229,12 @@ install_repo ()
 version_gt ()
 { test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; }
 
-if ! head -n1 ~/.bash_history | grep -q '^#[0-9]*$' >/dev/null 2>&1; then
-    printf "~/.bash_history is not in multi-line format!\n"
-    trap '' EXIT
-    exit 2
+if [ -f ~/.bash_history ]; then
+    if ! head -n1 ~/.bash_history | grep -q '^#[0-9]*$' >/dev/null 2>&1; then
+        printf "~/.bash_history is not in multi-line format!\n"
+        trap '' EXIT
+        exit 2
+    fi
 fi
 
 if ! version_gt "$BASH_VERSION" "4.4"; then
