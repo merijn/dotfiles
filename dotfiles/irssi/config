@@ -49,8 +49,8 @@ settings = {
     skip_motd = "yes";
     alternate_nick = "comerijn";
     usermode = "+Qwi";
-    ctcp_userinfo_reply = "";
-    ctcp_version_reply = "";
+    ctcp_userinfo_reply = "The Dark Lord";
+    ctcp_version_reply = "black magic";
   };
   "fe-text" = {
     actlist_sort = "refnum";
