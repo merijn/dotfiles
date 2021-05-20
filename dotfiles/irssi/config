@@ -6,12 +6,29 @@ servers = (
     use_ssl = "yes";
     ssl_verify = "yes";
     autoconnect = "yes";
+  },
+  {
+    address = "irc.libera.chat";
+    chatnet = "libera";
+    port = "7000";
+    use_ssl = "yes";
+    ssl_verify = "yes";
+    autoconnect = "yes";
   }
 );
 
-chatnets = { freenode = { type = "IRC"; }; };
+chatnets = {
+    freenode = { type = "IRC"; };
+    libera = { type = "IRC"; };
+};
 
 channels = (
+  { name = "#haskell"; chatnet = "libera"; autojoin = "yes"; },
+  { name = "#haskell-offtopic"; chatnet = "libera"; autojoin = "yes"; }
+  { name = "#haskell-beginners"; chatnet = "libera"; autojoin = "yes"; },
+  { name = "#haskell-ops"; chatnet = "libera"; autojoin = "yes"; },
+  { name = "#ghc"; chatnet = "libera"; autojoin = "yes"; }
+
   { name = "#haskell"; chatnet = "freenode"; autojoin = "yes"; },
   { name = "#haskell-offtopic"; chatnet = "freenode"; autojoin = "yes"; }
   { name = "##programming"; chatnet = "freenode"; autojoin = "yes"; }
@@ -80,16 +97,22 @@ windows = {
     name = "hilight";
     level = "NOTICES SNOTES WALLOPS CLIENTNOTICE CLIENTCRAP CLIENTERROR CRAP";
   };
-  2 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell"; }); };
-  3 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-offtopic"; }); };
-  4 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "##programming"; }); };
-  5 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-beginners"; }); };
-  6 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#hackage"; }); };
-  7 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-ops"; }); };
-  8 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#ghc"; } ); };
-  9 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#nlesc-smcm"; } ); };
-  10 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#numerical-haskell"; } ); };
-  11 = { items = ( { type = "CHANNEL"; chat_type = "IRC"; name = "#haskell-infrastructure"; } ); };
+  2 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#haskell"; }); };
+  3 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#haskell-offtopic"; }); };
+  4 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#haskell-ops"; }); };
+  5 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#haskell-beginners"; }); };
+  6 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#ghc"; } ); };
+
+  7 = { items = ( { type = "CHANNEL"; chatnet = "freenode"; name = "#haskell"; }); };
+  8 = { items = ( { type = "CHANNEL"; chatnet = "freenode"; name = "#haskell-offtopic"; }); };
+  9 = { items = ( { type = "CHANNEL"; chatnet = "freenode"; name = "##programming"; }); };
+  10 = { items = ( { type = "CHANNEL"; chatnet = "freenode"; name = "#haskell-beginners"; }); };
+  11 = { items = ( { type = "CHANNEL"; chatnet = "freenode"; name = "#hackage"; }); };
+  12 = { items = ( { type = "CHANNEL"; chatnet = "freenode"; name = "#haskell-ops"; }); };
+  13 = { items = ( { type = "CHANNEL"; chatnet = "freenode"; name = "#ghc"; } ); };
+  14 = { items = ( { type = "CHANNEL"; chatnet = "freenode"; name = "#nlesc-smcm"; } ); };
+  15 = { items = ( { type = "CHANNEL"; chatnet = "freenode"; name = "#numerical-haskell"; } ); };
+  16 = { items = ( { type = "CHANNEL"; chatnet = "freenode"; name = "#haskell-infrastructure"; } ); };
 };
 
 mainwindows = { 1 = { first_line = "1"; lines = "44"; }; };
