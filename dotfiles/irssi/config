@@ -1,13 +1,5 @@
 servers = (
   {
-    address = "irc.freenode.net";
-    chatnet = "freenode";
-    port = "7000";
-    use_ssl = "yes";
-    ssl_verify = "yes";
-    autoconnect = "yes";
-  },
-  {
     address = "irc.libera.chat";
     chatnet = "libera";
     port = "7000";
@@ -18,27 +10,20 @@ servers = (
 );
 
 chatnets = {
-    freenode = { type = "IRC"; };
     libera = { type = "IRC"; };
 };
 
 channels = (
   { name = "#haskell"; chatnet = "libera"; autojoin = "yes"; },
   { name = "#haskell-offtopic"; chatnet = "libera"; autojoin = "yes"; }
+  { name = "#programming"; chatnet = "libera"; autojoin = "yes"; }
   { name = "#haskell-beginners"; chatnet = "libera"; autojoin = "yes"; },
+  { name = "#hackage"; chatnet = "libera"; autojoin = "yes"; }
   { name = "#haskell-ops"; chatnet = "libera"; autojoin = "yes"; },
   { name = "#ghc"; chatnet = "libera"; autojoin = "yes"; }
-
-  { name = "#haskell"; chatnet = "freenode"; autojoin = "yes"; },
-  { name = "#haskell-offtopic"; chatnet = "freenode"; autojoin = "yes"; }
-  { name = "##programming"; chatnet = "freenode"; autojoin = "yes"; }
-  { name = "#haskell-beginners"; chatnet = "freenode"; autojoin = "yes"; },
-  { name = "#hackage"; chatnet = "freenode"; autojoin = "yes"; }
-  { name = "#haskell-ops"; chatnet = "freenode"; autojoin = "yes"; },
-  { name = "#ghc"; chatnet = "freenode"; autojoin = "yes"; }
-  { name = "#nlesc-smcm"; chatnet = "freenode"; autojoin = "yes"; }
-  { name = "#numerical-haskell"; chatnet = "freenode"; autojoin = "yes"; }
-  { name = "#haskell-infrastructure"; chatnet = "freenode"; autojoin = "yes"; }
+  { name = "#nlesc-smcm"; chatnet = "libera"; autojoin = "yes"; }
+  { name = "#numerical-haskell"; chatnet = "libera"; autojoin = "yes"; }
+  { name = "#haskell-infrastructure"; chatnet = "libera"; autojoin = "yes"; }
 );
 
 aliases = {
