@@ -16,7 +16,7 @@ chatnets = {
 channels = (
   { name = "#haskell"; chatnet = "libera"; autojoin = "yes"; },
   { name = "#haskell-offtopic"; chatnet = "libera"; autojoin = "yes"; }
-  { name = "#programming"; chatnet = "libera"; autojoin = "yes"; }
+  { name = "##programming"; chatnet = "libera"; autojoin = "yes"; }
   { name = "#haskell-beginners"; chatnet = "libera"; autojoin = "yes"; },
   { name = "#hackage"; chatnet = "libera"; autojoin = "yes"; }
   { name = "#haskell-ops"; chatnet = "libera"; autojoin = "yes"; },
