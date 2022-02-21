@@ -24,6 +24,7 @@ channels = (
   { name = "#nlesc-smcm"; chatnet = "libera"; autojoin = "yes"; }
   { name = "#numerical-haskell"; chatnet = "libera"; autojoin = "yes"; }
   { name = "#haskell-infrastructure"; chatnet = "libera"; autojoin = "yes"; }
+  { name = "##programming-ops"; chatnet = "libera"; autojoin = "yes"; }
 );
 
 aliases = {
@@ -92,6 +93,7 @@ windows = {
   9 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#nlesc-smcm"; } ); };
   10 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#numerical-haskell"; } ); };
   11 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#haskell-infrastructure"; } ); };
+  12 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "##programming-ops"; } ); };
 };
 
 mainwindows = { 1 = { first_line = "1"; lines = "44"; }; };
