@@ -22,11 +22,18 @@ fi
 
 PATH="$HOME/.cabal/bin/:$PATH"
 
+ghcdefault=ghc902
 ghcdirs=(~/ghc[0-9][0-9][0-9]/)
 for dir in ${ghcdirs[@]}; do
-    PATH="$dir/bin/:$PATH"
+    ghcdir="$(basename "$dir")"
+    if [ "$ghcdir" != "$ghcdefault" ]; then
+        PATH="$dir/bin:$PATH"
+    fi
 done
-PATH="$HOME/.bin:$HOME/opt/bin:$PATH"
+
+if [ -d "$HOME/$ghcdefault/bin" ]; then
+    PATH="$HOME/$ghcdefault/bin:$PATH"
+fi
 
 # Read and set any machine local overrides
 [ -f ~/.bash_env_local ] && . ~/.bash_env_local
