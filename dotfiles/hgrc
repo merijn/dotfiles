@@ -60,13 +60,13 @@ vimdiff.args = -f $local $other
 cmd.wdiff = cwdiff
 #add --no-color below, if you dislike colors!
 opts.wdiff = --diff
-
 cmd.vimdiff =
 
 [alias]
 qrecord = qnew -i
 qstatus = status --rev "p1(.):."
 qmove = qpush --move
+qwdiff = wdiff --from "p1(.)" --to "."
 vlog = log --style $HOME/.hg-data/styles/vlog.style
 vglog = glog --style $HOME/.hg-data/styles/vlog.style
 show = log --style $HOME/.hg-data/styles/vlog.style -r
@@ -76,7 +76,7 @@ strip-obsolete = strip --hidden -r 'extinct()'
 [pager]
 pager = LESS='FSRX' less
 attend = annotate, bookmarks, cat, diff, glog, grep, heads, help, incoming,
-         log, outgoing, qdiff, show, status, vglog, vlog, wdiff
+         log, outgoing, qdiff, show, status, vglog, vlog, wdiff, qwdiff
 
 [color]
 changeset.secret = red
