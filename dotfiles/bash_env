@@ -13,7 +13,7 @@ if [ "$(uname)" = "Darwin" ]; then
     MANPATH="/opt/local/share/man:$MANPATH"
     MANPATH="/Library/Application Support/Tarsnap/share/man:$MANPATH"
 
-    PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+    PATH="$HOME/.bin:/opt/local/bin:/opt/local/sbin:$PATH"
     if [ -d "/Library/Application Support/Tarsnap/bin" ]; then
         PATH="/Library/Application Support/Tarsnap/bin:$PATH"
     fi
