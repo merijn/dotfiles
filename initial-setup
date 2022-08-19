@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
+set -o errtrace
+set -o functrace
+
+shopt -s nullglob
+
 IFS=$'\n\t'
 
 if [ "$(uname)" = "Darwin" ]; then

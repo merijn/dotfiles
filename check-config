@@ -3,6 +3,11 @@ FILE="$(basename $0)"
 
 # Setup error handlers
 set -eou pipefail
+set -o errtrace
+set -o functrace
+
+shopt -s nullglob
+
 trap 'printf "$FILE:${FUNCNAME:-}:$LINENO: $_\n" 1>&2' ERR EXIT
 
 if type colordiff >/dev/null 2>&1; then
