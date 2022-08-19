@@ -8,12 +8,6 @@ case $- in
     *) return 0;;
 esac
 
-TMUX_CMD="bash"
-if [ "$(uname)" = "Darwin" ]; then
-    TMUX_CMD="reattach-to-user-namespace bash"
-fi
-export TMUX_CMD
-
 set_escape() {
     case $TERM in
         cons*)
@@ -75,7 +69,7 @@ if [ $(which tmux | wc -l) -eq 1 ]; then
             return 0
         fi
         ESCAPE=`expr $ESCAPE : "\(..\)"`
-        tmux new "$TMUX_CMD" && exit
+        tmux new && exit
     else
         exit
     fi
