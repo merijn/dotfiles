@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-FILE="$(basename $0)"
+FILE="$(basename "$0")"
 
 # Setup error handlers
 set -eou pipefail
@@ -11,16 +11,16 @@ shopt -s nullglob
 trap 'printf "$FILE:${FUNCNAME:-}:$LINENO: $_\n" 1>&2' ERR EXIT
 
 if type colordiff >/dev/null 2>&1; then
-    diffcmd=colordiff
+    diffcmd="colordiff"
 else
-    diffcmd=diff
+    diffcmd="diff"
 fi
 
 # Simple helper functions to avoid excessively long lines when checking for
 # loaded launchd plists
 list_loaded ()
 {
-    launchctl list $1 >/dev/null 2>&1
+    launchctl list "$1" >/dev/null 2>&1
 }
 
 sudo_list_loaded ()
@@ -42,12 +42,15 @@ symlink_config ()
     if [ -L "$dst" ] && [ "$src" = "$(readlink "$dst")" ]; then
         return 0
     # If the target is the correct file type OR a symlink to the wrong file
-    elif [ -f "$src" -a -f "$dst" ] || [ -d "$src" -a -d "$dst" ] || [ -L "$dst" ]; then
+    elif { [ -f "$src" ] && [ -f "$dst" ] ;} \
+      || { [ -d "$src" ] && [ -d "$dst" ] ;} \
+      || [ -L "$dst" ]
+    then
         while true; do
             # Prompt user for action
-            printf "Wrong source file found for:\n$dst\n"
-            printf "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] "
-            read COMMAND
+            printf "Wrong source file found for:\n%s\n" "$dst"
+            read -rep "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] " \
+                COMMAND
 
             if [ -z "$COMMAND" ]; then
                 COMMAND=d
@@ -70,7 +73,7 @@ symlink_config ()
                     if "$@" rm -- "$dst" && "$@" ln -s -- "$src" "$dst"; then
                         updated=1
                     else
-                        printf "Failed to resymlink $dst\n" 1>&2
+                        printf "Failed to resymlink %s\n" "$dst" 1>&2
                     fi
 
                     printf "\n"
@@ -96,10 +99,10 @@ symlink_config ()
         if "$@" ln -s -- "$src" "$dst"; then
             updated=1
         else
-            printf "Failed to symlink $dst\n" 1>&2
+            printf "Failed to symlink %s\n" "$dst" 1>&2
         fi
     else
-        printf "$dst already exists and is not a file, directory or symlink!\n" 1>&2
+        printf "%s already exists and is not a file, directory or symlink!\n" "$dst" 1>&2
     fi
 }
 
@@ -116,13 +119,15 @@ install_config ()
     shift 2
 
     # If the target is the correct file type
-    if [ -f "$src" -a -f "$dst" ] || [ -d "$src" -a -d "$dst" ]; then
+    if { [ -f "$src" ] && [ -f "$dst" ] ;} \
+    || { [ -d "$src" ] && [ -d "$dst" ] ;}
+    then
         # As long as the file doesn't match the installable file
         while ! diff -qr "$src" "$dst" >/dev/null 2>&1; do
             # Prompt user for action.
-            printf "Wrong source file found for:\n$dst\n"
-            printf "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] "
-            read COMMAND
+            printf "Wrong source file found for:\n%s\n" "$dst"
+            read -rep "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] " \
+                COMMAND
 
             if [ -z "$COMMAND" ]; then
                 COMMAND=d
@@ -137,7 +142,7 @@ install_config ()
                     if "$@" cp -r -- "$src" "$dst"; then
                         updated=1
                     else
-                        printf "Failed to update $dst\n" 1>&2
+                        printf "Failed to update %s\n" "$dst" 1>&2
                     fi
 
                     printf "\n"
@@ -162,10 +167,10 @@ install_config ()
         if "$@" cp -r -- "$src" "$dst"; then
             updated=1
         else
-            printf "Failed to copy to $dst\n" 1>&2
+            printf "Failed to copy to %s\n" "$dst" 1>&2
         fi
     else
-        printf "$dst already exists and is not a file or directory!\n" 1>&2
+        printf "%s already exists and is not a file or directory!\n" "$dst" 1>&2
     fi
 }
 
@@ -184,24 +189,24 @@ install_repo ()
     fi
 
     if [ ! -d "$1/$repo_name" ]; then
-        printf "Not a mercurial repo: $1/$repo_name\n" 1>&2
+        printf "Not a mercurial repo: %s\n" "$1/$repo_name" 1>&2
         exit 1
     fi
 
     cd "$1/$repo_name"
 
-    printf "Checking for updates to ${repo_name}...\n"
+    printf "Checking for updates to %s...\n" "$repo_name"
     hg pull >/dev/null 2>&1
     count () {
         hg log -T 'Version: {rev}\n' -r 'descendants(.) - .' | \
-            grep 'Version' | wc -l | awk '{print $1}' 2>/dev/null
+            grep -c 'Version' | awk '{print $1}' 2>/dev/null
     }
 
     if [ "$(count)" -ge "1" ]; then
         while true; do
-            printf "$(count) new commits in $1/$repo_name\n"
-            printf "(D)iff new commits/(U)pdate/(K)eep current? [Duk?] "
-            read COMMAND
+            printf "%d new commits in %s\n" "$(count)" "$1/$repo_name"
+            read -rep "(D)iff new commits/(U)pdate/(K)eep current? [Duk?] " \
+                COMMAND
 
             if [ -z "$COMMAND" ]; then
                 COMMAND=d
@@ -236,6 +241,7 @@ version_gt ()
 
 if [ -f ~/.bash_history ]; then
     if ! head -n1 ~/.bash_history | grep -q '^#[0-9]*$' >/dev/null 2>&1; then
+        # shellcheck disable=SC2088
         printf "~/.bash_history is not in multi-line format!\n"
         trap '' EXIT
         exit 2
@@ -243,7 +249,8 @@ if [ -f ~/.bash_history ]; then
 fi
 
 if ! version_gt "$BASH_VERSION" "4.4"; then
-    printf "Bash $BASH_VERSION doesn't support multi-line history from file.\n"
+    printf "Bash %s doesn't support multi-line history from file.\n" \
+        "$BASH_VERSION"
     printf "Update to Bash >= 4.4\n"
 fi
 
@@ -253,12 +260,14 @@ done
 
 for install_script in install/*/install.sh; do
     src="$(pwd)/${install_script%install.sh}"
+    # shellcheck disable=SC1090
     . "$install_script"
 done
 
 if [ "$(uname)" = "Darwin" ]; then
     for install_script in install-osx/*/install.sh; do
         src="$(pwd)/${install_script%install.sh}"
+        # shellcheck disable=SC1090
         . "$install_script"
     done
 fi
