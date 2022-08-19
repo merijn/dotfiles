@@ -1,16 +1,18 @@
+#!/usr/bin/env bash
 FILE="${src}/install.sh"
 bundle_dir="$HOME/.vim/bundle"
 
 declare -A installed_repos
-for repo_dir in $bundle_dir/*; do
+for repo_dir in "$bundle_dir"/*; do
     installed_repos[$repo_dir]=1
 done
 
 install_plugin ()
 {
-    local repo_name="$(basename $1)"
+    local repo_name
+    repo_name="$(basename "$1")"
     install_repo "$bundle_dir" "$1"
-    unset installed_repos[$bundle_dir/${repo_name%.git}]
+    unset "installed_repos[$bundle_dir/${repo_name%.git}]"
 }
 
 install_plugin "git+ssh://git@github.com/trefis/coquille.git"
@@ -29,14 +31,13 @@ install_plugin "git+ssh://git@github.com/JKirchartz/writegooder.vim.git"
 install_plugin "git+ssh://git@github.com/lervag/vimtex.git"
 install_plugin "git+ssh://git@github.com:dense-analysis/ale.git"
 
-for repo_dir in ${!installed_repos[*]}; do
+for repo_dir in "${!installed_repos[@]}"; do
     while true; do
         # Prompt user for action
-        printf "Removing obsolete plugin: $repo_dir\n"
-        printf "(Y)es/(n)o? [Yn?] "
-        read COMMAND
+        printf "Removing obsolete plugin: %s\n" "$repo_dir"
+        read -rep  "(Y)es/(n)o? [Yn?] " COMMAND
 
-        if [ -z "$COMMAND" ]; then
+        if [[ -z "$COMMAND" ]]; then
             COMMAND=y
         fi
 
