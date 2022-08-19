@@ -14,25 +14,31 @@ if [ "$(uname)" = "Darwin" ]; then
     MANPATH="/Library/Application Support/Tarsnap/share/man:$MANPATH"
 
     PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-    PATH="/Library/Application Support/Tarsnap/bin:$PATH"
-    PATH="/Applications/Racket\ v6.1.1/bin/:$PATH"
+    if [ -d "/Library/Application Support/Tarsnap/bin" ]; then
+        PATH="/Library/Application Support/Tarsnap/bin:$PATH"
+    fi
+    if [ -d "/Applications/Racket\ v6.1.1/bin/" ]; then
+        PATH="/Applications/Racket\ v6.1.1/bin/:$PATH"
+    fi
 
     export LANG LC_ALL MANPATH DYLD_LIBRARY_PATH
 fi
-
-PATH="$HOME/.cabal/bin/:$PATH"
 
 ghcdefault=ghc902
 ghcdirs=(~/ghc[0-9][0-9][0-9]/)
 for dir in ${ghcdirs[@]}; do
     ghcdir="$(basename "$dir")"
     if [ "$ghcdir" != "$ghcdefault" ]; then
-        PATH="$dir/bin:$PATH"
+        PATH="${dir}bin:$PATH"
     fi
 done
 
 if [ -d "$HOME/$ghcdefault/bin" ]; then
     PATH="$HOME/$ghcdefault/bin:$PATH"
+fi
+
+if [ -d "$HOME/.cabal/" ]; then
+    PATH="$HOME/.cabal/bin/:$PATH"
 fi
 
 # Read and set any machine local overrides
