@@ -13,4 +13,6 @@ if [[ ! -d "${HOME}/.cabal" ]]; then
     fi
 fi
 
-symlink_config "$PWD/install/cabal/config" "${HOME}/.cabal/config"
+if symlink_config "$PWD/install/cabal/config" "${HOME}/.cabal/config"; then
+    printf "Installed cabal config file.\n"
+fi

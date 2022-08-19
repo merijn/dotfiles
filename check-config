@@ -49,7 +49,7 @@ symlink_config ()
 {
     local src="$1"
     local dst="$2"
-    updated=0
+    local updated=1
     shift 2
 
     # If the correct symlink already exists, do nothing.
@@ -57,7 +57,7 @@ symlink_config ()
         local real_dst
         real_dst="$(readlink "$dst")"
         if [[ "$src" = "$real_dst" ]]; then
-            return 0
+            return "$updated"
         fi
     fi
 
@@ -93,7 +93,7 @@ symlink_config ()
                     # Try to overwrite the file. $@ contains optional sudo
                     # command.
                     if "$@" rm -- "$dst" && "$@" ln -s -- "$src" "$dst"; then
-                        updated=1
+                        updated=0
                     else
                         printf "Failed to resymlink %s\n" "$dst" 1>&2
                     fi
@@ -121,13 +121,14 @@ symlink_config ()
         # The destination doesn't exists, so try to symlink it. $@ contains
         # optional sudo command.
         if "$@" ln -s -- "$src" "$dst"; then
-            updated=1
+            updated=0
         else
             printf "Failed to symlink %s\n" "$dst" 1>&2
         fi
     else
         printf "%s already exists and is not a file, directory or symlink!\n" "$dst" 1>&2
     fi
+    return "$updated"
 }
 
 sudo_symlink_config ()
@@ -139,7 +140,7 @@ install_config ()
 {
     local src="$1"
     local dst="$2"
-    updated=0
+    local updated=1
     shift 2
 
     # If the target is the correct file type
@@ -164,7 +165,7 @@ install_config ()
                 [oO])
                     # Attempt to copy over. $@ contains optional sudo command.
                     if "$@" cp -r -- "$src" "$dst"; then
-                        updated=1
+                        updated=0
                     else
                         printf "Failed to update %s\n" "$dst" 1>&2
                     fi
@@ -191,13 +192,14 @@ install_config ()
     elif [[ ! -e "$dst" ]]; then
         # Attempt to copy over. $@ contains optional sudo command.
         if "$@" cp -r -- "$src" "$dst"; then
-            updated=1
+            updated=0
         else
             printf "Failed to copy to %s\n" "$dst" 1>&2
         fi
     else
         printf "%s already exists and is not a file or directory!\n" "$dst" 1>&2
     fi
+    return "$updated"
 }
 
 sudo_install_config ()
@@ -289,7 +291,11 @@ if ! version_gt "$BASH_VERSION" "4.4"; then
 fi
 
 for link in dotfiles/*; do
-    symlink_config "$PWD/$link" "$HOME/.${link##*/}"
+    name=".${link##*/}"
+    # shellcheck disable=SC2310
+    if symlink_config "$PWD/$link" "$HOME/$name"; then
+        printf "Installed ~/%s.\n" "$name"
+    fi
 done
 
 for install_script in install/*/install.sh; do

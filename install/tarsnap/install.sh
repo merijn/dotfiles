@@ -31,12 +31,12 @@ install_config "$PWD/install/tarsnap/tarsnap.conf" "$tarsnap_dir/etc/tarsnap.con
 # it into launchd.
 tarsnap_exe="$tarsnap_dir/bin/tarsnap"
 if [[ -f "$tarsnap_exe" ]] && [[ -x "$tarsnap_exe" ]]; then
-    sudo_install_config "$PWD/install/tarsnap/com.tarsnap.backup.plist" \
-                        "/Library/LaunchDaemons/com.tarsnap.backup.plist"
-
     # If a job is loaded AND a new plist was installed, unload the old job
     # before loading the new one.
-    if [[ $updated -eq 1 ]] && sudo_list_loaded com.tarsnap.backup; then
+    if sudo_install_config "$PWD/install/tarsnap/com.tarsnap.backup.plist" \
+                            "/Library/LaunchDaemons/com.tarsnap.backup.plist" \
+        && sudo_list_loaded com.tarsnap.backup
+    then
         sudo launchctl remove com.tarsnap.backup
     fi
 

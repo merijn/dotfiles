@@ -10,17 +10,20 @@ if ! [[ -d "$notify_dir" ]]; then
 fi
 
 # Copy over the relevant shell scripts
-install_config "$PWD/install-osx/notify/notify" "$notify_dir/notify"
+if install_config "$PWD/install-osx/notify/notify" "$notify_dir/notify"
+then
+    printf "Installed notify script!\n"
+fi
 
 # If growlnotify is present, install the notification job and load it into
 # launchd.
 if hash growlnotify 2>/dev/null; then
-    install_config "$PWD/install-osx/notify/com.dotfiles.notify.plist" \
-                   "$HOME/Library/LaunchAgents/com.dotfiles.notify.plist"
-
     # If a job is loaded AND a new plist was installed, unload the old job
     # before loading the new one.
-    if [[ $updated -eq 1 ]] && list_loaded com.dotfiles.notify; then
+    if install_config "$PWD/install-osx/notify/com.dotfiles.notify.plist" \
+                   "$HOME/Library/LaunchAgents/com.dotfiles.notify.plist" \
+        && list_loaded com.dotfiles.notify
+    then
         launchctl remove com.dotfiles.notify
     fi
 
