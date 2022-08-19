@@ -1,1 +1,1 @@
-[[ -e ~/.profile ]] && emulate sh -c 'source ~/.profile'
+[[ -e ~/.bash_profile ]] && emulate sh -c 'source ~/.bash_profile'
