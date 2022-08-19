@@ -34,7 +34,7 @@ brew install irssi
 brew install nethack
 brew install urweb
 brew install sox
-brew install the_silver_searcher
+brew install ripgrep
 brew install tmux --with-utf8proc
 brew install reattach-to-user-namespace
 
