@@ -53,12 +53,18 @@ symlink_config ()
     shift 2
 
     # If the correct symlink already exists, do nothing.
-    if [ -L "$dst" ] && [ "$src" = "$(readlink "$dst")" ]; then
-        return 0
+    if [[ -L "$dst" ]]; then
+        local real_dst
+        real_dst="$(readlink "$dst")"
+        if [[ "$src" = "$real_dst" ]]; then
+            return 0
+        fi
+    fi
+
     # If the target is the correct file type OR a symlink to the wrong file
-    elif { [ -f "$src" ] && [ -f "$dst" ] ;} \
-      || { [ -d "$src" ] && [ -d "$dst" ] ;} \
-      || [ -L "$dst" ]
+    if { [[ -f "$src" ]] && [[ -f "$dst" ]] ;} \
+    || { [[ -d "$src" ]] && [[ -d "$dst" ]] ;} \
+    || [[ -L "$dst" ]]
     then
         while true; do
             # Prompt user for action
@@ -66,16 +72,18 @@ symlink_config ()
             read -rep "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] " \
                 COMMAND
 
-            if [ -z "$COMMAND" ]; then
+            if [[ -z "$COMMAND" ]]; then
                 COMMAND=d
             fi
 
             case "$COMMAND" in
                 [dD])
                     # Check the symlink target
-                    if [ -L "$dst" ]; then
-                        printf "$dst\nLinks to:\n$(readlink "$dst")\n%s"
-                                "Should link to:\n$src\n"
+                    if [[ -L "$dst" ]]; then
+                        local real_dst
+                        real_dst="$(readlink "$dst")"
+                        printf "%s\nLinks to:\n%s\nShould link to:\n%s\n" \
+                               "$dst" "$real_dst" "$src"
                     # Diff the files
                     else
                         $diffcmd -ur "$dst" "$src" | less -FRX || true
@@ -103,11 +111,13 @@ symlink_config ()
                     printf "k - keep the current file\n"
                     printf "? - this help\n"
                     ;;
+                *)
+                    ;;
             esac
 
             printf "\n"
         done
-    elif [ ! -e "$dst" ]; then
+    elif [[ ! -e "$dst" ]]; then
         # The destination doesn't exists, so try to symlink it. $@ contains
         # optional sudo command.
         if "$@" ln -s -- "$src" "$dst"; then
@@ -133,8 +143,8 @@ install_config ()
     shift 2
 
     # If the target is the correct file type
-    if { [ -f "$src" ] && [ -f "$dst" ] ;} \
-    || { [ -d "$src" ] && [ -d "$dst" ] ;}
+    if { [[ -f "$src" ]] && [[ -f "$dst" ]] ;} \
+    || { [[ -d "$src" ]] && [[ -d "$dst" ]] ;}
     then
         # As long as the file doesn't match the installable file
         while ! diff -qr "$src" "$dst" >/dev/null 2>&1; do
@@ -143,7 +153,7 @@ install_config ()
             read -rep "(D)iff changes/(O)verwrite file/(K)eep file? [Dok?] " \
                 COMMAND
 
-            if [ -z "$COMMAND" ]; then
+            if [[ -z "$COMMAND" ]]; then
                 COMMAND=d
             fi
 
@@ -172,11 +182,13 @@ install_config ()
                     printf "k - keep the current file\n"
                     printf "? - this help\n"
                     ;;
+                *)
+                    ;;
             esac
 
             printf "\n"
         done
-    elif [ ! -e "$dst" ]; then
+    elif [[ ! -e "$dst" ]]; then
         # Attempt to copy over. $@ contains optional sudo command.
         if "$@" cp -r -- "$src" "$dst"; then
             updated=1
@@ -198,11 +210,11 @@ install_repo ()
     repo_name="${2##*/}"
     repo_name="${repo_name%.git}"
 
-    if [ ! -d "$1/$repo_name" ]; then
+    if [[ ! -d "$1/$repo_name" ]]; then
         hg clone --noupdate "$2" "$1/$repo_name" >/dev/null 2>&1
     fi
 
-    if [ ! -d "$1/$repo_name" ]; then
+    if [[ ! -d "$1/$repo_name" ]]; then
         printf "Not a mercurial repo: %s\n" "$1/$repo_name" 1>&2
         exit 1
     fi
@@ -213,16 +225,17 @@ install_repo ()
     hg pull >/dev/null 2>&1
     count () {
         hg log -T 'Version: {rev}\n' -r 'descendants(.) - .' | \
-            grep -c 'Version' | awk '{print $1}' 2>/dev/null
+            grep -c 'Version' 2>/dev/null
     }
 
-    if [ "$(count)" -ge "1" ]; then
+    # shellcheck disable=SC2310,SC2312
+    if [[ "$(count)" -ge "1" ]]; then
         while true; do
             printf "%d new commits in %s\n" "$(count)" "$1/$repo_name"
             read -rep "(D)iff new commits/(U)pdate/(K)eep current? [Duk?] " \
                 COMMAND
 
-            if [ -z "$COMMAND" ]; then
+            if [[ -z "$COMMAND" ]]; then
                 COMMAND=d
             fi
 
@@ -243,6 +256,8 @@ install_repo ()
                     printf "k - keep the current revision\n"
                     printf "? - this help\n"
                     ;;
+                *)
+                    ;;
             esac
         done
     fi
@@ -251,9 +266,13 @@ install_repo ()
 }
 
 version_gt ()
-{ test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1"; }
+{
+    local curr_version
+    curr_version="$(printf '%s\n' "$@" | sort -V | head -n 1)"
+    test "$curr_version" != "$1";
+}
 
-if [ -f ~/.bash_history ]; then
+if [[ -f ~/.bash_history ]]; then
     if ! head -n1 ~/.bash_history | grep -q '^#[0-9]*$' >/dev/null 2>&1; then
         # shellcheck disable=SC2088
         printf "~/.bash_history is not in multi-line format!\n"
@@ -262,6 +281,7 @@ if [ -f ~/.bash_history ]; then
     fi
 fi
 
+# shellcheck disable=SC2310
 if ! version_gt "$BASH_VERSION" "4.4"; then
     printf "Bash %s doesn't support multi-line history from file.\n" \
         "$BASH_VERSION"
@@ -269,18 +289,19 @@ if ! version_gt "$BASH_VERSION" "4.4"; then
 fi
 
 for link in dotfiles/*; do
-    symlink_config "$(pwd)/$link" "$HOME/.${link##*/}"
+    symlink_config "$PWD/$link" "$HOME/.${link##*/}"
 done
 
 for install_script in install/*/install.sh; do
-    src="$(pwd)/${install_script%install.sh}"
+    src="$PWD/${install_script%install.sh}"
     # shellcheck disable=SC1090
     . "$install_script"
 done
 
-if [ "$(uname)" = "Darwin" ]; then
+os_name="$(uname)"
+if [[ "$os_name" = "Darwin" ]]; then
     for install_script in install-osx/*/install.sh; do
-        src="$(pwd)/${install_script%install.sh}"
+        src="$PWD/${install_script%install.sh}"
         # shellcheck disable=SC1090
         . "$install_script"
     done
