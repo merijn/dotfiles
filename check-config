@@ -219,50 +219,50 @@ install_repo ()
         exit 1
     fi
 
-    cd "$1/$repo_name"
+    (
+        cd "$1/$repo_name"
 
-    printf "Checking for updates to %s...\n" "$repo_name"
-    hg pull >/dev/null 2>&1
-    count () {
-        hg log -T 'Version: {rev}\n' -r 'descendants(.) - .' | \
-            grep -c 'Version' 2>/dev/null
-    }
+        printf "Checking for updates to %s...\n" "$repo_name"
+        hg pull >/dev/null 2>&1
+        count () {
+            hg log -T 'Version: {rev}\n' -r 'descendants(.) - .' | \
+                grep -c 'Version' 2>/dev/null
+        }
 
-    # shellcheck disable=SC2310,SC2312
-    if [[ "$(count)" -ge "1" ]]; then
-        while true; do
-            printf "%d new commits in %s\n" "$(count)" "$1/$repo_name"
-            read -rep "(D)iff new commits/(U)pdate/(K)eep current? [Duk?] " \
-                COMMAND
+        # shellcheck disable=SC2310,SC2311,SC2312
+        if [[ "$(count)" -ge "1" ]]; then
+            while true; do
+                printf "%d new commits in %s\n" "$(count)" "$1/$repo_name"
+                read -rep "(D)iff new commits/(U)pdate/(K)eep current? [Duk?] " \
+                    COMMAND
 
-            if [[ -z "$COMMAND" ]]; then
-                COMMAND=d
-            fi
+                if [[ -z "$COMMAND" ]]; then
+                    COMMAND=d
+                fi
 
-            case "$COMMAND" in
-                [dD])
-                    hg log -p -r 'descendants(.) - .'
-                    ;;
-                [uU])
-                    hg update -C
-                    break
-                    ;;
-                [kK])
-                    break
-                    ;;
-                ?)
-                    printf "d - show diff between current and repo file\n"
-                    printf "u - update repository to latest revision\n"
-                    printf "k - keep the current revision\n"
-                    printf "? - this help\n"
-                    ;;
-                *)
-                    ;;
-            esac
-        done
-    fi
-
-    cd - >/dev/null
+                case "$COMMAND" in
+                    [dD])
+                        hg log -p -r 'descendants(.) - .'
+                        ;;
+                    [uU])
+                        hg update -C
+                        break
+                        ;;
+                    [kK])
+                        break
+                        ;;
+                    ?)
+                        printf "d - show diff between current and repo file\n"
+                        printf "u - update repository to latest revision\n"
+                        printf "k - keep the current revision\n"
+                        printf "? - this help\n"
+                        ;;
+                    *)
+                        ;;
+                esac
+            done
+        fi
+    )
 }
 
 version_gt ()
