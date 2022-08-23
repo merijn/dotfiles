@@ -89,7 +89,7 @@ if command -v tmux >/dev/null 2>&1; then
             return 0
         fi
         ESCAPE="$(expr "$ESCAPE" : "\(..\)")"
-        tmux new && exit
+        tmux new bash && exit
     else
         exit
     fi
