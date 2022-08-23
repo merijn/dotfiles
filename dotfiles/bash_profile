@@ -42,7 +42,7 @@ set_escape() {
             printf "%s\n"\
                 "Running a new screen/tmux inside a screen/tmux session. "\
                 "Enter an escape sequence for the new session or \"None\" to "\
-                "stop starting screen.\n"
+                "stop starting screen."
 
             while true; do
                 read -rep "Escape sequence (format: ^Dd): " ESCAPE
