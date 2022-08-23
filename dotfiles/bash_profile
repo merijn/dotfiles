@@ -14,11 +14,11 @@ set_escape() {
             local uid
             uid="$(id -u)"
             if [[ $uid -ne 0 ]]; then
-                if command -v startx 2>/dev/null; then
+                if command -v startx >/dev/null 2>&1; then
                     startx && exit
                 fi
-            elif command -v tmux 2>/dev/null \
-                || command -v screen 2>/dev/null
+            elif command -v tmux >/dev/null 2>&1\
+                || command -v screen >/dev/null 2>&1
             then
                 while true; do
                     read -rep "Start tmux/screen? (y/n) " ESCAPE
@@ -83,8 +83,8 @@ set_escape() {
     return 0
 }
 
-if command -v tmux 2>/dev/null; then
-    if ! tmux attach; then
+if command -v tmux >/dev/null 2>&1; then
+    if ! tmux attach >/dev/null 2>&1; then
         if ! set_escape; then
             return 0
         fi
@@ -93,7 +93,7 @@ if command -v tmux 2>/dev/null; then
     else
         exit
     fi
-elif command -v screen 2>/dev/null; then
+elif command -v screen >/dev/null 2>&1; then
     session_check="$(screen -ls | grep -c "\(No Sockets found in\)")"
     if [[ "$session_check" -eq 1 ]]; then
         set_escape
