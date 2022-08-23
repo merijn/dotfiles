@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-
+set -o pipefail
 shopt -s nullglob
 
 for dir in "$@"; do
     for path in "$dir"/*; do
         file="$(basename "$path")"
         logdate=${file%%.*}
-        prettydate="$(date -j -f %Y%m%d%H%M $logdate "+%H:%M %d-%m-%Y")"
+        prettydate="$(date -j -f %Y%m%d%H%M "$logdate" "+%H:%M %d-%m-%Y")"
         program=${file%.*}
         program=${program#*.}
         class=${file##*.}

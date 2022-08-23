@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
+set -o pipefail
 
 logdate=$(date +%Y%m%d%H%M)
 trap 'mv ${logdate}.MacPorts.Notification notifications/ 2>/dev/null' EXIT
 
 /opt/local/bin/port -q selfupdate
 count=$(/opt/local/bin/port -q installed outdated | wc -l | awk '{print $1}')
-if [ $count -ne 0 ]; then
-    printf "$count new ports available:\n" >>${logdate}.MacPorts.Notification
-    /opt/local/bin/port -q installed outdated >>${logdate}.MacPorts.Notification
+if [[ $count -ne 0 ]]; then
+    printf "%d new ports available:\n" "$count" \
+        >>"${logdate}.MacPorts.Notification"
+
+    /opt/local/bin/port -q installed outdated \
+        >>"${logdate}.MacPorts.Notification"
 fi
