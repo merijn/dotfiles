@@ -293,7 +293,6 @@ for link in dotfiles/*; do
 done
 
 for install_script in install/*/install.sh; do
-    src="$PWD/${install_script%install.sh}"
     # shellcheck disable=SC1090
     . "$install_script"
 done
@@ -301,7 +300,6 @@ done
 os_name="$(uname)"
 if [[ "$os_name" = "Darwin" ]]; then
     for install_script in install-osx/*/install.sh; do
-        src="$PWD/${install_script%install.sh}"
         # shellcheck disable=SC1090
         . "$install_script"
     done

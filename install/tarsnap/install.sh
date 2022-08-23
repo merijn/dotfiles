@@ -1,6 +1,6 @@
-FILE="${src}/install.sh"
-
-if [ "$(uname)" != "Darwin" ]; then
+#!/usr/bin/env bash
+os_name="$(uname)"
+if [[ "$os_name" != "Darwin" ]]; then
     printf "Tarsnap configuration is currently only set up for OSX.\n" 1>&2
     # Don't try to install on non-OSX
     return 0
@@ -12,29 +12,31 @@ fi
 tarsnap_dir="/Library/Application Support/Tarsnap"
 
 # Ensure the application directories exists
-if ! [ -d "$tarsnap_dir" ]; then
+if ! [[ -d "$tarsnap_dir" ]]; then
     sudo -p "Enter password to create $tarsnap_dir:" mkdir "$tarsnap_dir"
-    sudo chown $UID "$tarsnap_dir"
+    sudo chown "$UID" "$tarsnap_dir"
     chmod 700 "$tarsnap_dir"
 fi
 
+# shellcheck disable=SC2174
 mkdir -m 755 -p "$tarsnap_dir/etc/"
+# shellcheck disable=SC2174
 mkdir -m 755 -p "$tarsnap_dir/errors/"
 
 # Copy over the relevant shell scripts and config file
-install_config "$src/backup" "$tarsnap_dir/backup"
-install_config "$src/tarsnap.conf" "$tarsnap_dir/etc/tarsnap.conf"
+install_config "$PWD/install/tarsnap/backup" "$tarsnap_dir/backup"
+install_config "$PWD/install/tarsnap/tarsnap.conf" "$tarsnap_dir/etc/tarsnap.conf"
 
 # If the tarsnap binary is installed, install the scheduled backup job and load
 # it into launchd.
 tarsnap_exe="$tarsnap_dir/bin/tarsnap"
-if [ -f "$tarsnap_exe" ] && [ -x "$tarsnap_exe" ]; then
-    sudo_install_config "$src/com.tarsnap.backup.plist" \
+if [[ -f "$tarsnap_exe" ]] && [[ -x "$tarsnap_exe" ]]; then
+    sudo_install_config "$PWD/install/tarsnap/com.tarsnap.backup.plist" \
                         "/Library/LaunchDaemons/com.tarsnap.backup.plist"
 
     # If a job is loaded AND a new plist was installed, unload the old job
     # before loading the new one.
-    if [ $updated -eq 1 ] && sudo_list_loaded com.tarsnap.backup; then
+    if [[ $updated -eq 1 ]] && sudo_list_loaded com.tarsnap.backup; then
         sudo launchctl remove com.tarsnap.backup
     fi
 

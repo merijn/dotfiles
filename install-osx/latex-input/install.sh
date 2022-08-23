@@ -1,2 +1,3 @@
-FILE="${src}/install.sh"
-install_config "${src}/latex.cin" "${HOME}/Library/Input Methods/latex.cin"
+#!/usr/bin/env bash
+install_config "$PWD/install-osx/latex-input/latex.cin" \
+        "${HOME}/Library/Input Methods/latex.cin"

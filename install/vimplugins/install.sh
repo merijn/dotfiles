@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-FILE="${src}/install.sh"
 bundle_dir="$HOME/.vim/bundle"
 
 declare -A installed_repos
@@ -53,6 +52,8 @@ for repo_dir in "${!installed_repos[@]}"; do
                 printf "y - delete directory and contents\n"
                 printf "n - leave the directory and contents\n"
                 printf "? - this help\n"
+                ;;
+            *)
                 ;;
         esac
     done
