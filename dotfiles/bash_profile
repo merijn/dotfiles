@@ -1,54 +1,71 @@
 # Read and set standard paths and environment variables
-[ -f ~/.bash_env ] && . ~/.bash_env
+[[ -f "$HOME/.bash_env" ]] && . "$HOME/.bash_env"
 
 # Interactive bash have 'i' in $-, load .bashrc for interactive scripts. Don't
 # run rest of script for non-interactive login shells.
 case $- in
-    *i*) [ -f ~/.bashrc ] && . ~/.bashrc;;
+    *i*) [[ -f "$HOME/.bashrc" ]] && . "$HOME/.bashrc";;
     *) return 0;;
 esac
 
 set_escape() {
     case $TERM in
         cons*)
-            if [ `id -u` -ne 0 ]; then
-                [ $(which startx | wc -l) -eq 1 ] && startx && exit
-            else
-                if [ $(which tmux | wc -l) -eq 1\
-                    -o $(which screen | wc -l) -eq 1 ]; then
-
-                    printf "Start tmux/screen? (y/n) "
-                    read ESCAPE
-
-                    [ "$ESCAPE" = "n" ] && return 0
+            local uid
+            uid="$(id -u)"
+            if [[ $uid -ne 0 ]]; then
+                if command -v startx 2>/dev/null; then
+                    startx && exit
                 fi
-            fi
+            elif command -v tmux 2>/dev/null \
+                || command -v screen 2>/dev/null
+            then
+                while true; do
+                    read -rep "Start tmux/screen? (y/n) " ESCAPE
 
-            ESCAPE=^Dd
+                    case $ESCAPE in
+                        [yY])
+                            ESCAPE=^Dd
+                            return 0
+                            ;;
+                        [nN])
+                            return 0
+                            ;;
+                        *)
+                            ;;
+                    esac
+                done
+            fi
             ;;
 
         screen*)
+            printf "%s\n"\
+                "Running a new screen/tmux inside a screen/tmux session. "\
+                "Enter an escape sequence for the new session or \"None\" to "\
+                "stop starting screen.\n"
+
             while true; do
-                printf "%s\n"\
-                "Running a new screen/tmux inside a screen/tmux session. Enter "\
-                "an escape sequence for the new session (format: ^Dd) or \"None\""\
-                "to stop starting screen: "
+                read -rep "Escape sequence (format: ^Dd): " ESCAPE
 
-                read ESCAPE
-
-                if [ -z "$ESCAPE" ]; then
+                if [[ -z "$ESCAPE" ]]; then
                     ESCAPE=^Dd
                     break
                 fi
 
                 case $ESCAPE in
                     ^[A-Z][a-z])
-                        if [ "${ESCAPE:1:1}" = $(echo "${ESCAPE:2:1}" | tr '[a-z]' '[A-Z]') ]; then
+                        local trimmed
+                        # Internationalisation warnings are useless here
+                        # shellcheck disable=SC2018,SC2019
+                        trimmed="$(echo "${ESCAPE:2:1}" | tr 'a-z' 'A-Z')"
+                        if [[ "${ESCAPE:1:1}" = "$trimmed" ]]; then
                             break
                         fi
                         ;;
                     [Nn][Oo][Nn][Ee])
                         return 1
+                        ;;
+                    *)
                         ;;
                 esac
             done
@@ -57,26 +74,30 @@ set_escape() {
         xterm*)
             ESCAPE=^Dd
             ;;
+        *)
+            return 1
+            ;;
     esac
 
     export ESCAPE
     return 0
 }
 
-if [ $(which tmux | wc -l) -eq 1 ]; then
+if command -v tmux 2>/dev/null; then
     if ! tmux attach; then
         if ! set_escape; then
             return 0
         fi
-        ESCAPE=`expr $ESCAPE : "\(..\)"`
+        ESCAPE="$(expr "$ESCAPE" : "\(..\)")"
         tmux new && exit
     else
         exit
     fi
-elif [ $(which screen | wc -l) -eq 1 ]; then
-    if [ $(screen -ls | grep "\(No Sockets found in\)" | wc -l) -eq 1 ]; then
+elif command -v screen 2>/dev/null; then
+    session_check="$(screen -ls | grep -c "\(No Sockets found in\)")"
+    if [[ "$session_check" -eq 1 ]]; then
         set_escape
-        screen -e $ESCAPE && exit
+        screen -e "$ESCAPE" && exit
     else
         screen -DRR && exit
     fi

@@ -6,7 +6,8 @@ LESSHISTFILE=-
 PAGER=less
 RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
-if [ "$(uname)" = "Darwin" ]; then
+os_name="$(uname)"
+if [[ "$os_name" = "Darwin" ]]; then
     LANG=en_US.UTF-8
     LC_ALL=en_US.UTF-8
 
@@ -14,11 +15,11 @@ if [ "$(uname)" = "Darwin" ]; then
     MANPATH="/Library/Application Support/Tarsnap/share/man:$MANPATH"
 
     PATH="$HOME/.bin:/opt/local/bin:/opt/local/sbin:$PATH"
-    if [ -d "/Library/Application Support/Tarsnap/bin" ]; then
+    if [[ -d "/Library/Application Support/Tarsnap/bin" ]]; then
         PATH="/Library/Application Support/Tarsnap/bin:$PATH"
     fi
-    if [ -d "/Applications/Racket\ v6.1.1/bin/" ]; then
-        PATH="/Applications/Racket\ v6.1.1/bin/:$PATH"
+    if [[ -d "/Applications/Racket v6.1.1/bin/" ]]; then
+        PATH="/Applications/Racket v6.1.1/bin/:$PATH"
     fi
 
     export LANG LC_ALL MANPATH DYLD_LIBRARY_PATH
@@ -26,23 +27,25 @@ fi
 
 ghcdefault=ghc902
 ghcdirs=(~/ghc[0-9][0-9][0-9]/)
-for dir in ${ghcdirs[@]}; do
+for dir in "${ghcdirs[@]}"; do
     ghcdir="$(basename "$dir")"
-    if [ "$ghcdir" != "$ghcdefault" ]; then
+    if [[ "$ghcdir" != "$ghcdefault" ]]; then
         PATH="${dir}bin:$PATH"
     fi
 done
 
-if [ -d "$HOME/$ghcdefault/bin" ]; then
+if [[ -d "$HOME/$ghcdefault/bin" ]]; then
     PATH="$HOME/$ghcdefault/bin:$PATH"
 fi
 
-if [ -d "$HOME/.cabal/" ]; then
+if [[ -d "$HOME/.cabal/" ]]; then
     PATH="$HOME/.cabal/bin/:$PATH"
 fi
 
 # Read and set any machine local overrides
-[ -f ~/.bash_env_local ] && . ~/.bash_env_local
+# Stop shellcheck from checking file, it may not exist
+# shellcheck disable=SC1090
+[[ -f ~/.bash_env_local ]] && . ~/.bash_env_local
 
 export BASH_ENV EDITOR GREP_OPTIONS LESS LESSHISTFILE PAGER PATH
 export RIPGREP_CONFIG_PATH
