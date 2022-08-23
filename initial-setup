@@ -25,7 +25,8 @@ on_exit ()
 trap 'on_exit' ERR EXIT
 IFS=$'\n\t'
 
-if [ "$(uname)" = "Darwin" ]; then
+os_name="$(uname)"
+if [[ "$os_name" = "Darwin" ]]; then
   . setup/osx
 fi
 
@@ -41,12 +42,12 @@ if ! type hg >/dev/null 2>&1; then
     exit 1
 fi
 
-if [ ! -e ~/.hgrc ]; then
+if [[ ! -e ~/.hgrc ]]; then
     cp dotfiles/hgrc ~/.hgrc
 fi
 
 if ! hg help git-cleanup >/dev/null 2>&1; then
-    if [ ! -d ~/src/hg-git ]; then
+    if [[ ! -d ~/src/hg-git ]]; then
         hg clone https://foss.heptapod.net/mercurial/hg-git ~/src/hg-git
     else
         printf "hg-git not installed!\n"
