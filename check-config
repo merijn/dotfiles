@@ -1,14 +1,28 @@
 #!/usr/bin/env bash
-FILE="$(basename "$0")"
-
 # Setup error handlers
-set -eou pipefail
-set -o errtrace
-set -o functrace
-
+set -eo pipefail
+set -o nounset
 shopt -s nullglob
+shopt -s inherit_errexit
 
-trap 'printf "$FILE:${FUNCNAME:-}:$LINENO: $_\n" 1>&2' ERR EXIT
+exit_trap_finished=0
+on_exit ()
+{
+    local i
+    local stack_size=${#FUNCNAME[@]}
+    # start at one to skip on_exit in the stack
+    if [[ "$exit_trap_finished" -eq 0 ]]; then
+        for (( i=1; i < stack_size; i++ )); do
+            local src="${BASH_SOURCE[$i]:-}"
+            local func="${FUNCNAME[$i]:-}"
+            local lineno="${BASH_LINENO[$(( i - 1 ))]:-}"
+            printf "%s: %s: line %d\n" "$src" "$func" "$lineno"
+        done
+        exit_trap_finished=1
+    fi
+}
+
+trap 'on_exit' ERR EXIT
 
 if type colordiff >/dev/null 2>&1; then
     diffcmd="colordiff"
