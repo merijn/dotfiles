@@ -209,7 +209,7 @@ sudo_install_config ()
 
 install_repo ()
 {
-    repo_name="${2##*/}"
+    local repo_name="${2##*/}"
     repo_name="${repo_name%.git}"
 
     if [[ ! -d "$1/$repo_name" ]]; then
