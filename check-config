@@ -218,14 +218,18 @@ install_repo ()
 
     if [[ ! -d "$1/$repo_name" ]]; then
         printf "Not a mercurial repo: %s\n" "$1/$repo_name" 1>&2
-        exit 1
+        return 1
     fi
 
     (
         cd "$1/$repo_name"
 
         printf "Checking for updates to %s...\n" "$repo_name"
-        hg pull >/dev/null 2>&1
+        if ! hg pull >/dev/null 2>&1; then
+            printf "Failed to check updates for %s\n" "$repo_name"
+            return 1
+        fi
+
         count () {
             hg log -T 'Version: {rev}\n' -r 'descendants(.) - .' | \
                 grep -c 'Version' 2>/dev/null
@@ -264,6 +268,8 @@ install_repo ()
                 esac
             done
         fi
+
+        return 0
     )
 }
 

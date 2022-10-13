@@ -10,7 +10,8 @@ install_plugin ()
 {
     local repo_name
     repo_name="$(basename "$1")"
-    install_repo "$bundle_dir" "$1"
+    # Just skip vimplugins that fail to install
+    install_repo "$bundle_dir" "$1" || true
     unset "installed_repos[$bundle_dir/${repo_name%.git}]"
 }
 
