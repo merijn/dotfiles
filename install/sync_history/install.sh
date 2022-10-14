@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 install_repo "install/sync_history" "git+ssh://git@github.com/merijn/sync_history"
 
+printf "Building sync_history.\n"
+make -C install/sync_history/sync_history >/dev/null
+
+printf "Installing sync_history.\n"
+if [[ -f dotfiles/bin/sync_history ]]; then
+    ./dotfiles/bin/sync_history shutdown
+fi
+mv install/sync_history/sync_history/sync_history dotfiles/bin/
+
 if [[ "${BASH_VERSINFO[0]:-0}" -lt 4 ]] \
 || { [[ "${BASH_VERSINFO[0]:-0}" -eq 4 ]] && [[ "${BASH_VERSINFO[1]}" -lt 4 ]] ;}
 then
@@ -22,11 +31,3 @@ elif [[ -f ~/.bash_history ]] && type sync_history >/dev/null 2>&1; then
     fi
 fi
 
-printf "Building sync_history.\n"
-make -C install/sync_history/sync_history >/dev/null
-
-printf "Installing sync_history.\n"
-if [[ -f dotfiles/bin/sync_history ]]; then
-    ./dotfiles/bin/sync_history shutdown
-fi
-mv install/sync_history/sync_history/sync_history dotfiles/bin/
