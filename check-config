@@ -273,29 +273,6 @@ install_repo ()
     )
 }
 
-version_gt ()
-{
-    local curr_version
-    curr_version="$(printf '%s\n' "$@" | sort -V | head -n 1)"
-    test "$curr_version" != "$1";
-}
-
-if [[ -f ~/.bash_history ]]; then
-    if ! head -n1 ~/.bash_history | grep -q '^#[0-9]*$' >/dev/null 2>&1; then
-        # shellcheck disable=SC2088
-        printf "~/.bash_history is not in multi-line format!\n"
-        trap '' EXIT
-        exit 2
-    fi
-fi
-
-# shellcheck disable=SC2310
-if ! version_gt "$BASH_VERSION" "4.4"; then
-    printf "Bash %s doesn't support multi-line history from file.\n" \
-        "$BASH_VERSION"
-    printf "Update to Bash >= 4.4\n"
-fi
-
 for link in dotfiles/*; do
     name=".${link##*/}"
     # shellcheck disable=SC2310
