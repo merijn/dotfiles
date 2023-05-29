@@ -24,6 +24,8 @@ on_exit ()
 
 trap 'on_exit' ERR EXIT
 
+. ssh_agent.sh
+
 if type colordiff >/dev/null 2>&1; then
     diffcmd="colordiff"
 else

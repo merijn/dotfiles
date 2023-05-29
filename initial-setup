@@ -25,6 +25,8 @@ on_exit ()
 trap 'on_exit' ERR EXIT
 IFS=$'\n\t'
 
+. ssh_agent.sh
+
 os_name="$(uname)"
 if [[ "$os_name" = "Darwin" ]]; then
   . setup/osx
