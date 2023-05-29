@@ -209,3 +209,6 @@ mq () {
 # Stop shellcheck from checking file, it may not exist
 # shellcheck disable=SC1090
 [[ -f ~/.bashrc_local ]] && . ~/.bashrc_local
+
+# Clear any failed status from command ran during initialisation
+true
