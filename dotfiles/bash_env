@@ -14,7 +14,7 @@ if [[ "$os_name" = "Darwin" ]]; then
     MANPATH="/opt/local/share/man:$MANPATH"
     MANPATH="/Library/Application Support/Tarsnap/share/man:$MANPATH"
 
-    PATH="$HOME/.bin:/opt/local/bin:/opt/local/sbin:$PATH"
+    PATH="/opt/local/bin:/opt/local/sbin:$PATH"
     if [[ -d "/Library/Application Support/Tarsnap/bin" ]]; then
         PATH="/Library/Application Support/Tarsnap/bin:$PATH"
     fi
@@ -46,6 +46,8 @@ fi
 # Stop shellcheck from checking file, it may not exist
 # shellcheck disable=SC1090
 [[ -f ~/.bash_env_local ]] && . ~/.bash_env_local
+
+PATH="$HOME/.bin:$PATH"
 
 export BASH_ENV EDITOR GREP_OPTIONS LESS LESSHISTFILE PAGER PATH
 export RIPGREP_CONFIG_PATH
