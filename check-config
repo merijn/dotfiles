@@ -215,7 +215,10 @@ install_repo ()
     repo_name="${repo_name%.git}"
 
     if [[ ! -d "$1/$repo_name" ]]; then
-        hg clone --noupdate "$2" "$1/$repo_name" >/dev/null 2>&1
+        if ! hg clone --noupdate "$2" "$1/$repo_name"; then
+            printf "Mercurial clone failed, check if Mercurial is working correctly.\n"
+            return 1
+        fi
     fi
 
     if [[ ! -d "$1/$repo_name" ]]; then
