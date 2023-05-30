@@ -73,9 +73,14 @@ if [[ -n "$BASH_VERSION" ]] && [[ -n "$PS1" ]]; then
     if [[ "${BASH_VERSINFO[0]:-0}" -lt 4 ]] \
     || { [[ "${BASH_VERSINFO[0]:-0}" -eq 4 ]] \
          && [[ "${BASH_VERSINFO[1]}" -lt 4 ]] \
-       ;} && type sync_history >/dev/null 2>&1
+       ;} || ! type sync_history >/dev/null 2>&1
     then
+        export HISTFILE="$HOME/.bash_history"
+        shopt -s histappend   # Append to .bash_history instead of overwriting
+    else
         unset HISTFILE
+        hist_path="$(sync_history history-path)"
+        history -cr "$hist_path"
         last_cmd_no ()
         {
             last_cmd=$(HISTTIMEFORMAT='	' history 1)
@@ -122,9 +127,6 @@ if [[ -n "$BASH_VERSION" ]] && [[ -n "$PS1" ]]; then
         }
         PROMPT_COMMAND="prompt_command; $PROMPT_COMMAND"
         trap 'sync_history deregister $$' EXIT
-    else
-        export HISTFILE="$HOME/.bash_history"
-        shopt -s histappend   # Append to .bash_history instead of overwriting
     fi
 
     if [[ -f /usr/local/etc/bash_completion ]]; then
