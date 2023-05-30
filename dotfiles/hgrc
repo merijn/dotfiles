@@ -18,27 +18,17 @@ remotecmd.snellius = /home/merijnev/.local/bin/hg
 
 [extensions]
 extdiff =
-# Enable fetch extension which acts as "hg pull -u && hg merge && hg commit"
-fetch =
-# Enable purge extension which nukes any non-tracked file.
-purge =
 # Enable hg-git extension which allows interaction with git
 bookmarks =
 hggit = $HOME/src/hg-git/hggit
 # Enable colorized diffs
 color =
-# Enable paging
-pager =
-# Commandline revision graph log
-graphlog =
 # Commandline progressbar for push/pull
 progress =
 # Mercurial Queues
 mq =
 # Relink extension for recreating hardlinks in cloned local repositories
 relink =
-# Interactive change recording for commits and patches
-record =
 # Mutable changesets
 rebase =
 histedit =
@@ -68,6 +58,7 @@ qrecord = qnew -i
 qstatus = status --rev "p1(.):."
 qmove = qpush --move
 qwdiff = wdiff --from "p1(.)" --to "."
+glog = log -G
 vlog = log --style $HOME/.hg-data/styles/vlog.style
 vglog = glog --style $HOME/.hg-data/styles/vlog.style
 show = log --style $HOME/.hg-data/styles/vlog.style -r
@@ -76,8 +67,6 @@ strip-obsolete = strip --hidden -r 'extinct()'
 
 [pager]
 pager = LESS='FSRX' less
-attend = annotate, bookmarks, cat, diff, glog, grep, heads, help, incoming,
-         log, outgoing, qdiff, show, status, vglog, vlog, wdiff, qwdiff
 
 [color]
 changeset.secret = red
