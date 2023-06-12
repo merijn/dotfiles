@@ -27,6 +27,9 @@ color =
 progress =
 # Mercurial Queues
 mq =
+# Interactive change recording for commits and patches (deprecated, but needed
+# for qrefresh)
+record =
 # Relink extension for recreating hardlinks in cloned local repositories
 relink =
 # Mutable changesets
