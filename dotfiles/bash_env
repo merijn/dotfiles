@@ -6,6 +6,9 @@ LESSHISTFILE=-
 PAGER=less
 RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
+# Stop globs with no matches to expand to themselves
+shopt -s nullglob
+
 os_name="$(uname)"
 if [[ "$os_name" = "Darwin" ]]; then
     LANG=en_US.UTF-8
