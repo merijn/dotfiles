@@ -4,6 +4,6 @@ library="$1"
 shift 1
 
 if nm -P "$library" | awk '{print $2 " " $1}' | c++filt | grep -q "$@"; then
-    printf "\e[92m$library:\e[39m\n"
+    printf "\e[92m%s:\e[39m\n" "$library"
     nm -P "$library" | awk '{print $2 " " $1}' | c++filt | grep --colour=always "$@"
 fi
