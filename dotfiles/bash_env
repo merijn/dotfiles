@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
+# exported happen via `export_fun`, but shellcheck can't see that
 BASH_ENV=~/.bash_env
 EDITOR=vim
 GREP_OPTIONS="--colour=auto"
@@ -7,8 +9,41 @@ LESSHISTFILE=-
 PAGER=less
 RIPGREP_CONFIG_PATH="$HOME/.ripgreprc"
 
-# Stop globs with no matches to expand to themselves
-shopt -s nullglob
+# Contains a list of environment variables that TMUX should update when a new
+# client connects to a session
+TMUX_REFRESH_VARS="TMUX_REFRESH_VARS"
+
+# Ensure we always use the most recent SSH_AUTH_SOCK/DISPLAY variables within
+# tmux.
+if [[ -n "$SSH_AUTH_SOCK" ]]; then
+    TMUX_REFRESH_VARS="SSH_AUTH_SOCK $TMUX_REFRESH_VARS"
+fi
+if [[ -n "$DISPLAY" ]]; then
+    TMUX_REFRESH_VARS="DISPLAY $TMUX_REFRESH_VARS"
+fi
+
+export_fun () {
+    for var in "$@"; do
+        export -- "${var?}"
+        TMUX_REFRESH_VARS="$var $TMUX_REFRESH_VARS"
+    done
+}
+
+# Store the "original" PATH and MANPATH in BASEPATH and BASEMANPATH
+# respectively, so that re-evaluating .bash_env does not infinitely expand the
+# variables.
+BASEPATH="${BASEPATH:-$PATH}"
+export_fun BASEPATH
+PATH="$BASEPATH"
+BASEMANPATH="${BASEMANPATH:-$MANPATH}"
+export_fun BASEMANPATH
+MANPATH="$BASEMANPATH"
+
+# Stop globs with no matches to expand to themselves in bash.
+# Conditional, because this errors on macOS when zsh is the default
+if [[ -n "$BASH_VERSION" ]]; then
+    shopt -s nullglob
+fi
 
 os_name="$(uname)"
 if [[ "$os_name" = "Darwin" ]]; then
@@ -29,7 +64,7 @@ if [[ "$os_name" = "Darwin" ]]; then
         PATH="/Applications/Racket v6.1.1/bin/:$PATH"
     fi
 
-    export LANG LC_ALL MANPATH DYLD_LIBRARY_PATH
+    export_fun LANG LC_ALL MANPATH DYLD_LIBRARY_PATH
 fi
 
 ghcdefault=902
@@ -56,5 +91,15 @@ fi
 
 PATH="$HOME/.bin:$PATH"
 
-export BASH_ENV EDITOR GREP_OPTIONS LESS LESSHISTFILE PAGER PATH
-export RIPGREP_CONFIG_PATH
+export_fun BASH_ENV EDITOR GREP_OPTIONS LESS LESSHISTFILE PAGER PATH
+export_fun RIPGREP_CONFIG_PATH
+export TMUX_REFRESH_VARS
+
+# When sourced within tmux, immediately update the values in the global
+# environment
+if [[ -n "$TMUX" ]]; then
+    tmux set update-environment "$TMUX_REFRESH_VARS"
+    for var in ${TMUX_REFRESH_VARS//:/$IFS}; do
+        tmux set-environment "$var" "${!var}"
+    done
+fi

@@ -195,6 +195,22 @@ st () {
     fi
 }
 
+refresh () {
+    if [[ -n "$TMUX_REFRESH_VARS" ]]; then
+        for var in ${TMUX_REFRESH_VARS//:/$IFS}; do
+            local val
+            if val="$(tmux show-environment "$var")"; then
+                export "${val?}"
+            fi
+        done
+    fi
+}
+
+reload () {
+    . "$HOME/.bash_env"
+    refresh
+}
+
 # Read and set any machine local overrides
 # Stop shellcheck from checking file, it may not exist
 # shellcheck disable=SC1090
