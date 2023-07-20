@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 BASH_ENV=~/.bash_env
 EDITOR=vim
 GREP_OPTIONS="--colour=auto"
@@ -14,13 +15,16 @@ if [[ "$os_name" = "Darwin" ]]; then
     LANG=en_US.UTF-8
     LC_ALL=en_US.UTF-8
 
-    MANPATH="/opt/local/share/man:$MANPATH"
-    MANPATH="/Library/Application Support/Tarsnap/share/man:$MANPATH"
+    if [[ -d "/opt/local/" ]]; then
+        MANPATH="/opt/local/share/man:$MANPATH"
+        PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+    fi
 
-    PATH="/opt/local/bin:/opt/local/sbin:$PATH"
-    if [[ -d "/Library/Application Support/Tarsnap/bin" ]]; then
+    if [[ -d "/Library/Application Support/Tarsnap/" ]]; then
+        MANPATH="/Library/Application Support/Tarsnap/share/man:$MANPATH"
         PATH="/Library/Application Support/Tarsnap/bin:$PATH"
     fi
+
     if [[ -d "/Applications/Racket v6.1.1/bin/" ]]; then
         PATH="/Applications/Racket v6.1.1/bin/:$PATH"
     fi
