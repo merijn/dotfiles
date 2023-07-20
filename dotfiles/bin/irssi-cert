@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+if [[ $# -ne 1 ]]; then
+    printf "Insufficient arguments: %s <cert name>\n" "$0"
+    exit 1
+fi
+
+if [[ ! -d "$HOME/.irssi/certs/" ]]; then
+    mkdir -p "$HOME/.irssi/certs"
+fi
+
+cert="$1.pem"
+certpath="$HOME/.irssi/certs/$cert"
+
+openssl req -x509 -new -newkey ed25519 -sha256 -days 1096 -nodes -out "$certpath" -keyout "$certpath"
+openssl x509 -in "$certpath" -noout -enddate
+
+fingerprint="$(openssl x509 -in "$certpath" -noout -fingerprint -sha512)"
+fingerprint="$(echo "$fingerprint" | awk -F= '{gsub(":",""); print tolower ($2)}')"
+
+printf "Fingerprint:\n%s\n\n" "$fingerprint"
+printf "Connect and authenticate using password, then run:\n/msg NickServ CERT ADD\n"

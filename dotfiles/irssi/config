@@ -2,28 +2,28 @@ servers = (
   {
     address = "irc.libera.chat";
     chatnet = "libera";
-    port = "7000";
-    use_ssl = "yes";
-    ssl_verify = "yes";
+    port = "6697";
+    use_tls = "yes";
+    tls_cert = "~/.irssi/certs/libera.pem";
+    tls_verify = "yes";
     autoconnect = "yes";
   }
 );
 
 chatnets = {
-    libera = { type = "IRC"; };
+    libera = { type = "IRC"; sasl_mechanism = "EXTERNAL"; };
 };
 
 channels = (
   { name = "#haskell"; chatnet = "libera"; autojoin = "yes"; },
-  { name = "#haskell-offtopic"; chatnet = "libera"; autojoin = "yes"; }
-  { name = "##programming"; chatnet = "libera"; autojoin = "yes"; }
+  { name = "#haskell-offtopic"; chatnet = "libera"; autojoin = "yes"; },
+  { name = "##programming"; chatnet = "libera"; autojoin = "yes"; },
   { name = "#haskell-beginners"; chatnet = "libera"; autojoin = "yes"; },
-  { name = "#hackage"; chatnet = "libera"; autojoin = "yes"; }
+  { name = "#hackage"; chatnet = "libera"; autojoin = "yes"; },
   { name = "#haskell-ops"; chatnet = "libera"; autojoin = "yes"; },
-  { name = "#ghc"; chatnet = "libera"; autojoin = "yes"; }
-  { name = "#nlesc-smcm"; chatnet = "libera"; autojoin = "yes"; }
-  { name = "#numerical-haskell"; chatnet = "libera"; autojoin = "yes"; }
-  { name = "#haskell-infrastructure"; chatnet = "libera"; autojoin = "yes"; }
+  { name = "#ghc"; chatnet = "libera"; autojoin = "yes"; },
+  { name = "#numerical-haskell"; chatnet = "libera"; autojoin = "yes"; },
+  { name = "#haskell-infrastructure"; chatnet = "libera"; autojoin = "yes"; },
   { name = "##programming-ops"; chatnet = "libera"; autojoin = "yes"; }
 );
 
@@ -90,10 +90,9 @@ windows = {
   6 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#ghc"; } ); };
   7 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#haskell-ops"; }); };
   8 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#hackage"; }); };
-  9 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#nlesc-smcm"; } ); };
-  10 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#numerical-haskell"; } ); };
-  11 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#haskell-infrastructure"; } ); };
-  12 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "##programming-ops"; } ); };
+  9 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#numerical-haskell"; }); };
+  10 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "#haskell-infrastructure"; }); };
+  11 = { items = ( { type = "CHANNEL"; chatnet = "libera"; name = "##programming-ops"; }); };
 };
 
 mainwindows = { 1 = { first_line = "1"; lines = "44"; }; };
