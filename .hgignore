@@ -1,10 +1,15 @@
-syntax: glob
-vim/.netrwhist
+syntax: rootglob
 bin/mvim
-irssi/default.theme
 dotfiles/vim/spell/*.add.spl
-install/sync_history/*.d
-install/sync_history/sync_history
+dotfiles/vim/.netrwhist
 dotfiles/vim/spell/nl.utf-8.spl
 dotfiles/vim/spell/nl.utf-8.sug
-bin/sync_history
+
+dotfiles/irssi/default.theme
+dotfiles/irssi/certs/*
+
+install/sync_history/*.d
+install/sync_history/sync_history
+
+dotfiles/bin/sync_history
+dotfiles/bin/haskell-ci
