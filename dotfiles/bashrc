@@ -11,11 +11,6 @@ alias ulimit='ulimit -S'
 alias more='less'
 alias ghci='ghci -ignore-dot-ghci -ghci-script ~/.ghci'
 
-rlist ()
-{
-    ssh -q "$1" tmux list-buffers
-}
-
 if [[ -n "$BASH_VERSION" ]] && [[ -n "$PS1" ]]; then
     TITLEBAR="\[\e]0;\u@\h:\w\007\]" # Sets titlebar of xterm/PuTTy to \u@\h:\w
     CAPTION="\[\e]0;\w\007\]"        # Sets screen status bar to CWD
@@ -183,6 +178,11 @@ if [[ -n "$BASH_VERSION" ]] && [[ -n "$PS1" ]]; then
     fi
 fi
 
+rlist ()
+{
+    ssh -q "$1" tmux list-buffers
+}
+
 symbolrg () {
     find -E . -regex ".*\.(a|dylib|so)" -exec symbolgrep {} "$@" \; | less -FSXR
 }
@@ -192,18 +192,6 @@ st () {
         tmux renamew "$*"
     else
         echo -ne "\033k$*\033\\"
-    fi
-}
-
-mq () {
-    local queue root
-    queue="$(hg qqueue --active)"
-    root="$(hg root)"
-
-    if [[ "$queue" = "patches" ]]; then
-        hg -R "$root/.hg/patches" "$*"
-    else
-        hg -R "$root/.hg/patches-$queue" "$*"
     fi
 }
 
