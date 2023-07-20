@@ -26,7 +26,7 @@ then
         if sudo_install_config \
                 "$PWD/install-osx/macports/com.dotfiles.macports.plist" \
                 "/Library/LaunchDaemons/com.dotfiles.macports.plist" \
-            && list_loaded com.dotfiles.macports
+            && sudo_list_loaded com.dotfiles.macports
         then
             sudo launchctl remove com.dotfiles.macports
         fi
