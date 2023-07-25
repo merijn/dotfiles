@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN"
+"http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.dotfiles.homebrew</string>
+
+    <key>UserName</key>
+    <string>root</string>
+
+    <key>GroupName</key>
+    <string>wheel</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Library/Application Support/Dotfiles/homebrew-update</string>
+    </array>
+
+    <key>EnableGlobbing</key>
+    <false/>
+
+    <key>WorkingDirectory</key>
+    <string>/Library/Application Support/Dotfiles/</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Library/Application Support/Dotfiles/homebrew-err.log</string>
+
+    <key>StandardOutPath</key>
+    <string>/Library/Application Support/Dotfiles/homebrew-out.log</string>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>WeekDay</key>
+        <integer>1</integer>
+        <key>Hour</key>
+        <integer>12</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+</dict>
+</plist>

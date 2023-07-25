@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -o pipefail
+
+logdate=$(date +%Y%m%d%H%M)
+trap 'mv ${logdate}.HomeBrew.Notification notifications/ 2>/dev/null' EXIT
+
+count=$(brew update | sed -n "s/^You have \([0-9]*\) outdated formulae installed.$/\1/p")
+if [[ -n "$count" ]] && [[ $count -ne 0 ]]; then
+    printf "%d new formula available:\n" "$count" \
+        >>"${logdate}.HomeBrew.Notification"
+
+    brew outdated >>"${logdate}.HomeBrew.Notification"
+fi
