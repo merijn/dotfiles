@@ -38,13 +38,6 @@ if [[ "$os_name" = "Darwin" ]]; then
   . setup/osx
 fi
 
-set +o pipefail
-if ! ssh -T git@github.com 2>&1 | grep -q merijn; then
-    printf "Can't authenticate with github!\n"
-    exit 1
-fi
-set -o pipefail
-
 if ! type hg >/dev/null 2>&1; then
     printf "Mercurial not installed!\n"
     exit 1
@@ -62,5 +55,12 @@ if ! hg help git-cleanup >/dev/null 2>&1; then
         exit 1
     fi
 fi
+
+set +o pipefail
+if ! ssh -T git@github.com 2>&1 | grep -q merijn; then
+    printf "Can't authenticate with github!\n"
+    exit 1
+fi
+set -o pipefail
 
 exec ./check-config
