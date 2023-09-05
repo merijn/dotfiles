@@ -22,6 +22,15 @@ defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
 # Disable smart quotes as it’s annoying for messages that contain code
 defaults write com.apple.messageshelper.MessageController SOInputLineSettings -dict-add "automaticQuoteSubstitutionEnabled" -bool false
 
+
+arch_name="$(uname -p)"
+if [[ "$arch_name" = "arm" ]]; then
+    if ! pgrep oahd >/dev/null 2>&1; then
+        printf "Detected ARM and no Rosetta. Installing Rosetta 2.\n"
+        sudo softwareupdate --install-rosetta
+    fi
+fi
+
 hash brew 2>/dev/null || { echo >&2 "Homebrew not found. Aborting."; exit 1; }
 
 echo "Installing Homebrew tools."
