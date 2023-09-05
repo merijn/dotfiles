@@ -47,6 +47,11 @@ function s:isOSX()
     return 0
 endfunction
 
+if has('nvim')
+    " Don't show statusline in neovim
+    set laststatus=0
+endif
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Edit options                                                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
