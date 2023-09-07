@@ -93,7 +93,7 @@ nnoremap <silent> <return> :noh<return>
 set wildignore+=*.o,*.lo,*.la,*.a,*.so,.*.d,*.pyc,.DS_Store,*.aux,*.bbl,*.blg
 set wildignore+=*.lof,*.log,*.lot,*.toc,*.pdf,*.hi,*.p_o,*.p_hi,*.dyn_hi
 set wildignore+=*.dyn_o,*/.git/*,*/.svn/*,*/.hg/*,*/dist/*,*.dSYM/*,*.d
-set wildignore+=*/dist-newstyle/*,*/build/*
+set wildignore+=*/dist-newstyle/*,*/build/*,*.class
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Programming options                                                         "
@@ -399,6 +399,8 @@ Helptags
 nnoremap <silent> <Leader>t :CtrlPMixed<return>
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_mruf_relative = 1
+" Ignore files inside node_modules, .git, .hg, .svn, and .swp files
+let g:ctrlp_custom_ignore = '\v[\/](node_modules)|(\.(swp|ico|git|svn|hg))$'
 
 " Gundo options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
