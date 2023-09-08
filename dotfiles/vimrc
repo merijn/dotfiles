@@ -377,22 +377,24 @@ function GetNextError(next)
     endif
 endfunction
 
-let g:error_list_is_open = 0
 function ToggleErrorList()
-    for winnr in range(1, winnr('$'))
-        if getwinvar(winnr, '&syntax') == 'qf'
-            cclose
-            return
-        endif
-    endfor
-    if g:error_list_is_open == 1
+    " Check if loclist is open
+    if get(getloclist(0, {'winid':0}), 'winid', 0)
         lclose
-        let g:error_list_is_open = 0
     elseif len(getloclist(0)) != 0
         " Open the location list
         lopen
-        let g:error_list_is_open = 1
-    elseif len(getqflist()) != 0
+        " Jump back to previously active window, so loclist preview does not
+        " appear
+        wincmd p
+    else
+        for winnr in range(1, winnr('$'))
+            if getwinvar(winnr, '&syntax') == 'qf'
+                cclose
+                return
+            endif
+        endfor
+
         copen
     endif
 endfunction
