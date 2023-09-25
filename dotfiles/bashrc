@@ -125,7 +125,13 @@ if [[ -n "$BASH_VERSION" ]] && [[ -n "$PS1" ]]; then
     fi
 
     if [[ -f /usr/local/etc/bash_completion ]]; then
+        # shellcheck disable=SC1091
         . /usr/local/etc/bash_completion
+    fi
+
+    if [[ -f /opt/homebrew/etc/profile.d/bash_completion.sh ]]; then
+        # shellcheck disable=SC1091
+        . /opt/homebrew/etc/profile.d/bash_completion.sh
     fi
 
     # Set OS specific aliases and settings or overwrites
