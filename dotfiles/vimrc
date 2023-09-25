@@ -494,6 +494,11 @@ augroup RainbowParentheses
     au Syntax * RainbowParenthesesLoadSquare
 augroup END
 
+" Tabularize options
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+vnoremap <Leader>= :Tabularize /=<CR>
+nnoremap <Leader>= :Tabularize /=<CR>
+
 " Supertab options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:SuperTabDefaultCompletionType = '<c-x><c-o>'

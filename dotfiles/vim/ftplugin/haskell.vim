@@ -17,7 +17,5 @@ let g:haskell_enable_static_pointers = 1  " to enable highlighting of `static`
 let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
 
 "vmap a; :Tabularize /::<CR>
-vnoremap <Leader>= :Tabularize /=<CR>
-nnoremap <Leader>= :Tabularize /=<CR>
 vnoremap <Leader>- :Tabularize /-><CR>
 nnoremap <Leader>- :Tabularize /-><CR>
