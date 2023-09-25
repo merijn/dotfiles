@@ -116,7 +116,7 @@ endif
 
 if has('nvim')
     nnoremap <silent> <tab> :lua vim.lsp.buf.hover()<return>
-    nnoremap <silent> <C-]> :lua vim.lsp.buf.definition()<return>
+    nnoremap <silent> <Leader>g :lua vim.lsp.buf.definition()<return>
     nnoremap <silent> <Leader>f :lua vim.lsp.buf.references()<return>
     nnoremap <silent> <Leader>i :lua vim.lsp.buf.implementation()<return>
     "nnoremap <silent> <Leader>s :lua vim.lsp.codelens.run()<return>
