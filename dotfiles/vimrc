@@ -396,6 +396,7 @@ function ToggleErrorList()
         " appear
         wincmd p
     else
+        " If a quickfix list is open, close it and exit function
         for winnr in range(1, winnr('$'))
             if getwinvar(winnr, '&syntax') == 'qf'
                 cclose
@@ -403,7 +404,10 @@ function ToggleErrorList()
             endif
         endfor
 
-        copen
+        " No open quickfix list to close, open it if not empty
+        if len(getqflist()) != 0
+            copen
+        endif
     endif
 endfunction
 
