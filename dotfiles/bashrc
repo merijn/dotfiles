@@ -9,6 +9,9 @@ alias ll='ls -lhoAFG'   # Show file flags in long mode with human readable size
 alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
 alias ulimit='ulimit -S'
 alias more='less'
+if ! type nvim >/dev/null 2>&1; then
+    alias vim='nvim'
+fi
 alias ghci='ghci -ignore-dot-ghci -ghci-script ~/.ghci'
 
 if [[ -n "$BASH_VERSION" ]] && [[ -n "$PS1" ]]; then
