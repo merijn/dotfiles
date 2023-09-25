@@ -123,6 +123,10 @@ if has('nvim')
     nnoremap <silent> <Leader>s :MetalsSuperMethodHierarchy<return>
 endif
 
+" Use rg for :grep
+let &grepprg="rg --vimgrep"
+command! -nargs=+ Rg execute 'silent grep! <args>' | cwindow
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Miscellaneous options                                                       "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -385,6 +389,21 @@ function GetNextError(next)
     endif
 endfunction
 
+function ToggleQuickFix()
+    " If a quickfix list is open, close it and exit function
+    for winnr in range(1, winnr('$'))
+        if getwinvar(winnr, '&syntax') == 'qf'
+            cclose
+            return
+        endif
+    endfor
+
+    " No open quickfix list to close, open it if not empty
+    if len(getqflist()) != 0
+        copen
+    endif
+endfunction
+
 function ToggleErrorList()
     " Check if loclist is open
     if get(getloclist(0, {'winid':0}), 'winid', 0)
@@ -396,24 +415,14 @@ function ToggleErrorList()
         " appear
         wincmd p
     else
-        " If a quickfix list is open, close it and exit function
-        for winnr in range(1, winnr('$'))
-            if getwinvar(winnr, '&syntax') == 'qf'
-                cclose
-                return
-            endif
-        endfor
-
-        " No open quickfix list to close, open it if not empty
-        if len(getqflist()) != 0
-            copen
-        endif
+        call ToggleQuickFix()
     endif
 endfunction
 
 nnoremap <silent> <C-j> :call GetNextError(1)<CR>
 nnoremap <silent> <C-k> :call GetNextError(0)<CR>
 nnoremap <silent> \ :call ToggleErrorList()<return>
+nnoremap <silent> <C-\> :call ToggleQuickFix()<return>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugin Options                                                              "
