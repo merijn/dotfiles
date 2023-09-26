@@ -1,7 +1,9 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 call plug#begin()
+Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" Quickfix/loclist preview
 Plug 'kevinhwang91/nvim-bqf'
 call plug#end()
 source ~/.vimrc
