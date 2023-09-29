@@ -2,11 +2,12 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 call plug#begin()
 Plug 'neovim/nvim-lspconfig'
-" Prereq for nvim-metals
+" Prereq for nvim-metals & typescript-tools
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Quickfix/loclist preview
 Plug 'kevinhwang91/nvim-bqf'
+Plug 'pmizio/typescript-tools.nvim'
 Plug 'scalameta/nvim-metals'
 call plug#end()
 source ~/.vimrc
@@ -48,6 +49,15 @@ source ~/.vimrc
       -- Instead of true it can also be a list of languages
       additional_vim_regex_highlighting = false,
     },
+  }
+
+  require("typescript-tools").setup {
+    handlers = {
+      ["textDocument/publishDiagnostics"] = vim.lsp.with(
+        vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false }
+      )
+    },
+    settings = {}
   }
 EOF
 
