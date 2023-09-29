@@ -1,0 +1,7 @@
+[user]
+	name = Merijn Verstraaten
+	email = m.verstraaten@eaglescience.nl
+[core]
+	excludesfile = /Users/merijn/.gitignore
+[push]
+	autoSetupRemote = true
