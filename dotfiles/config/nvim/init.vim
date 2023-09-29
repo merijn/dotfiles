@@ -2,13 +2,36 @@ set runtimepath^=~/.vim runtimepath+=~/.vim/after
 let &packpath = &runtimepath
 call plug#begin()
 Plug 'neovim/nvim-lspconfig'
+" Prereq for nvim-metals
+Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Quickfix/loclist preview
 Plug 'kevinhwang91/nvim-bqf'
+Plug 'scalameta/nvim-metals'
 call plug#end()
 source ~/.vimrc
 
 :lua << EOF
+  -- Scala Metals configuration
+  -----------------------------------------------------------------------------
+  metals_config = require'metals'.bare_config()
+  metals_config.settings = {
+     showImplicitArguments = true,
+     excludedPackages = {
+       "akka.actor.typed.javadsl",
+       "com.github.swagger.akka.javadsl"
+     }
+  }
+
+  metals_config.on_attach = function()
+    require'completion'.on_attach();
+  end
+  metals_config.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+    vim.lsp.diagnostic.on_publish_diagnostics, {
+      virtual_text = false
+    }
+  )
+
   -- Treesitter Configuration
   -----------------------------------------------------------------------------
   require'nvim-treesitter.configs'.setup {
@@ -27,3 +50,10 @@ source ~/.vimrc
     },
   }
 EOF
+
+if has('nvim')
+  augroup lsp
+    au!
+    au FileType scala,sbt lua require('metals').initialize_or_attach(metals_config)
+  augroup end
+endif
