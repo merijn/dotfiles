@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-if [[ 1 -eq $(echo "${BASH_VERSINFO[0]}.${BASH_VERSINFO[1]} < 4.4" | bc) ]]; then
+check_bash="$(echo "${BASH_VERSINFO[0]}.${BASH_VERSINFO[1]} < 4.4" | bc)"
+if [[ 1 -eq  "$check_bash" ]]; then
     printf "Bash version too old! Update to 4.4+ first!\n"
     exit 1
 fi
