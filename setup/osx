@@ -38,12 +38,12 @@ homebrew_formulae=(
     "bash"
     "bash-completion@2"
     "colordiff"
-    "wdiff"
     "ctags"
+    "neovim"
+    "reattach-to-user-namespace"
     "ripgrep"
     "tmux"
-    "reattach-to-user-namespace"
-    "neovim"
+    "wdiff"
 )
 
 brew install "${homebrew_formulae[@]}"
@@ -54,3 +54,39 @@ homebrew_casks=(
 )
 
 brew install --cask "${homebrew_casks[@]}"
+
+homebrew_formulae_personal=(
+    "irssi"
+    "nethack"
+    "sox"
+    "urweb"
+)
+
+homebrew_casks_personal=(
+    "mactex-no-gui"
+)
+
+while true; do
+    # Prompt user for action
+    read -rep "Personal machine? (Y/n) " \
+        RESPONSE
+
+    if [[ -z "$RESPONSE" ]]; then
+        RESPONSE=Y
+    fi
+
+    case "$RESPONSE" in
+        [yY])
+            # Install personal casks/formulae
+            brew install "${homebrew_formulae_personal[@]}"
+            brew install --cask "${homebrew_casks_personal[@]}"
+            break
+            ;;
+        [nN])
+            # Skip personal casks/formulae
+            break
+            ;;
+        *)
+            ;;
+    esac
+done
