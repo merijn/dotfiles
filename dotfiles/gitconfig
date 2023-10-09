@@ -5,3 +5,5 @@
 	excludesfile = /Users/merijn/.gitignore
 [push]
 	autoSetupRemote = true
+[alias]
+	glog = log --graph
