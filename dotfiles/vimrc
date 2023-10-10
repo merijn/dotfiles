@@ -487,6 +487,11 @@ function FindLocalConfig(file, where)
     return { 'lines' : lines, 'root' : fnamemodify(cfg, ":p:h") . '/' }
 endfunction
 
+if has('nvim')
+    " ALE has neovim diagnostics support enabled by default, so disable
+    " updating loclist to avoid clashing/overriding vim diagnostics loclists
+    let g:ale_set_loclist = 0
+endif
 let g:ale_virtualtext_cursor = 'disabled'
 let g:ale_echo_msg_format = "%code: %%s [%linter%]"
 highlight ALEWarning cterm=underline
