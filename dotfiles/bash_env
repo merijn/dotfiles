@@ -64,8 +64,7 @@ if [[ "$os_name" = "Darwin" ]]; then
         PATH="/Applications/Racket v6.1.1/bin/:$PATH"
     fi
 
-    arch_name="$(uname -p)"
-    if [[ "$arch_name" = "arm" ]] && [[ -d "/opt/homebrew/bin/" ]]; then
+    if [[ -d "/opt/homebrew/bin/" ]]; then
         MANPATH="/opt/homebrew/share/man:$MANPATH"
         PATH="/opt/homebrew/bin/:$PATH"
     fi
