@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2312
+# Setup various aliases and functions
+
+alias ghci='ghci -ignore-dot-ghci -ghci-script ~/.ghci'
+alias grep='grep -I'
+alias hig='history | grep -i'
+alias ls='ls -FG'       # ls always shows colour and type (dir, link, etc)
+alias la='ls -aFG'      # Like above but shows dotfiles/-directories
+alias ll='ls -lhoAFG'   # Show file flags in long mode with human readable size
+alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
+alias more='less'
+alias ulimit='ulimit -S'
+
+refresh () {
+    if [[ -n "$TMUX_REFRESH_VARS" ]]; then
+        for var in ${TMUX_REFRESH_VARS//:/$IFS}; do
+            local val
+            if val="$(tmux show-environment "$var")"; then
+                export "${val?}"
+            fi
+        done
+    fi
+}
+
+reload () {
+    . "$HOME/.bash_env"
+    refresh
+}
+
+rlist ()
+{
+    ssh -q "$1" tmux list-buffers
+}
+
+symbolrg () {
+    find -E . -regex ".*\.(a|dylib|so)" -exec symbolgrep {} "$@" \; | less -FSXR
+}
+
+st () {
+    if [[ -n "$TMUX" ]]; then
+        tmux renamew "$*"
+    else
+        echo -ne "\033k$*\033\\"
+    fi
+}
+
+# Replacement aliases
+if type nvim >/dev/null 2>&1; then
+    alias vim='nvim'
+fi
+
+if ! type rg >/dev/null 2>&1; then
+    rg () {
+        grep --color=always -r ${1+"$@"} --exclude-dir=.hg --exclude-dir=dist --exclude-dir=dist-newstyle --exclude-dir=.build --exclude=tags . | less -FRX
+    }
+else
+    rg () {
+        command rg --color=always ${1+"$@"} | less -FRX
+    }
+fi
+
+# OS specific aliases
+os_name="$(uname)"
+if [[ "$os_name" = "Darwin" ]]; then
+    num_cpus="$(/usr/sbin/sysctl -n hw.ncpu)"
+    # Silence warning that this expands at define time. We don't expect the
+    # number of CPUs to change at runtime....
+    # shellcheck disable=SC2139
+    alias make="make -rj$num_cpus"
+
+    rcopy ()
+    {
+        ssh -q "$1" tmux save-buffer -b "${2:-0}" - | pbcopy
+    }
+
+    rpaste ()
+    {
+        pbpaste | ssh -q "$1" tmux load-buffer -b "${2:-0}" -
+    }
+
+elif [[ "$os_name" = "FreeBSD" ]]; then
+    alias rm='rm -rI' # (Recursively) delete and ask confirmation for >3 files
+elif [[ "$os_name" = "Linux" ]]; then
+    num_cpus="$(awk '/^processor/{n+=1}END{print n}' /proc/cpuinfo)"
+    # Silence warning that this expands at define time. We don't expect the
+    # number of CPUs to change at runtime....
+    # shellcheck disable=SC2139
+    alias make="make -rj$num_cpus"
+    alias ls='ls -F --color=auto'
+    alias la='ls -aF --color=auto'
+    alias ll='ls -lhoAF --color=auto'
+    alias lg='ls -lhoAF --color=auto | grep -i'
+fi
