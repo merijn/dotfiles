@@ -66,6 +66,7 @@ if [[ "$os_name" = "Darwin" ]]; then
 
     arch_name="$(uname -p)"
     if [[ "$arch_name" = "arm" ]] && [[ -d "/opt/homebrew/bin/" ]]; then
+        MANPATH="/opt/homebrew/share/man:$MANPATH"
         PATH="/opt/homebrew/bin/:$PATH"
     fi
 
