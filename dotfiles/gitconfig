@@ -7,3 +7,4 @@
 	autoSetupRemote = true
 [alias]
 	glog = log --graph
+	vlog = log --stat
