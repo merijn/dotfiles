@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 notify_dir="/Library/Application Support/Dotfiles"
 
-if ! [[ -f /usr/local/bin/brew ]]; then
+if ! { [[ -f /usr/local/bin/brew ]] || [[ -f /opt/homebrew/bin/brew ]] ;}; then
     printf "HomeBrew not found, skipping update script install.\n" 1>&2
     return 0
 fi

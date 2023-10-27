@@ -47,6 +47,11 @@ function s:isOSX()
     return 0
 endfunction
 
+if has('nvim')
+    " Don't show statusline in neovim
+    set laststatus=0
+endif
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Edit options                                                                "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -88,7 +93,7 @@ nnoremap <silent> <return> :noh<return>
 set wildignore+=*.o,*.lo,*.la,*.a,*.so,.*.d,*.pyc,.DS_Store,*.aux,*.bbl,*.blg
 set wildignore+=*.lof,*.log,*.lot,*.toc,*.pdf,*.hi,*.p_o,*.p_hi,*.dyn_hi
 set wildignore+=*.dyn_o,*/.git/*,*/.svn/*,*/.hg/*,*/dist/*,*.dSYM/*,*.d
-set wildignore+=*/dist-newstyle/*,*/build/*
+set wildignore+=*/dist-newstyle/*,*/build/*,*.class
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Programming options                                                         "
@@ -107,6 +112,15 @@ if version >= 600
     set foldenable              "Enable folding if available
     set foldmethod=syntax       "Fold on syntax
     set foldopen=block,hor,insert,jump,mark,percent,undo
+endif
+
+if has('nvim')
+    nnoremap <silent> <tab> :lua vim.lsp.buf.hover()<return>
+    nnoremap <silent> <C-]> :lua vim.lsp.buf.definition()<return>
+    nnoremap <silent> <Leader>f :lua vim.lsp.buf.references()<return>
+    nnoremap <silent> <Leader>i :lua vim.lsp.buf.implementation()<return>
+    "nnoremap <silent> <Leader>s :lua vim.lsp.codelens.run()<return>
+    nnoremap <silent> <Leader>s :MetalsSuperMethodHierarchy<return>
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -337,6 +351,10 @@ vnoremap <silent> <Leader>rby :<C-U>call DeleteRemoteBuf(visualmode(), 1)<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Quickfix List Functions                                                     "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if has('nvim')
+    au DiagnosticChanged * lua vim.diagnostic.setloclist({ open = false })
+endif
+
 function GetNextError(next)
     " If there's no error, do nothing
     if len(getloclist(0)) == 0
@@ -363,15 +381,25 @@ function GetNextError(next)
     endif
 endfunction
 
-let g:error_list_is_open = 0
 function ToggleErrorList()
-    if g:error_list_is_open == 1
+    " Check if loclist is open
+    if get(getloclist(0, {'winid':0}), 'winid', 0)
         lclose
-        let g:error_list_is_open = 0
     elseif len(getloclist(0)) != 0
         " Open the location list
         lopen
-        let g:error_list_is_open = 1
+        " Jump back to previously active window, so loclist preview does not
+        " appear
+        wincmd p
+    else
+        for winnr in range(1, winnr('$'))
+            if getwinvar(winnr, '&syntax') == 'qf'
+                cclose
+                return
+            endif
+        endfor
+
+        copen
     endif
 endfunction
 
@@ -394,6 +422,8 @@ Helptags
 nnoremap <silent> <Leader>t :CtrlPMixed<return>
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_mruf_relative = 1
+" Ignore files inside node_modules, .git, .hg, .svn, and .swp files
+let g:ctrlp_custom_ignore = '\v[\/](node_modules)|(\.(swp|ico|git|svn|hg))$'
 
 " Gundo options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

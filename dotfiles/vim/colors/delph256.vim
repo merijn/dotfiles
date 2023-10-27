@@ -85,3 +85,6 @@ hi Visual                   ctermbg=242     guibg=#6C6C6C
     hi link IncSearch       Visual
 
 hi WarningMsg               ctermfg=224     guifg=#FFD7D7
+
+" Background colour for hovers.
+hi NormalFloat              ctermbg=234

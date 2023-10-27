@@ -13,3 +13,5 @@ install/sync_history/sync_history
 
 dotfiles/bin/sync_history
 dotfiles/bin/haskell-ci
+
+dotfiles/config/karabiner/automatic_backups/
