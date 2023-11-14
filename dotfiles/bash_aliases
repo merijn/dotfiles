@@ -12,6 +12,35 @@ alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
 alias more='less'
 alias ulimit='ulimit -S'
 
+root_dirs_marker=(".hg" ".git")
+is_root_dir () {
+    local home_dir
+    local current
+
+    for dir in "${root_dirs_marker[@]}"; do
+        if [[ -d "$1/$dir" ]]; then
+            return 0
+        fi
+    done
+
+    home_dir="$(realpath "$HOME")"
+    current="$(realpath "$PWD/$1")"
+
+    if [[ "$home_dir" = "$current" ]]; then
+        return 0
+    fi
+
+    return 1
+}
+
+root () {
+    local prefix=""
+    while ! is_root_dir "$prefix"; do
+        prefix+="../"
+    done
+    cd "$prefix" || return 1
+}
+
 refresh () {
     if [[ -n "$TMUX_REFRESH_VARS" ]]; then
         for var in ${TMUX_REFRESH_VARS//:/$IFS}; do
