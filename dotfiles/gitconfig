@@ -8,3 +8,4 @@
 [alias]
 	glog = log --graph
 	vlog = log --stat
+	parent = log --pretty=%P -n 1
