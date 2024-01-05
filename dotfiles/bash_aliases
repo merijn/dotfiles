@@ -53,6 +53,7 @@ refresh () {
 }
 
 reload () {
+    # shellcheck disable=SC1091
     . "$HOME/.bash_env"
     refresh
 }
