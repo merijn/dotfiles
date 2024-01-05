@@ -12,7 +12,7 @@ alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
 alias more='less'
 alias ulimit='ulimit -S'
 
-root_dirs_marker=(".hg" ".git")
+root_dirs_marker=(".hg" ".git" "build.sbt" "cabal.project")
 is_root_dir () {
     local home_dir
     local current
