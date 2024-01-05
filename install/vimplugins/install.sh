@@ -30,6 +30,7 @@ install_plugin "git+ssh://git@github.com/neovimhaskell/haskell-vim.git"
 install_plugin "git+ssh://git@github.com/JKirchartz/writegooder.vim.git"
 install_plugin "git+ssh://git@github.com/lervag/vimtex.git"
 install_plugin "git+ssh://git@github.com:dense-analysis/ale.git"
+install_plugin "git+ssh://git@github.com/aklt/plantuml-syntax.git"
 
 for repo_dir in "${!installed_repos[@]}"; do
     while true; do
