@@ -407,6 +407,9 @@ function ToggleQuickFix()
         endif
     endfor
 
+    " Update quickfix diagnostics
+    lua vim.diagnostic.setqflist()
+
     " No open quickfix list to close, open it if not empty
     if len(getqflist()) != 0
         copen
