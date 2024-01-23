@@ -6,7 +6,7 @@ make -C install/sync_history/sync_history >/dev/null
 
 printf "Installing sync_history.\n"
 if [[ -f dotfiles/bin/sync_history ]]; then
-    ./dotfiles/bin/sync_history shutdown
+    ./dotfiles/bin/sync_history shutdown || true
 fi
 mv install/sync_history/sync_history/sync_history dotfiles/bin/
 
