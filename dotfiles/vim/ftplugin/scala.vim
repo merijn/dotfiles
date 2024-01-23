@@ -1,3 +1,4 @@
+let b:ale_linters = []
 let g:ale_scala_metals_executable = 'metals'
 
 setlocal foldmethod=expr
