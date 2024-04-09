@@ -455,7 +455,7 @@ nnoremap <silent> <Leader>t :CtrlPMixed<return>
 let g:ctrlp_clear_cache_on_exit = 0
 let g:ctrlp_mruf_relative = 1
 " Ignore files inside node_modules, .git, .hg, .svn, and .swp files
-let g:ctrlp_custom_ignore = '\v[\/](node_modules)|(\.(swp|ico|git|svn|hg|metals))|target$'
+let g:ctrlp_custom_ignore = '\v[\/](node_modules|cache_puppeteer)|(\.(swp|ico|git|svn|hg|metals))|target$'
 
 " Gundo options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
