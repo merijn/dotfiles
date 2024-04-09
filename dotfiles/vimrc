@@ -218,6 +218,7 @@ endif
 command! ShowHighlight :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
             \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
             \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"
+command! -nargs=1 New :execute "e" expand('%:p:h') . '/<args>'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Remote copy/paste support                                                   "
