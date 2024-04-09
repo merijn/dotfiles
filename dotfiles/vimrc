@@ -211,9 +211,9 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 command! -range=% StripWhitespace :%s/\s\+$//
 if has('nvim')
-  command! ShowSyntax :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-else
   command! ShowSyntax :Inspect
+else
+  command! ShowSyntax :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endif
 command! ShowHighlight :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
             \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
