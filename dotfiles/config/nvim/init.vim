@@ -45,7 +45,7 @@ source ~/.vimrc
     highlight = {
       enable = true,
 
-      ensure_installed = { "c", "groovy", "lua", "scala", "typescript" },
+      ensure_installed = { "c", "groovy", "lua", "scala", "typescript", "vim" },
 
       sync_install = false,
 
