@@ -25,6 +25,10 @@ source ~/.vimrc
   metals_config = require'metals'.bare_config()
   metals_config.settings = {
      showImplicitArguments = true,
+     showImplicitConversionsAndClasses = true,
+     showInferredType = true,
+     superMethodLensesEnabled = true,
+     enableSemanticHighlighting = false,
      excludedPackages = {
        "akka.actor.typed.javadsl",
        "com.github.swagger.akka.javadsl"
