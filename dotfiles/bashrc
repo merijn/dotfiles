@@ -1,7 +1,6 @@
 # Settings for all shells
 # Set various aliases and functions
 
-
 if [[ -n "$BASH_VERSION" ]] && [[ -n "$PS1" ]]; then
     TITLEBAR="\[\e]0;\u@\h:\w\007\]" # Sets titlebar of xterm/PuTTy to \u@\h:\w
     CAPTION="\[\e]0;\w\007\]"        # Sets screen status bar to CWD
@@ -40,6 +39,10 @@ if [[ -n "$BASH_VERSION" ]] && [[ -n "$PS1" ]]; then
         # Set terminal titlebar to user@host:path for all other terminals
         PS1="$TITLEBAR$TIME\$(date "+%H:%M") $PS1"
     fi
+
+    # Set terminal options
+    stty erase ^H         # Treat Ctrl-H as "delete previous character", fixes
+                          # the prompt for "git add -p"/"git restore -p"
 
     # Set various shell options
     shopt -s no_empty_cmd_completion
