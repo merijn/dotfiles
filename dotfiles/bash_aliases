@@ -12,19 +12,22 @@ alias lg='ls -lhoAFG | grep -i' # Case insensitive grep on ls
 alias more='less'
 alias ulimit='ulimit -S'
 
-root_dirs_marker=(".hg" ".git" "build.sbt" "cabal.project")
-is_root_dir () {
+root_markers=(".hg" ".git" "cabal.project")
+__is_root_dir () {
     local home_dir
     local current
 
-    for dir in "${root_dirs_marker[@]}"; do
-        if [[ -d "$1/$dir" ]]; then
+    home_dir="$(realpath "$HOME")"
+    current="$(realpath "$PWD/$1")"
+
+    local prefix="$1"
+    shift 1
+
+    for dir in "$@"; do
+        if [[ -d "$prefix/$dir" ]] || [[ -f "$prefix/$dir" ]]; then
             return 0
         fi
     done
-
-    home_dir="$(realpath "$HOME")"
-    current="$(realpath "$PWD/$1")"
 
     if [[ "$home_dir" = "$current" ]]; then
         return 0
@@ -33,12 +36,32 @@ is_root_dir () {
     return 1
 }
 
-root () {
-    local prefix=""
-    while ! is_root_dir "$prefix"; do
-        prefix+="../"
+__find_root () {
+    local prefix="."
+    while ! __is_root_dir "$prefix" "$@" 1>&2; do
+        prefix+="/.."
     done
-    cd "$prefix" || return 1
+    echo "$prefix"
+}
+
+root () {
+    local root_dir
+    root_dir="$(__find_root "${root_markers[@]}" "build.sbt" "package.json")"
+    cd "$root_dir" || return 1
+}
+
+backend () {
+    local root_dir
+    root_dir="$(__find_root "${root_markers[@]}")"
+    cd "$root_dir/backend" || return 1
+}
+
+frontend () {
+    local root_dir
+    root_dir="$(__find_root "${root_markers[@]}")"
+    cd "$root_dir/frontend" 2>/dev/null \
+        || cd "$root_dir/frontend-portal" \
+        || return 1
 }
 
 refresh () {
