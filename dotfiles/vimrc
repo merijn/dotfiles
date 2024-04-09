@@ -127,7 +127,8 @@ if has('nvim')
 endif
 
 " Use rg for :grep
-let &grepprg="rg --vimgrep"
+let &grepprg="rg --vimgrep --trim"
+let &grepformat="%f:%l:%c:%m"
 command! -nargs=+ Rg execute 'silent grep! <args>' | cwindow
 
 function s:BlameToBuffer(path, lineno)
