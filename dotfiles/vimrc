@@ -365,7 +365,7 @@ vnoremap <silent> <Leader>rby :<C-U>call DeleteRemoteBuf(visualmode(), 1)<CR>
 " Quickfix List Functions                                                     "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 if has('nvim')
-    au DiagnosticChanged * lua vim.diagnostic.setloclist({ open = false })
+    au DiagnosticChanged * silent! lua vim.diagnostic.setloclist({ open = false })
 endif
 
 function GetNextError(next)
