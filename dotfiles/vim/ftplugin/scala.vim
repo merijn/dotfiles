@@ -1,8 +1,9 @@
 let b:ale_linters = []
 
 setlocal foldmethod=expr
-setlocal foldexpr=nvim_treesitter#foldexpr()
+setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldlevel=1
+setlocal textwidth=159
 
 match none
 if !&diff && (&t_Co > 2 || has("gui_running"))  "Match characters past column
