@@ -45,12 +45,10 @@ source ~/.vimrc
   -- Treesitter Configuration
   -----------------------------------------------------------------------------
   require'nvim-treesitter.configs'.setup {
+    ensure_installed = { "c", "groovy", "lua", "scala", "typescript", "vim" },
+    sync_install = false,
     highlight = {
       enable = true,
-
-      ensure_installed = { "c", "groovy", "lua", "scala", "typescript", "vim" },
-
-      sync_install = false,
 
       -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
       -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
