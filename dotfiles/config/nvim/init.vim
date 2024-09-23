@@ -7,6 +7,9 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/plenary.nvim'
 " Quickfix/loclist preview
 Plug 'kevinhwang91/nvim-bqf'
+
+Plug 'tpope/vim-fugitive'
+
 " Completion
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/nvim-cmp'

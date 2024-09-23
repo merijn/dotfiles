@@ -131,13 +131,6 @@ let &grepprg="rg --vimgrep --trim"
 let &grepformat="%f:%l:%c:%m"
 command! -nargs=+ Rg execute 'silent grep! <args>' | cwindow
 
-function s:BlameToBuffer(path, lineno)
-    execute 'enew | 0r !git blame ' . a:path
-    setlocal buftype=nofile
-    setlocal noswapfile
-    call setpos('.', [0, a:lineno, 1, 0])
-endfunction
-command! -nargs=* Blame call s:BlameToBuffer(expand('%:p'), line("."))
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Miscellaneous options                                                       "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
