@@ -10,6 +10,7 @@ endif
 
 hi Comment     ctermfg=Blue
 hi Constant    ctermfg=DarkRed
+    hi link String Constant
 hi LineTooLong ctermfg=Black        ctermbg=DarkRed
 hi MoreMsg     ctermfg=DarkGreen
 hi Normal      ctermfg=LightGrey

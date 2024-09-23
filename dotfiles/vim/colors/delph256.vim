@@ -23,8 +23,8 @@ hi Directory                ctermfg=159                 guifg=#AFFFFF
 hi Error                    ctermfg=15      ctermbg=9   guifg=#FFFFFF   guibg=#FF5555
 hi ErrorMsg                 ctermfg=15      ctermbg=1   guifg=#FFFFFF   guibg=#BB0000
 hi Folded                   ctermfg=14      ctermbg=242 guifg=#55FFFF   guibg=#6C6C6C
-hi Identifier               ctermfg=14                  guifg=#55FFFF
-    hi link Function        Identifier
+hi IdentifierDefinition     ctermfg=14                  guifg=#55FFFF
+    hi link FunctionDefinition      IdentifierDefinition
 
 hi LineNr                   ctermfg=11                  guifg=#FFFF55
 hi LineTooLong              ctermfg=0       ctermbg=1   guifg=#000000   guibg=#BB0000
@@ -34,6 +34,8 @@ hi ModeMsg                  cterm=bold      gui=bold
 hi MoreMsg                  ctermfg=2                   guifg=#00BB00
 hi NonText                  ctermfg=12                  guifg=#5555FF
 hi Normal                   ctermfg=7                   guifg=#BBBBBB   guibg=#000000
+    hi! link Identifier          Normal
+    hi! link Function            Identifier
 hi PreProc                  ctermfg=5                   guifg=#BB55BB
     hi link Define          PreProc
     hi link Include         PreProc
@@ -71,6 +73,7 @@ hi Statement                ctermfg=130     guifg=#AF5F00
 
 hi StatusLine               cterm=reverse   ctermfg=12      ctermbg=15  guifg=#5555FF   guibg=#FFFFFF
 hi StatusLineNC             cterm=reverse   gui=reverse
+hi String                   ctermfg=DarkRed
 hi TabLine                  cterm=underline ctermfg=15      ctermbg=242 gui=underline   guifg=#FFFFFF   guibg=#6C6C6C
 hi TabLineFill              cterm=reverse   gui=reverse
 hi TabLineSel               cterm=bold      gui=bold
