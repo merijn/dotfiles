@@ -111,7 +111,7 @@ endif
 if version >= 600
     set foldenable              "Enable folding if available
     set foldmethod=syntax       "Fold on syntax
-    set foldopen=block,hor,insert,jump,mark,percent,undo
+    set foldopen=block,hor,insert,jump,mark,percent,quickfix,undo
     set fillchars+=fold:\ 
     set foldminlines=3
 endif
