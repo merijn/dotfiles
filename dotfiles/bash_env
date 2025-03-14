@@ -73,17 +73,21 @@ if [[ "$os_name" = "Darwin" ]]; then
     export_fun LANG LC_ALL MANPATH DYLD_LIBRARY_PATH
 fi
 
-ghcdefault=902
-ghcdirs=(~/ghc/[0-9][0-9][0-9]/)
-for dir in "${ghcdirs[@]}"; do
-    ghcdir="$(basename "$dir")"
-    if [[ "$ghcdir" != "$ghcdefault" ]]; then
-        PATH="${dir}bin:$PATH"
-    fi
-done
+if [[ -d "$HOME/.ghcup" ]]; then
+    PATH="$HOME/.ghcup/bin:$PATH"
+else
+    ghcdefault=902
+    ghcdirs=(~/ghc/[0-9][0-9][0-9]/)
+    for dir in "${ghcdirs[@]}"; do
+        ghcdir="$(basename "$dir")"
+        if [[ "$ghcdir" != "$ghcdefault" ]]; then
+            PATH="${dir}bin:$PATH"
+        fi
+    done
 
-if [[ -d "$HOME/ghc/$ghcdefault/bin" ]]; then
-    PATH="$HOME/ghc/$ghcdefault/bin:$PATH"
+    if [[ -d "$HOME/ghc/$ghcdefault/bin" ]]; then
+        PATH="$HOME/ghc/$ghcdefault/bin:$PATH"
+    fi
 fi
 
 if [[ -d "$HOME/.cabal/" ]]; then
