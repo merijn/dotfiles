@@ -132,6 +132,7 @@ if [[ "$os_name" = "Darwin" ]]; then
         pbpaste | ssh -q "$1" tmux load-buffer -b "${2:-0}" -
     }
 
+    alias rm='rm -rI' # (Recursively) delete and ask confirmation for >3 files
 elif [[ "$os_name" = "FreeBSD" ]]; then
     alias rm='rm -rI' # (Recursively) delete and ask confirmation for >3 files
 elif [[ "$os_name" = "Linux" ]]; then
