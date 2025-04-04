@@ -20,7 +20,7 @@ remotecmd.snellius = /home/merijnev/.local/bin/hg
 extdiff =
 # Enable hg-git extension which allows interaction with git
 bookmarks =
-hggit = $HOME/src/hg-git/hggit
+hggit =
 # Enable colorized diffs
 color =
 # Commandline progressbar for push/pull
