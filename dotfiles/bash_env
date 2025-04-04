@@ -99,7 +99,7 @@ fi
 # shellcheck disable=SC1090
 [[ -f ~/.bash_env_local ]] && . ~/.bash_env_local
 
-PATH="$HOME/.bin:$PATH"
+PATH="$HOME/.bin:$HOME/.local/bin:$PATH"
 
 export_fun BASH_ENV EDITOR GREP_OPTIONS LESS LESSHISTFILE LSCOLORS PAGER PATH
 export_fun RIPGREP_CONFIG_PATH
