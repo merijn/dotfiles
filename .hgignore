@@ -8,6 +8,8 @@ dotfiles/vim/spell/nl.utf-8.sug
 dotfiles/irssi/default.theme
 dotfiles/irssi/certs/*
 
+dotfiles/config/ghc/ghci_history
+
 install/sync_history/*.d
 install/sync_history/sync_history
 
