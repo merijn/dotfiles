@@ -25,8 +25,8 @@ repository hackage.haskell.org
 -- store-dir:
 -- active-repositories:
 -- local-no-index-repo:
-remote-repo-cache: /Users/merijn/.cache/cabal/packages
--- logs-dir: /Users/merijn/.cache/cabal/logs
+-- remote-repo-cache: ~/.cache/cabal/packages
+-- logs-dir: ~/.cache/cabal/logs
 -- default-user-config:
 -- verbose: 1
 -- cabal-file:
@@ -107,7 +107,7 @@ documentation: True
 -- index-state:
 -- root-cmd:
 -- symlink-bindir:
-build-summary: /Users/merijn/.cache/cabal/logs/build.log
+-- build-summary: ~/.cache/cabal/logs/build.log
 -- build-log:
 remote-build-reporting: none
 -- report-planning-failure: False
@@ -121,7 +121,7 @@ jobs: $ncpus
 -- package-env:
 -- overwrite-policy:
 install-method: copy
-installdir: /Users/merijn/.local/bin
+-- installdir: ~/.local/bin
 -- token:
 username: MerijnVerstraaten
 -- password:
@@ -168,7 +168,7 @@ init
   -- source-dir: src
 
 install-dirs user
-  -- prefix: /Users/merijn/.cabal
+  -- prefix: ~/.cabal
   -- bindir: $prefix/bin
   -- libdir: $prefix/lib
   -- libsubdir: $abi/$libname
