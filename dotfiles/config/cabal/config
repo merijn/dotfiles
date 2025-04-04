@@ -9,8 +9,8 @@
 --
 -- This config file was generated using the following versions
 -- of Cabal and cabal-install:
--- Cabal library version: 3.0.0.0
--- cabal-install version: 3.0.0.0
+-- Cabal library version: 3.14.1.1
+-- cabal-install version: 3.14.1.1
 
 
 repository hackage.haskell.org
@@ -19,20 +19,18 @@ repository hackage.haskell.org
   -- root-keys:
   -- key-threshold: 3
 
--- default-user-config:
--- require-sandbox: False
--- ignore-sandbox: False
 -- ignore-expiry: False
 -- http-transport:
--- nix: False
-remote-repo-cache: /Users/merijn/.cabal/packages
--- local-repo:
--- logs-dir: /Users/merijn/.cabal/logs
-world-file: /Users/merijn/.cabal/world
+-- nix:
 -- store-dir:
+-- active-repositories:
+-- local-no-index-repo:
+remote-repo-cache: /Users/merijn/.cache/cabal/packages
+-- logs-dir: /Users/merijn/.cache/cabal/logs
+-- default-user-config:
 -- verbose: 1
--- compiler: ghc
 -- cabal-file:
+-- compiler: ghc
 -- with-compiler:
 -- with-hc-pkg:
 -- program-prefix: 
@@ -44,11 +42,13 @@ world-file: /Users/merijn/.cabal/world
 -- executable-dynamic: False
 -- executable-static: False
 -- profiling:
+-- profiling-shared:
 -- executable-profiling:
 -- profiling-detail:
 -- library-profiling-detail:
-optimization: 2
+-- optimization: True
 -- debug-info: False
+-- build-info:
 -- library-for-ghci:
 split-sections: True
 -- split-objs: False
@@ -62,8 +62,9 @@ split-sections: True
 -- deterministic:
 -- cid:
 -- extra-lib-dirs:
+-- extra-lib-dirs-static:
 -- extra-framework-dirs:
-extra-prog-path: /Users/merijn/.cabal/bin
+-- extra-prog-path:
 -- instantiate-with:
 -- tests: False
 -- coverage: False
@@ -73,7 +74,11 @@ extra-prog-path: /Users/merijn/.cabal/bin
 -- relocatable: False
 -- response-files:
 -- allow-depending-on-private-libs:
+-- coverage-for:
+-- ignore-build-tools:
 -- cabal-lib-version:
+-- append:
+-- backup:
 -- constraint:
 -- preference:
 -- solver: modular
@@ -82,12 +87,15 @@ extra-prog-path: /Users/merijn/.cabal/bin
 write-ghc-environment-files: always
 documentation: True
 -- doc-index-file: $datadir/doc/$arch-$os-$compiler/index.html
+-- only-download: False
 -- target-package-db:
 -- max-backjumps: 4000
 -- reorder-goals: False
 -- count-conflicts: True
+-- fine-grained-conflicts: True
 -- minimize-conflict-set: False
 -- independent-goals: False
+-- prefer-oldest: False
 -- shadow-installed-packages: False
 -- strong-flags: False
 -- allow-boot-library-installs: False
@@ -98,29 +106,31 @@ documentation: True
 -- upgrade-dependencies: False
 -- index-state:
 -- root-cmd:
-symlink-bindir: /Users/merijn/.cabal/bin
-build-summary: /Users/merijn/.cabal/logs/build.log
+-- symlink-bindir:
+build-summary: /Users/merijn/.cache/cabal/logs/build.log
 -- build-log:
-remote-build-reporting: anonymous
+remote-build-reporting: none
 -- report-planning-failure: False
 -- per-component: True
--- one-shot: False
 -- run-tests:
+-- semaphore: False
 jobs: $ncpus
 -- keep-going: False
 -- offline: False
--- project-file:
 -- lib: False
 -- package-env:
 -- overwrite-policy:
 install-method: copy
-installdir: /Users/merijn/.cabal/bin
+installdir: /Users/merijn/.local/bin
+-- token:
 username: MerijnVerstraaten
 -- password:
 password-command: security find-generic-password -wa MerijnVerstraaten
+-- multi-repl:
 -- builddir:
 
 haddock
+  -- cabal-file:
   -- keep-temp-files: False
   hoogle: True
   html: True
@@ -136,16 +146,26 @@ haddock
   quickjump: True
   -- hscolour-css:
   -- contents-location:
+  -- index-location:
+  -- base-url:
+  -- resources-dir:
+  -- output-dir:
+  -- use-unicode: False
 
 init
-  -- interactive: True
-  -- cabal-version: 1.10
-  -- license: BSD3
+  interactive: True
+  -- quiet: False
+  no-comments: True
+  -- minimal: False
+  cabal-version: 3.0
+  license: BSD-3-Clause
+  -- extra-doc-file:
   -- tests:
   -- test-dir:
-  -- language: Haskell2010
-  -- application-dir:
-  -- source-dir:
+  -- simple: False
+  language: Haskell2010
+  application-dir: .
+  -- source-dir: src
 
 install-dirs user
   -- prefix: /Users/merijn/.cabal
