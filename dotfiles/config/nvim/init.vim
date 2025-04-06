@@ -1,14 +1,4 @@
 set runtimepath^=~/.vim runtimepath+=~/.vim/after
-call plug#begin()
-" Git history interaction
-Plug 'tpope/vim-fugitive'
-
-if !has('nvim') " Vim only plugins
-    runtime personal/vim/plugins.vim
-else " Neovim only plugins
-    runtime personal/nvim/plugins.vim
-endif
-call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Helper functions                                                            "
@@ -150,14 +140,137 @@ if has("gui_running")
     endif
 endif
 
-let mapleader = "\<C-g>"        "Map leader key
-"Y behaves as D and C rather than yy
-noremap Y y$
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Spellcheck options                                                          "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" English spell checking, turn off by default except for TeX/LaTeX files.
+if version >= 700
+    " Run manually to fetch spellfiles from vim FTP server
+    set spelllang=en_gb,nl spell
+    set nospell
 
-"Make Ctrl-A a noop so it doesn't conflict with tmux mapping and clobber
-"numbers all over
-noremap <silent> <C-A> <Nop>
+    augroup SpellAutoGroup
+        autocmd!
+        autocmd BufNewFile,BufRead *.rst,*.txt,*.tex,*.latex call personal#spell#SetSpelling(expand('<afile>:p:h'))
+    augroup END
+endif
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Quickfix List Functions                                                     "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function SetLocList(info)
+    if a:info.quickfix
+        let items = getqflist({'id' : a:info.id, 'items': 1}).items
+    else
+        let items = getloclist(a:info.winid, {'id' : a:info.id, 'items': 1}).items
+    endif
 
-source ~/.vimrc
-runtime nvim/config.lua
+    let l = []
+    for idx in range(a:info.start_idx - 1, a:info.end_idx - 1)
+        let item = items[idx]
+
+        let msg = ''
+
+        if item.type
+            let msg .= item.type . '|'
+        endif
+
+        if a:info.quickfix
+            let msg .= fnamemodify(bufname(item.bufnr), ':p:.') . '|'
+        endif
+
+        if item.lnum && item.lnum > 0
+            let msg .= item.lnum
+
+            if item.col && item.col > 0
+                let msg .= ':' . item.col
+            endif
+
+            if item.end_col && item.end_col > 0
+                let msg .= '-'
+                if item.end_lnum && item.end_lnum > item.lnum
+                    let msg .= item.end_lnum . ':'
+                endif
+                let msg .= item.end_col
+            endif
+        endif
+
+        let msg .= '| ' . substitute(item.text, '\n\s*', ' ', 'g')
+
+        call add(l, msg)
+    endfor
+
+    return l
+endfunction
+set quickfixtextfunc=SetLocList
+
+function GetNextError(next)
+    " If there's no error, do nothing
+    if len(getloclist(0)) == 0
+    " If there's one error, jump to it
+    else
+        if len(getloclist(0)) == 1
+            ll
+        " If we're going forward
+        elseif a:next
+            "" Try to go to the next error
+            "try
+            "    lnext
+            "" On error rewind to the start (wrap-around)
+            "catch
+            "    lrewind
+            "endtry
+            lua vim.diagnostic.goto_next({ wrap = true, float = false})
+        else
+            "" Try to go to the previous error
+            "try
+            "    lprev
+            "" On error jump to the last error (wrap-around)
+            "catch
+            "    llast
+            "endtry
+            lua vim.diagnostic.goto_prev({ wrap = true, float = false})
+        endif
+        silent! foldopen!
+    endif
+endfunction
+
+function ToggleQuickFix()
+    " If a quickfix list is open, close it and exit function
+    for winnr in range(1, winnr('$'))
+        if getwinvar(winnr, '&syntax') == 'qf'
+            cclose
+            return
+        endif
+    endfor
+
+    " Update quickfix diagnostics
+    lua vim.diagnostic.setqflist()
+
+    " No open quickfix list to close, open it if not empty
+    if len(getqflist()) != 0
+        copen
+    endif
+endfunction
+
+function ToggleErrorList()
+    " Check if loclist is open
+    if get(getloclist(0, {'winid':0}), 'winid', 0)
+        lclose
+    elseif len(getloclist(0)) != 0
+        " Open the location list
+        lopen
+        " Jump back to previously active window, so loclist preview does not
+        " appear
+        wincmd p
+    else
+        call ToggleQuickFix()
+    endif
+endfunction
+
+runtime personal/plugins.vim
+if has('nvim')
+    runtime personal/nvim/config.lua
+endif
+runtime personal/keybindings.vim
+runtime personal/commands.vim

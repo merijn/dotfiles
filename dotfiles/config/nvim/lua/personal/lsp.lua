@@ -9,7 +9,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
 vim.api.nvim_create_autocmd('DiagnosticChanged', {
   pattern = '*',
   group = lspCmdGroup,
-  command = function()
+  callback = function()
       vim.diagnostic.setloclist({ open = false })
   end,
 })
@@ -55,7 +55,7 @@ metals_config.capabilities = require("cmp_nvim_lsp").default_capabilities()
 vim.api.nvim_create_autocmd('FileType', {
   pattern = {'scala', 'sbt', 'java'},
   group = lspCmdGroup,
-  command = function()
+  callback = function()
       require('metals').initialize_or_attach(metals_config)
   end,
 })
