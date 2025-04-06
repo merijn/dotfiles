@@ -45,7 +45,7 @@ function! personal#spell#SetSpelling(file)
 
     " Abort early if the file in question is CMakeLists.txt or a help file,
     " since we don't want to spellcheck those.
-    if l:fileName == "CMakeLists.txt" || &filetype == "help"
+    if l:fileName == "CMakeLists.txt"
         return
     endif
 
