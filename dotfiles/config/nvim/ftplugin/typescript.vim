@@ -1,5 +1,3 @@
-let b:ale_linters = []
-
 setlocal foldmethod=expr
 setlocal foldexpr=v:lua.vim.treesitter.foldexpr()
 setlocal foldlevel=1
