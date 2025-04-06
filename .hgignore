@@ -5,6 +5,10 @@ dotfiles/vim/.netrwhist
 dotfiles/vim/spell/nl.utf-8.spl
 dotfiles/vim/spell/nl.utf-8.sug
 
+dotfiles/config/nvim/spell/*.add.spl
+dotfiles/config/nvim/spell/nl.utf-8.spl
+dotfiles/config/nvim/spell/nl.utf-8.sug
+
 dotfiles/irssi/default.theme
 dotfiles/irssi/certs/*
 
