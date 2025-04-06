@@ -4,14 +4,6 @@ function s:mkSubstitute(prefix, rootPath)
     return {key, val -> substitute(val, l:pattern, l:resultPattern, "")}
 endfunction
 
-function dotfiles#makeIncludesAbsolute(config)
-    if a:config['lines'] !=# []
-        return map(a:config['lines'], s:mkSubstitute("-I", a:config['root']))
-    else
-        return []
-    endif
-endfunction
-
 function dotfiles#GetCppIndent(lineno)
     let baseIndent = cindent(a:lineno)
     let line = getline(a:lineno)
