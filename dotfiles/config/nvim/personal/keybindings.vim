@@ -16,8 +16,13 @@ if has('nvim')
     nnoremap <silent> <Leader>s :MetalsSuperMethodHierarchy<return>
 endif
 
-nnoremap <silent> <C-j> :call GetNextError(1)<CR>
-nnoremap <silent> <C-k> :call GetNextError(0)<CR>
+if has('nvim')
+    nnoremap <silent> <C-j> :lua vim.diagnostic.goto_next({ wrap = true, float = false})<CR>
+    nnoremap <silent> <C-k> :lua vim.diagnostic.goto_prev({ wrap = true, float = false})<CR>
+else
+    nnoremap <silent> <C-j> :call personal#vim_only#GetNextError(1)<CR>
+    nnoremap <silent> <C-k> :call personal#vim_only#GetNextError(0)<CR>
+endif
 nnoremap <silent> \ :call ToggleErrorList()<return>
 nnoremap <silent> <C-\> :call ToggleQuickFix()<return>
 

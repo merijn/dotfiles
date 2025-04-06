@@ -204,37 +204,6 @@ function SetLocList(info)
 endfunction
 set quickfixtextfunc=SetLocList
 
-function GetNextError(next)
-    " If there's no error, do nothing
-    if len(getloclist(0)) == 0
-    " If there's one error, jump to it
-    else
-        if len(getloclist(0)) == 1
-            ll
-        " If we're going forward
-        elseif a:next
-            "" Try to go to the next error
-            "try
-            "    lnext
-            "" On error rewind to the start (wrap-around)
-            "catch
-            "    lrewind
-            "endtry
-            lua vim.diagnostic.goto_next({ wrap = true, float = false})
-        else
-            "" Try to go to the previous error
-            "try
-            "    lprev
-            "" On error jump to the last error (wrap-around)
-            "catch
-            "    llast
-            "endtry
-            lua vim.diagnostic.goto_prev({ wrap = true, float = false})
-        endif
-        silent! foldopen!
-    endif
-endfunction
-
 function ToggleQuickFix()
     " If a quickfix list is open, close it and exit function
     for winnr in range(1, winnr('$'))
