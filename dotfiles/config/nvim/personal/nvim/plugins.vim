@@ -1,4 +1,4 @@
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'neovim/nvim-lspconfig'
 
 " Quickfix/loclist preview
@@ -10,7 +10,7 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
 
-" Prereq for nvim-metals & typescript-tools
+" Prereq for typescript-tools
 Plug 'nvim-lua/plenary.nvim'
 
 " Language specific LSP tools

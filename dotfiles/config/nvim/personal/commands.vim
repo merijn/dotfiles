@@ -14,6 +14,10 @@ else
   command! ShowSyntax :echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endif
 
+if has('nvim')
+  command! -range Format :lua vim.lsp.buf.format()
+endif
+
 " Show the highlight rules for the word under the cursor
 command! ShowHighlight :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
             \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"

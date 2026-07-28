@@ -2,9 +2,7 @@ local lspCmdGroup = vim.api.nvim_create_augroup('LspCmdGroup', { clear = true })
 
 -- Diagnostics Configuration
 -----------------------------------------------------------------------------
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-    vim.lsp.diagnostic.on_publish_diagnostics, { virtual_text = false, }
-)
+vim.diagnostic.config({ virtual_text = false })
 
 vim.api.nvim_create_autocmd('DiagnosticChanged', {
   pattern = '*',
@@ -29,9 +27,9 @@ require("typescript-tools").setup {
 
 -- Haskell Configuration
 -----------------------------------------------------------------------------
-require('lspconfig')['hls'].setup{
+vim.lsp.config('hls', {
   filetypes = { 'haskell', 'lhaskell', 'cabal' },
-}
+})
 
 -- Scala Metals configuration
 -----------------------------------------------------------------------------
@@ -47,6 +45,10 @@ metals_config.settings = {
      "com.github.swagger.akka.javadsl"
    }
 }
+
+metals_config.on_attach = function(client, bufnr)
+  require('metals').setup_dap()
+end
 
 metals_config.init_options.statusBarProvider = "on"
 

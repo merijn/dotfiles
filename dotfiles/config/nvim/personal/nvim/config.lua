@@ -1,19 +1,18 @@
 -- Treesitter Configuration
 -----------------------------------------------------------------------------
-require('nvim-treesitter.configs').setup {
-  ensure_installed = { "c", "lua", "haskell", "scala", "typescript", "vim" },
-  sync_install = false,
-  highlight = {
-    enable = true,
-
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-}
-
+local treesitter_langs = { "c", "lua", "haskell", "scala", "typescript", "vim" }
+require('nvim-treesitter').install { treesitter_langs }
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = treesitter_langs,
+    callback = function()
+        -- syntax highlighting, provided by Neovim
+        vim.treesitter.start()
+        -- folds, provided by Neovim
+        vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        vim.wo[0][0].foldmethod = 'expr'
+    end,
+    }
+)
 -- nvim-cmp completion
 -----------------------------------------------------------------------------
 local has_words_before = function()

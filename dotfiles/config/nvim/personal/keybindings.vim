@@ -9,6 +9,7 @@ noremap <silent> <C-A> <Nop>
 if has('nvim')
     nnoremap <silent> <tab> :lua vim.lsp.buf.hover()<return>
     nnoremap <silent> <Leader>c :lua vim.lsp.buf.code_action()<return>
+    nnoremap <silent> <Leader>e :lua vim.diagnostic.open_float()<return>
     nnoremap <silent> <Leader>g :lua vim.lsp.buf.definition()<return>
     nnoremap <silent> <Leader>f :lua vim.lsp.buf.references()<return>
     nnoremap <silent> <Leader>i :lua vim.lsp.buf.implementation()<return>
@@ -17,8 +18,8 @@ if has('nvim')
 endif
 
 if has('nvim')
-    nnoremap <silent> <C-j> :lua vim.diagnostic.goto_next({ wrap = true, float = false})<CR>
-    nnoremap <silent> <C-k> :lua vim.diagnostic.goto_prev({ wrap = true, float = false})<CR>
+    nnoremap <silent> <C-j> :lua vim.diagnostic.jump({ count = 1, wrap = true})<CR>
+    nnoremap <silent> <C-k> :lua vim.diagnostic.jump({ count = -1, wrap = true})<CR>
 else
     nnoremap <silent> <C-j> :call personal#vim_only#GetNextError(1)<CR>
     nnoremap <silent> <C-k> :call personal#vim_only#GetNextError(0)<CR>

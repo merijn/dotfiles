@@ -17,6 +17,7 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set langmenu=none               "Set all the menu's to use English
 if &t_Co >= 256 || has("gui_running")
+    set notermguicolors
     colorscheme delph256        "Use custom 256 colour scheme
 else
     colorscheme delph           "Use custom minimal colour scheme
