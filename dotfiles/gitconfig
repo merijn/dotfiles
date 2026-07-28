@@ -1,11 +1,27 @@
 [user]
-	name = Merijn Verstraaten
-	email = m.verstraaten@eaglescience.nl
+    name = Merijn Verstraaten
+    email = m.verstraaten@eaglescience.nl
+
 [core]
-	excludesfile = /Users/merijn/.gitignore
+    excludesfile = /Users/merijn/.gitignore
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
 [push]
-	autoSetupRemote = true
+    autoSetupRemote = true
+
 [alias]
-	glog = log --graph
-	vlog = log --stat
-	parent = log --pretty=%P -n 1
+    glog = log --graph
+    vlog = log --stat
+    parent = log --pretty=%P -n 1
+
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+    line-numbers = true
+    syntax-theme = TwoDark
+
+[merge]
+    conflictStyle = zdiff3
