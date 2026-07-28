@@ -9,8 +9,8 @@
 --
 -- This config file was generated using the following versions
 -- of Cabal and cabal-install:
--- Cabal library version: 3.14.1.1
--- cabal-install version: 3.14.1.1
+-- Cabal library version: 3.16.1.0
+-- cabal-install version: 3.16.1.0
 
 
 repository hackage.haskell.org
@@ -30,6 +30,7 @@ repository hackage.haskell.org
 -- default-user-config:
 -- verbose: 1
 -- cabal-file:
+-- keep-temp-files:
 -- compiler: ghc
 -- with-compiler:
 -- with-hc-pkg:
@@ -125,13 +126,12 @@ install-method: copy
 -- token:
 username: MerijnVerstraaten
 -- password:
-password-command: security find-generic-password -wa MerijnVerstraaten
+password-command: "security" "find-generic-password" "-wa" "MerijnVerstraaten"
 -- multi-repl:
 -- builddir:
 
 haddock
-  -- cabal-file:
-  -- keep-temp-files: False
+  -- keep-temp-files:
   hoogle: True
   html: True
   -- html-location:
@@ -164,7 +164,7 @@ init
   -- test-dir:
   -- simple: False
   language: Haskell2010
-  application-dir: .
+  application-dir: src
   -- source-dir: src
 
 install-dirs user
@@ -208,12 +208,8 @@ program-locations
   -- ghc-pkg-location:
   -- ghcjs-location:
   -- ghcjs-pkg-location:
-  -- greencard-location:
   -- haddock-location:
   -- happy-location:
-  -- haskell-suite-location:
-  -- haskell-suite-pkg-location:
-  -- hmake-location:
   -- hpc-location:
   -- hsc2hs-location:
   -- hscolour-location:
@@ -236,12 +232,8 @@ program-default-options
   -- ghc-pkg-options:
   -- ghcjs-options:
   -- ghcjs-pkg-options:
-  -- greencard-options:
   -- haddock-options:
   -- happy-options:
-  -- haskell-suite-options:
-  -- haskell-suite-pkg-options:
-  -- hmake-options:
   -- hpc-options:
   -- hsc2hs-options:
   -- hscolour-options:
