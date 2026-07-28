@@ -35,15 +35,16 @@ vim.lsp.config('hls', {
 -----------------------------------------------------------------------------
 metals_config = require('metals').bare_config()
 metals_config.settings = {
-   showImplicitArguments = true,
-   showImplicitConversionsAndClasses = true,
-   showInferredType = true,
-   superMethodLensesEnabled = true,
-   enableSemanticHighlighting = false,
-   excludedPackages = {
-     "akka.actor.typed.javadsl",
-     "com.github.swagger.akka.javadsl"
-   }
+    showImplicitArguments = true,
+    showImplicitConversionsAndClasses = true,
+    showInferredType = true,
+    superMethodLensesEnabled = true,
+    enableSemanticHighlighting = false,
+    excludedPackages = {
+      "akka.actor.typed.javadsl",
+       "com.github.swagger.akka.javadsl"
+    },
+    testUserInterface = "Test Explorer",
 }
 
 metals_config.on_attach = function(client, bufnr)
