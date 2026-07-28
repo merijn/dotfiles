@@ -31,6 +31,20 @@ nnoremap <silent> <Leader>t :CtrlPMixed<return>
 nnoremap <silent> <F1> :GundoToggle<CR>
 nnoremap <silent> <F2> :TagbarToggle<CR>
 
+" Diff mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! DiffMappings(oldDiffSetting, newDiffSetting) abort
+    if a:oldDiffSetting == 0 && a:newDiffSetting == 1
+        call personal#diff#SetDiffMapping("<C-j>", "]c")
+        call personal#diff#SetDiffMapping("<C-k>", "[c")
+        call personal#diff#SetDiffMapping("<Leader>p", "<Nop>")
+        call personal#diff#SetDiffMapping("<Leader>ph", ":diffput //2<CR>")
+        call personal#diff#SetDiffMapping("<Leader>pl", ":diffput //3<CR>")
+    elseif a:oldDiffSetting == 1 && a:newDiffSetting == 0
+        call personal#diff#RestoreDiffMappings()
+    endif
+endfunction
+
 " Tabularize options
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 vnoremap <Leader>= :Tabularize /=<CR>

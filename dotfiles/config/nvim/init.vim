@@ -244,3 +244,4 @@ if has('nvim')
 endif
 runtime personal/keybindings.vim
 runtime personal/commands.vim
+runtime personal/autocommands.vim
