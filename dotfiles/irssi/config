@@ -47,6 +47,7 @@ settings = {
     real_name = "Merijn Verstraaten";
     user_name = "merijn";
     nick = "merijn";
+    server_reconnect_time = "-1";
   };
   "irc/core" = {
     skip_motd = "yes";
